@@ -1,8 +1,7 @@
-import React from "react";
-import { HomePage } from "./screens/HomePage";
+import { AppRouter } from "./misc/AppRouter";
 
 const App: React.FC = () => {
-  return <HomePage />;
+  return <AppRouter />;
 };
 
 export default App;
