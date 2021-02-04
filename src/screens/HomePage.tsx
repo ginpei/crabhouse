@@ -1,23 +1,22 @@
-import logo from "../logo.svg";
 import "./HomePage.scss";
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="HomePage">
+      <div className="ui-container">
+        <h1 className="HomePage-heading">Clubroom</h1>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ipsum
+          quidem dolorem ut architecto voluptatem placeat quam, aut eum iure
+          ullam qui exercitationem doloribus nisi, officiis, eos accusantium
+          expedita explicabo?
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
+          ea ad? Fugiat, accusamus ipsam? Eaque fugiat aliquid et dolorem ea,
+          excepturi vel iusto blanditiis unde quasi. Maxime rerum libero soluta.
+        </p>
+      </div>
     </div>
   );
 };
