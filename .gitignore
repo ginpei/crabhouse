@@ -21,3 +21,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Firebase
+.firebase/
+.firebase-data/
+!.firebase-data/.gitkeep
+database-debug.log
+firebase-debug.log
+firestore-debug.log
+pubsub-debug.log
+ui-debug.log

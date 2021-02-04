@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
+    "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "tsc && eslint . && echo OK",
-    "start": "react-scripts start",
+    "start": "firebase emulators:exec 'npm run dev' --ui --import .firebase-data --export-on-exit",
     "test": "react-scripts test"
   },
   "dependencies": {
