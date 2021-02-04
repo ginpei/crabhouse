@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomePage } from "../screens/HomePage";
+import { HomePage } from "../home/HomePage";
 
 export const AppRouter: React.FC = () => {
   return (
