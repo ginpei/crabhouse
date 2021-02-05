@@ -8,6 +8,10 @@ import {
   RoomCreatePage,
   roomCreatePagePath,
 } from "../pages/rooms/create/RoomCreatePage";
+import {
+  RoomViewPage,
+  roomViewPagePath,
+} from "../pages/rooms/view/RoomViewPage";
 
 export const AppRouter: React.FC = () => {
   return (
@@ -17,6 +21,11 @@ export const AppRouter: React.FC = () => {
           exact={true}
           path={roomCreatePagePath()}
           component={RoomCreatePage}
+        />
+        <Route
+          exact={true}
+          path={roomViewPagePath(null)}
+          component={RoomViewPage}
         />
         <Route
           exact={true}

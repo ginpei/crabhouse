@@ -1,11 +1,15 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { auth } from "../../models/firebase";
+import { createRoom, Room } from "../../models/Room";
+import { getRoomCollection } from "../../models/RoomDb";
 import { appSlice, AppState } from "../../stores/appStore";
 import { useCurrentUserIdStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
+import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
@@ -21,6 +25,7 @@ const mapDispatch = (dispatch: Dispatch) => ({
 const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ currentUserId, message, setMessage }) => {
+  const [userRooms, setUserRooms] = useState<Room[] | null>(null);
   useCurrentUserIdStore();
 
   const onMessageClick = () => {
@@ -29,6 +34,23 @@ const HomePageBase: React.FC<
       setMessage(newMessage);
     }
   };
+
+  // TODO remove these temporary room list
+  useEffect(() => {
+    setUserRooms(null);
+
+    if (!currentUserId) {
+      return;
+    }
+
+    const coll = getRoomCollection().where("userId", "==", currentUserId);
+    coll.get().then((ssRooms) => {
+      const newRooms = ssRooms.docs.map((v) =>
+        createRoom({ ...v.data(), id: v.id })
+      );
+      setUserRooms(newRooms);
+    });
+  }, [currentUserId]);
 
   if (currentUserId === null) {
     return null;
@@ -39,14 +61,27 @@ const HomePageBase: React.FC<
       <div className="ui-container">
         <h1 className="HomePage-heading">Clubroom</h1>
         {currentUserId ? (
-          <p>
-            <Link to={roomCreatePagePath()}>Create a room</Link>
-            <br />
-            <Link to={myProfileEditPagePath()}>Edit my profile</Link>
-            <br />
-            <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
-            {currentUserId}
-          </p>
+          <div>
+            <p>
+              <Link to={roomCreatePagePath()}>Create a room</Link>
+              <br />
+              <Link to={myProfileEditPagePath()}>Edit my profile</Link>
+              <br />
+              <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
+              {currentUserId}
+            </p>
+            <ul>
+              {userRooms ? (
+                userRooms.map((room) => (
+                  <li key={room.id}>
+                    <Link to={roomViewPagePath(room.id)}>{room.name}</Link>
+                  </li>
+                ))
+              ) : (
+                <li>...</li>
+              )}
+            </ul>
+          </div>
         ) : (
           <p>
             <button

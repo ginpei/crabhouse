@@ -7,6 +7,7 @@ import { useErrorLog } from "../../../shared/misc/misc";
 import { BaseLayout } from "../../../shared/screens/BaseLayout";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { roomViewPagePath } from "../view/RoomViewPage";
 
 export function roomCreatePagePath(): string {
   return "/rooms/new";
@@ -31,8 +32,7 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
     setRoomError(null);
     try {
       const createdRoom = await saveRoom({ ...newRoom, userId: currentUserId });
-      // TODO redirect to the new room
-      history.push(`/?roomId=${createdRoom.id}`);
+      history.push(roomViewPagePath(createdRoom.id));
     } catch (error) {
       setRoomError(error);
       setSaving(false);
