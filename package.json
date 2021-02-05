@@ -6,7 +6,7 @@
     "build": "react-scripts build",
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
-    "lint": "tsc && eslint . && echo OK",
+    "lint": "tsc && eslint src && echo OK",
     "start": "firebase emulators:exec 'npm run dev' --ui --import .firebase-data --export-on-exit",
     "test": "react-scripts test"
   },
