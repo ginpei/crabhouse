@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { createRoom, Room } from "../../../models/Room";
 import { saveRoom } from "../../../models/RoomDb";
-import { BaseLayout } from "../../../shared/screens/BaseLayout";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { BaseLayout } from "../../shared/BaseLayout";
 import { roomViewPagePath } from "../view/RoomViewPage";
 
 export function roomCreatePagePath(): string {

@@ -4,9 +4,9 @@ import { useErrorLog } from "../../../misc/misc";
 import { isAppErrorOf } from "../../../models/AppError";
 import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
-import { BaseLayout } from "../../../shared/screens/BaseLayout";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { BaseLayout } from "../../shared/BaseLayout";
 
 export function myProfileEditPagePath(): string {
   return "/my-profile/edit";

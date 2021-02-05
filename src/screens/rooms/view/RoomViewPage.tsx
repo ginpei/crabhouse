@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
-import { BaseLayout } from "../../../shared/screens/BaseLayout";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { BaseLayout } from "../../shared/BaseLayout";
 
 export function roomViewPagePath(roomId: string | null): string {
   return `/rooms/${roomId || ":roomId"}`;
