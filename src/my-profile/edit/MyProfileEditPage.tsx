@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { AppError } from "../../models/AppError";
+import { isAppErrorOf } from "../../models/AppError";
 import { createUser, User } from "../../models/User";
 import { getUser, saveUser } from "../../models/UserDb";
 import { useErrorLog } from "../../shared/misc/misc";
@@ -62,8 +62,7 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
         setUser(latestUser);
       })
       .catch((error) => {
-        // TODO prepare a function to check
-        if (error instanceof AppError && error.code === "document-not-found") {
+        if (isAppErrorOf(error, "document-not-found")) {
           const emptyUser = createUser({ id: currentUserId || "" });
           setUser(emptyUser);
           return;
