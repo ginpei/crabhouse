@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { AppError } from "./AppError";
 import { DocumentData } from "./DataRecord";
 import { auth, CollectionReference, db, DocumentReference } from "./firebase";
@@ -28,6 +29,26 @@ export async function getUser(userId: string): Promise<User> {
 
   const user = createUser({ ...ss.data(), id: ss.id });
   return user;
+}
+
+export function useUser(userId: string | null): [User | null, Error | null] {
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setUser(null);
+    setError(null);
+
+    if (userId === null) {
+      return;
+    }
+
+    getUser(userId)
+      .then((v) => setUser(v))
+      .catch((v) => setError(v));
+  }, [userId]);
+
+  return [user, error];
 }
 
 export function getUserCollection(): CollectionReference {

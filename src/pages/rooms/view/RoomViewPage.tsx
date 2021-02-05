@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useRoom } from "../../../models/RoomDb";
+import { useUser } from "../../../models/UserDb";
+import { useErrorLog } from "../../../shared/misc/misc";
 import { BaseLayout } from "../../../shared/screens/BaseLayout";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
@@ -12,10 +15,14 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
   const params = useParams<{ roomId: string }>();
+  const [room, roomError] = useRoom(params.roomId);
+  const [owner, ownerError] = useUser(room?.userId ?? null);
   useCurrentUserIdStore();
+  useErrorLog(roomError);
+  useErrorLog(ownerError);
 
   // loading
-  if (currentUserId === null) {
+  if (currentUserId === null || room === null || owner === null) {
     return null;
   }
 
@@ -25,8 +32,10 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   return (
     <BaseLayout className="RoomViewPage">
-      <h1>RoomViewPage</h1>
-      <p>ID: {params.roomId}</p>
+      <h1>{room.name}</h1>
+      <p>ID: {room.id}</p>
+      <p>Status: {room.status}</p>
+      <p>Owner: {owner.name}</p>
     </BaseLayout>
   );
 };

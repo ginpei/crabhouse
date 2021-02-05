@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { AppError } from "./AppError";
 import { DocumentData } from "./DataRecord";
 import { CollectionReference, db, DocumentReference } from "./firebase";
@@ -28,6 +29,26 @@ export async function getRoom(roomId: string): Promise<Room> {
 
   const room = createRoom({ ...ss.data(), id: ss.id });
   return room;
+}
+
+export function useRoom(roomId: string): [Room | null, Error | null] {
+  const [room, setRoom] = useState<Room | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setRoom(null);
+    setError(null);
+
+    if (roomId === null) {
+      return;
+    }
+
+    getRoom(roomId)
+      .then((v) => setRoom(v))
+      .catch((v) => setError(v));
+  }, [roomId]);
+
+  return [room, error];
 }
 
 export function getRoomCollection(): CollectionReference {
