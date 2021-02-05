@@ -55,3 +55,18 @@ export function initializeFirebase(): firebase.app.App {
 
   return app;
 }
+
+// export function isFirebaseError(
+//   error: unknown
+// ): error is firebase.FirebaseError {
+//   if (!(error instanceof Error)) {
+//     return false;
+//   }
+
+//   const propNames = Object.getOwnPropertyNames(error);
+//   if (!propNames.includes("code")) {
+//     return false;
+//   }
+
+//   return true;
+// }
