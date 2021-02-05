@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomePage } from "../home/HomePage";
+import { HomePage } from "../pages/home/HomePage";
 import {
   MyProfileEditPage,
   myProfileEditPagePath,
-} from "../my-profile/edit/MyProfileEditPage";
+} from "../pages/my-profile/edit/MyProfileEditPage";
 
 export const AppRouter: React.FC = () => {
   return (
