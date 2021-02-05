@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+import "./index.css";
+import { initializeFirebase } from "./models/firebase";
 import reportWebVitals from "./reportWebVitals";
+
+initializeFirebase();
 
 ReactDOM.render(
   <React.StrictMode>

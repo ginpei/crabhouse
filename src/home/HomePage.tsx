@@ -1,5 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { auth } from "../models/firebase";
 import { appSlice, AppState } from "../stores/appStore";
 import "./HomePage.scss";
 
@@ -15,6 +17,14 @@ const mapDispatch = (dispatch: Dispatch) => ({
 const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ message, setMessage }) => {
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    return auth.onAuthStateChanged((user) => {
+      setUserId(user?.uid ?? "");
+    });
+  }, []);
+
   const onMessageClick = () => {
     const newMessage = window.prompt("Message?", message);
     if (newMessage) {
@@ -26,6 +36,22 @@ const HomePageBase: React.FC<
     <div className="HomePage">
       <div className="ui-container">
         <h1 className="HomePage-heading">Clubroom</h1>
+        {userId ? (
+          <p>
+            <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
+            {userId}
+          </p>
+        ) : (
+          <p>
+            <button
+              onClick={() =>
+                auth.signInWithEmailAndPassword("test@example.com", "123456")
+              }
+            >
+              Log in
+            </button>
+          </p>
+        )}
         <p>
           Message:{" "}
           <span
