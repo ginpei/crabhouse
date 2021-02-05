@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomePage } from "../pages/home/HomePage";
+import { HomePage } from "../screens/home/HomePage";
 import {
   MyProfileEditPage,
   myProfileEditPagePath,
-} from "../pages/my-profile/edit/MyProfileEditPage";
+} from "../screens/my-profile/edit/MyProfileEditPage";
 import {
   RoomCreatePage,
   roomCreatePagePath,
-} from "../pages/rooms/create/RoomCreatePage";
+} from "../screens/rooms/create/RoomCreatePage";
 import {
   RoomViewPage,
   roomViewPagePath,
-} from "../pages/rooms/view/RoomViewPage";
+} from "../screens/rooms/view/RoomViewPage";
 
 export const AppRouter: React.FC = () => {
   return (
