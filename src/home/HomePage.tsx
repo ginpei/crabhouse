@@ -1,11 +1,12 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { auth } from "../models/firebase";
 import { appSlice, AppState } from "../stores/appStore";
+import { useCurrentUserIdStore } from "../stores/currentUser";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
+  currentUserId: state.currentUserId,
   message: state.xMessage,
 });
 
@@ -16,14 +17,8 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
-> = ({ message, setMessage }) => {
-  const [userId, setUserId] = useState("");
-
-  useEffect(() => {
-    return auth.onAuthStateChanged((user) => {
-      setUserId(user?.uid ?? "");
-    });
-  }, []);
+> = ({ currentUserId, message, setMessage }) => {
+  useCurrentUserIdStore();
 
   const onMessageClick = () => {
     const newMessage = window.prompt("Message?", message);
@@ -32,14 +27,18 @@ const HomePageBase: React.FC<
     }
   };
 
+  if (currentUserId === null) {
+    return null;
+  }
+
   return (
     <div className="HomePage">
       <div className="ui-container">
         <h1 className="HomePage-heading">Clubroom</h1>
-        {userId ? (
+        {currentUserId ? (
           <p>
             <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
-            {userId}
+            {currentUserId}
           </p>
         ) : (
           <p>
