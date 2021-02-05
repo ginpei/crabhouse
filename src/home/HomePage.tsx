@@ -1,6 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { auth } from "../models/firebase";
+import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { appSlice, AppState } from "../stores/appStore";
 import { useCurrentUserIdStore } from "../stores/currentUser";
 import "./HomePage.scss";
@@ -37,6 +39,8 @@ const HomePageBase: React.FC<
         <h1 className="HomePage-heading">Clubroom</h1>
         {currentUserId ? (
           <p>
+            <Link to={myProfileEditPagePath()}>Edit my profile</Link>
+            <br />
             <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
             {currentUserId}
           </p>
