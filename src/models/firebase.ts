@@ -8,6 +8,10 @@ export type DocumentReference<
   T = firebase.firestore.DocumentData
 > = firebase.firestore.DocumentReference<T>;
 
+export type DocumentSnapshot<
+  T = firebase.firestore.DocumentData
+> = firebase.firestore.DocumentSnapshot<T>;
+
 export type CollectionReference<
   T = firebase.firestore.DocumentData
 > = firebase.firestore.CollectionReference<T>;
