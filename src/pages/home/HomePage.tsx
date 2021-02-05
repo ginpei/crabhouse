@@ -5,6 +5,7 @@ import { auth } from "../../models/firebase";
 import { appSlice, AppState } from "../../stores/appStore";
 import { useCurrentUserIdStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
+import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
@@ -39,6 +40,8 @@ const HomePageBase: React.FC<
         <h1 className="HomePage-heading">Clubroom</h1>
         {currentUserId ? (
           <p>
+            <Link to={roomCreatePagePath()}>Create a room</Link>
+            <br />
             <Link to={myProfileEditPagePath()}>Edit my profile</Link>
             <br />
             <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}

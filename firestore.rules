@@ -4,5 +4,14 @@ service cloud.firestore {
     match /users/{userId} {
         allow read, write: if userId == request.auth.uid;
     }
+
+    match /rooms/{roomId} {
+      allow read: if request.auth.uid != null;
+      allow create: if request.resource.data.userId == request.auth.uid;
+      allow update:
+        if request.auth.uid == resource.data.userId
+        && request.resource.data.userId == resource.data.userId;
+      // allow delete: if request.auth.uid == resource.data.userId;
+    }
   }
 }
