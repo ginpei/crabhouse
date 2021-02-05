@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { AppError } from "../../models/AppError";
 import { createUser, User } from "../../models/User";
 import { getUser, saveUser } from "../../models/UserDb";
-import { AppError, useErrorLog } from "../../shared/misc/misc";
+import { useErrorLog } from "../../shared/misc/misc";
 import { BaseLayout } from "../../shared/screens/BaseLayout";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserIdStore } from "../../stores/currentUser";

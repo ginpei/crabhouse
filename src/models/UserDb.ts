@@ -1,4 +1,4 @@
-import { AppError } from "../shared/misc/misc";
+import { AppError } from "./AppError";
 import { DocumentData } from "./DataRecord";
 import { auth, CollectionReference, db, DocumentReference } from "./firebase";
 import { createUser, User } from "./User";
