@@ -62,8 +62,10 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Agora client must be prepared");
     }
 
-    agoraClient.localTracks.forEach((v) => v.close());
-    agoraClient.unpublish();
+    if (agoraClient.localTracks.length > 0) {
+      agoraClient.localTracks.forEach((v) => v.close());
+      agoraClient.unpublish();
+    }
     agoraClient.leave();
     setPublished(false);
     setAgoraUserId("");
@@ -84,8 +86,10 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Agora client must be prepared");
     }
 
-    agoraClient.localTracks.forEach((v) => v.close());
-    agoraClient.unpublish();
+    if (agoraClient.localTracks.length > 0) {
+      agoraClient.localTracks.forEach((v) => v.close());
+      agoraClient.unpublish();
+    }
     setPublished(false);
   };
 

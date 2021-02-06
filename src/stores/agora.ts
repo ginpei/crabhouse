@@ -19,8 +19,10 @@ export function useAgoraClient(): IAgoraRTCClient | null {
     const newClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
     setClient(newClient);
     return () => {
-      newClient.localTracks.forEach((v) => v.close());
-      newClient.unpublish();
+      if (newClient.localTracks.length > 0) {
+        newClient.localTracks.forEach((v) => v.close());
+        newClient.unpublish();
+      }
       newClient.leave();
     };
   }, []);
