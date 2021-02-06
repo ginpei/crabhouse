@@ -1,4 +1,4 @@
-import AgoraRTC from "agora-rtc-sdk-ng";
+import AgoraRTC, { UID } from "agora-rtc-sdk-ng";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,9 +6,9 @@ import { useErrorLog } from "../../../misc/misc";
 import { useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import {
+  useAgoraChannelParticipants,
   useAgoraClient,
   useAgoraConnectionState,
-  useAgoraChannelParticipants,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
@@ -33,6 +33,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
   const [speakers, listeners] = useAgoraChannelParticipants(agoraClient);
+  const [agoraUserId, setAgoraUserId] = useState<UID>("");
   useCurrentUserIdStore();
   useErrorLog(roomError);
   useErrorLog(ownerError);
@@ -52,9 +53,8 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     const channel = room.id;
     const token = process.env.REACT_APP_AGORA_TOKEN || ""; // TODO
 
-    const agoraUserId = await agoraClient.join(agoraAppId, channel, token);
-    // TODO remember this agora user is the app user
-    console.log("# agoraUserId", agoraUserId);
+    const id = await agoraClient.join(agoraAppId, channel, token);
+    setAgoraUserId(id);
   };
 
   const onLeaveClick = () => {
@@ -66,6 +66,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     agoraClient.unpublish();
     agoraClient.leave();
     setPublished(false);
+    setAgoraUserId("");
   };
 
   const onPublishClick = async () => {
@@ -125,12 +126,14 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>State: {agoraState}</p>
       <p>Speakers ({speakers.length}):</p>
       <ul>
+        {published && <li>{agoraUserId}</li>}
         {speakers.map((speaker) => (
           <li key={speaker.uid}>{speaker.uid}</li>
         ))}
       </ul>
       <p>Listeners ({listeners.length}):</p>
       <ul>
+        {connected && !published && agoraUserId && <li>{agoraUserId}</li>}
         {listeners.map((listener) => (
           <li key={listener.uid}>{listener.uid}</li>
         ))}
