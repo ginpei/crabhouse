@@ -1,5 +1,5 @@
 import { HTMLProps } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export const BaseLayout: React.FC<
   HTMLProps<HTMLDivElement> & { className: string; title: string }

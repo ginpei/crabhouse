@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
