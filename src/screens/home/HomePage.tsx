@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
@@ -47,6 +48,9 @@ const HomePageBase: React.FC<
 
   return (
     <div className="HomePage">
+      <Helmet>
+        <title>Crabhouse 🦀 カニヤシキ</title>
+      </Helmet>
       <div className="ui-container">
         <h1 className="HomePage-heading">Clubroom</h1>
         {currentUserId ? (

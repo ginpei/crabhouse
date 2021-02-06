@@ -53,7 +53,7 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="RoomCreatePage">
+    <BaseLayout className="RoomCreatePage" title="Create a new room">
       <h1>RoomCreatePage</h1>
       <RoomForm
         disabled={saving}

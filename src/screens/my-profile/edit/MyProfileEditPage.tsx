@@ -84,7 +84,7 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="MyProfileEditPage">
+    <BaseLayout className="MyProfileEditPage" title="Edit profile">
       <h1>MyProfileEditPage</h1>
       <UserForm
         disabled={saving}

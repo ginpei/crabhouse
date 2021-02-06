@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth } from "../../models/firebase";
 import { BaseLayout } from "../shared/BaseLayout";
 
-export const LoginPage: React.FC = () => {
+export const LoginPage: React.FC<{ title?: string }> = ({ title = "" }) => {
   const [loggingError, setLoggingError] = useState<Error | null>(null);
   const [loggingIn, setLoggingIn] = useState(false);
 
@@ -18,7 +18,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <BaseLayout className="LoginPage">
+    <BaseLayout className="LoginPage" title={title || "Login"}>
       <h1>Login</h1>
       {loggingError && (
         <p style={{ color: "tomato" }}>{loggingError.message}</p>
