@@ -53,7 +53,6 @@ export function useAgoraChannelParticipants(
   const [users, setUsers] = useState<AgoraRemoteUser[]>([]);
 
   useEffect(() => {
-    setUsers([]);
     if (!client) {
       return noop;
     }
