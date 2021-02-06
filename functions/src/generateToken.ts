@@ -1,8 +1,9 @@
+import * as functions from "firebase-functions";
 import { RtcTokenBuilder, RtcRole } from "agora-access-token";
 
 // TODO find values from env
-const appID = "";
-const appCertificate = "";
+const appID = functions.config().agora.app_id;
+const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
 /**

@@ -26,6 +26,7 @@ yarn-error.log*
 .firebase/
 .firebase-data/
 !.firebase-data/.gitkeep
+.runtimeconfig.json
 database-debug.log
 firebase-debug.log
 firestore-debug.log
