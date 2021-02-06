@@ -42,22 +42,30 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   const onJoinClick = async () => {
     if (!room) {
-      return;
+      throw new Error("Room must be prepared");
+    }
+
+    if (!agoraClient) {
+      throw new Error("Agora client must be prepared");
     }
 
     const channel = room.id;
     const token = process.env.REACT_APP_AGORA_TOKEN || ""; // TODO
 
-    const agoraUserId = await agoraClient?.join(agoraAppId, channel, token);
+    const agoraUserId = await agoraClient.join(agoraAppId, channel, token);
     // TODO remember this agora user is the app user
     console.log("# agoraUserId", agoraUserId);
   };
 
   const onLeaveClick = () => {
+    if (!agoraClient) {
+      throw new Error("Agora client must be prepared");
+    }
+
+    agoraClient.localTracks.forEach((v) => v.close());
+    agoraClient.unpublish();
+    agoraClient.leave();
     setPublished(false);
-    agoraClient?.localTracks.forEach((v) => v.close());
-    agoraClient?.unpublish();
-    agoraClient?.leave();
   };
 
   const onPublishClick = async () => {
