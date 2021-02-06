@@ -56,6 +56,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const onLeaveClick = () => {
     setPublished(false);
     agoraClient?.localTracks.forEach((v) => v.close());
+    agoraClient?.unpublish();
     agoraClient?.leave();
   };
 
@@ -74,6 +75,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Agora client must be prepared");
     }
 
+    agoraClient.localTracks.forEach((v) => v.close());
     agoraClient.unpublish();
     setPublished(false);
   };
