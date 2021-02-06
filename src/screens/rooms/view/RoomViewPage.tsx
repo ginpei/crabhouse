@@ -29,6 +29,11 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
   const params = useParams<{ roomId: string }>();
+
+  // any error
+  const [error, setError] = useState<Error | null>(null);
+  useErrorLog(error);
+
   const [room, roomError] = useRoom(params.roomId);
   const [owner, ownerError] = useUser(room?.userId ?? null);
   useCurrentUserIdStore();
@@ -64,8 +69,8 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       const id = await agoraClient.join(agoraAppId, channelName, token, uid);
       // eslint-disable-next-line no-console
       console.log("# id", id);
-    } catch (error) {
-      console.error("onJoinClick:", error);
+    } catch (err) {
+      setError(err);
     }
   };
 
