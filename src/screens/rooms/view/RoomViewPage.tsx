@@ -13,6 +13,7 @@ import {
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { LoginPage } from "../../login/LoginPage";
 import { BaseLayout } from "../../shared/BaseLayout";
 
 const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
@@ -34,7 +35,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [error, setError] = useState<Error | null>(null);
   useErrorLog(error);
 
-  const [room, roomError] = useRoom(params.roomId);
+  const [room, roomError] = useRoom(currentUserId ? params.roomId : null);
   const [owner, ownerError] = useUser(room?.userId ?? null);
   useCurrentUserIdStore();
   useErrorLog(roomError);
@@ -110,13 +111,13 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     setPublished(false);
   };
 
+  if (currentUserId === "") {
+    return <LoginPage />;
+  }
+
   // loading
   if (currentUserId === null || room === null || owner === null) {
     return null;
-  }
-
-  if (currentUserId === "") {
-    throw new Error("User must have logged in");
   }
 
   return (

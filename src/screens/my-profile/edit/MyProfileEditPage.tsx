@@ -6,6 +6,7 @@ import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { LoginPage } from "../../login/LoginPage";
 import { BaseLayout } from "../../shared/BaseLayout";
 
 export function myProfileEditPagePath(): string {
@@ -51,9 +52,8 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
       return;
     }
 
-    // not logged in
+    // not logged in (login page appears)
     if (currentUserId === "") {
-      setUserError(new Error("User must have logged in"));
       return;
     }
 
@@ -70,6 +70,10 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
         setUserError(error);
       });
   }, [currentUserId]);
+
+  if (currentUserId === "") {
+    return <LoginPage />;
+  }
 
   if (userError) {
     return <div>Error {userError.message}</div>;
