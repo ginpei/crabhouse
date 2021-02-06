@@ -47,7 +47,7 @@ export function useAgoraConnectionState(
   return state;
 }
 
-export function useAgoraListener(
+export function useAgoraChannelParticipants(
   client: IAgoraRTCClient | null
 ): [AgoraRemoteUser[]] {
   const [users, setUsers] = useState<AgoraRemoteUser[]>([]);

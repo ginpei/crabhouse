@@ -8,7 +8,7 @@ import { useUser } from "../../../models/UserDb";
 import {
   useAgoraClient,
   useAgoraConnectionState,
-  useAgoraListener,
+  useAgoraChannelParticipants,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
@@ -32,7 +32,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
-  const [participants] = useAgoraListener(agoraClient);
+  const [participants] = useAgoraChannelParticipants(agoraClient);
   const speakers = participants.filter((v) => v.type === "SPEAKER");
   const listeners = participants.filter((v) => v.type === "LISTENER");
   useCurrentUserIdStore();
