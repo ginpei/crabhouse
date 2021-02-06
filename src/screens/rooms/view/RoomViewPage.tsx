@@ -1,8 +1,9 @@
-import AgoraRTC, { UID } from "agora-rtc-sdk-ng";
-import { useState } from "react";
+import AgoraRTC from "agora-rtc-sdk-ng";
+import { useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
+import { functions } from "../../../models/firebase";
 import { useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import {
@@ -14,9 +15,10 @@ import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
 import { BaseLayout } from "../../shared/BaseLayout";
 
+const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
-if (!agoraAppId) {
-  throw new Error("Agora app ID must be prepared");
+if (!projectId || !agoraAppId) {
+  throw new Error("Project ID and Agora app ID must be prepared");
 }
 
 export function roomViewPagePath(roomId: string | null): string {
@@ -37,10 +39,13 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
   const [speakers, listeners] = useAgoraChannelParticipants(agoraClient);
-  const [agoraUserId, setAgoraUserId] = useState<UID>("");
+  // const [agoraUserId, setAgoraUserId] = useState<UID>("");
+  const agoraUserId = useMemo(() => Math.floor(Math.random() * 2 ** 30), []);
 
   const connected = agoraState !== "" && agoraState !== "DISCONNECTED";
   const disconnected = agoraState !== "CONNECTED";
+
+  const getToken = functions.httpsCallable("getToken");
 
   const onJoinClick = async () => {
     if (!room) {
@@ -51,11 +56,17 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Agora client must be prepared");
     }
 
-    const channel = room.id;
-    const token = process.env.REACT_APP_AGORA_TOKEN || ""; // TODO
+    try {
+      const channelName = room.id;
+      const result = await getToken({ channelName });
+      const { token, uid } = result.data;
 
-    const id = await agoraClient.join(agoraAppId, channel, token);
-    setAgoraUserId(id);
+      const id = await agoraClient.join(agoraAppId, channelName, token, uid);
+      // eslint-disable-next-line no-console
+      console.log("# id", id);
+    } catch (error) {
+      console.error("onJoinClick:", error);
+    }
   };
 
   const onLeaveClick = () => {
@@ -69,7 +80,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     }
     agoraClient.leave();
     setPublished(false);
-    setAgoraUserId("");
+    // setAgoraUserId("");
   };
 
   const onPublishClick = async () => {
