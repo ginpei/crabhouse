@@ -29,14 +29,15 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const params = useParams<{ roomId: string }>();
   const [room, roomError] = useRoom(params.roomId);
   const [owner, ownerError] = useUser(room?.userId ?? null);
+  useCurrentUserIdStore();
+  useErrorLog(roomError);
+  useErrorLog(ownerError);
+
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
   const [speakers, listeners] = useAgoraChannelParticipants(agoraClient);
   const [agoraUserId, setAgoraUserId] = useState<UID>("");
-  useCurrentUserIdStore();
-  useErrorLog(roomError);
-  useErrorLog(ownerError);
 
   const connected = agoraState !== "" && agoraState !== "DISCONNECTED";
   const disconnected = agoraState !== "CONNECTED";
