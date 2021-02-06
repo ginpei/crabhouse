@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
-import { appSlice, AppState } from "../../stores/appStore";
+import { AppState } from "../../stores/appStore";
 import { useCurrentUserIdStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
@@ -14,26 +14,15 @@ import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
-  message: state.xMessage,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({
-  setMessage: (message: string) =>
-    dispatch(appSlice.actions.setMessage({ message })),
-});
+const mapDispatch = (dispatch: Dispatch) => ({});
 
 const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
-> = ({ currentUserId, message, setMessage }) => {
+> = ({ currentUserId }) => {
   const [userRooms, setUserRooms] = useState<Room[] | null>(null);
   useCurrentUserIdStore();
-
-  const onMessageClick = () => {
-    const newMessage = window.prompt("Message?", message);
-    if (newMessage) {
-      setMessage(newMessage);
-    }
-  };
 
   // TODO remove these temporary room list
   useEffect(() => {
@@ -93,15 +82,6 @@ const HomePageBase: React.FC<
             </button>
           </p>
         )}
-        <p>
-          Message:{" "}
-          <span
-            onClick={onMessageClick}
-            style={{ cursor: "pointer", textDecoration: "underline" }}
-          >
-            {message}
-          </span>
-        </p>
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ipsum
           quidem dolorem ut architecto voluptatem placeat quam, aut eum iure
