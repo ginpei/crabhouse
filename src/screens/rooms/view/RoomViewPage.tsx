@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
-import { useAgoraClient, useAgoraConnectionState } from "../../../stores/agora";
+import {
+  useAgoraClient,
+  useAgoraConnectionState,
+  useAgoraListener,
+} from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserIdStore } from "../../../stores/currentUser";
 import { BaseLayout } from "../../shared/BaseLayout";
@@ -28,6 +32,9 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
+  const [participants] = useAgoraListener(agoraClient);
+  const speakers = participants.filter((v) => v.type === "SPEAKER");
+  const listeners = participants.filter((v) => v.type === "LISTENER");
   useCurrentUserIdStore();
   useErrorLog(roomError);
   useErrorLog(ownerError);
@@ -107,6 +114,18 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
         </button>
       </p>
       <p>State: {agoraState}</p>
+      <p>Speakers ({speakers.length}):</p>
+      <ul>
+        {speakers.map((speaker) => (
+          <li key={speaker.id}>{speaker.id}</li>
+        ))}
+      </ul>
+      <p>Listeners ({listeners.length}):</p>
+      <ul>
+        {listeners.map((listener) => (
+          <li key={listener.id}>{listener.id}</li>
+        ))}
+      </ul>
     </BaseLayout>
   );
 };
