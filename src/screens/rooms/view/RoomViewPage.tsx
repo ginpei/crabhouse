@@ -32,9 +32,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
   const [published, setPublished] = useState(false);
-  const [participants] = useAgoraChannelParticipants(agoraClient);
-  const speakers = participants.filter((v) => v.type === "SPEAKER");
-  const listeners = participants.filter((v) => v.type === "LISTENER");
+  const [speakers, listeners] = useAgoraChannelParticipants(agoraClient);
   useCurrentUserIdStore();
   useErrorLog(roomError);
   useErrorLog(ownerError);
@@ -117,13 +115,13 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>Speakers ({speakers.length}):</p>
       <ul>
         {speakers.map((speaker) => (
-          <li key={speaker.id}>{speaker.id}</li>
+          <li key={speaker.uid}>{speaker.uid}</li>
         ))}
       </ul>
       <p>Listeners ({listeners.length}):</p>
       <ul>
         {listeners.map((listener) => (
-          <li key={listener.id}>{listener.id}</li>
+          <li key={listener.uid}>{listener.uid}</li>
         ))}
       </ul>
     </BaseLayout>

@@ -49,8 +49,9 @@ export function useAgoraConnectionState(
 
 export function useAgoraChannelParticipants(
   client: IAgoraRTCClient | null
-): [AgoraRemoteUser[]] {
-  const [users, setUsers] = useState<AgoraRemoteUser[]>([]);
+): [IAgoraRTCRemoteUser[], IAgoraRTCRemoteUser[]] {
+  const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
+  const [speakerIds, setSpeakerIds] = useState<UID[]>([]);
 
   useEffect(() => {
     if (!client) {
@@ -70,25 +71,24 @@ export function useAgoraChannelParticipants(
     };
 
     function onAgoraUserJoined(user: IAgoraRTCRemoteUser) {
-      setUsers([...users, { id: user.uid, type: "LISTENER" }]);
+      setUsers([...users, user]);
     }
 
     function onAgoraUserLeft(user: IAgoraRTCRemoteUser) {
-      setUsers(users.filter(({ id }) => id !== user.uid));
+      setUsers(users.filter(({ uid }) => uid !== user.uid));
     }
 
     function onAgoraUserPublished(user: IAgoraRTCRemoteUser) {
-      setUsers(
-        users.map((v) => (v.id === user.uid ? { ...v, type: "SPEAKER" } : v))
-      );
+      setSpeakerIds([...speakerIds, user.uid]);
     }
 
     function onAgoraUserUnpublished(user: IAgoraRTCRemoteUser) {
-      setUsers(
-        users.map((v) => (v.id === user.uid ? { ...v, type: "LISTENER" } : v))
-      );
+      setSpeakerIds(speakerIds.filter((v) => v !== user.uid));
     }
-  }, [client, users]);
+  }, [client, speakerIds, users]);
 
-  return [users];
+  return [
+    users.filter((v) => speakerIds.includes(v.uid)),
+    users.filter((v) => !speakerIds.includes(v.uid)),
+  ];
 }
