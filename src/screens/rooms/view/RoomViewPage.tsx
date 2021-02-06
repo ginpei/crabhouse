@@ -55,6 +55,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   const onLeaveClick = () => {
     setPublished(false);
+    agoraClient?.localTracks.forEach((v) => v.close());
     agoraClient?.leave();
   };
 
