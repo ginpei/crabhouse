@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-// // eslint-disable-next-line @typescript-eslint/no-empty-function
-// export const noop: () => void = () => {};
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const noop: () => void = () => {};
 
 export function useErrorLog(error: Error | null): void {
   useEffect(() => {
