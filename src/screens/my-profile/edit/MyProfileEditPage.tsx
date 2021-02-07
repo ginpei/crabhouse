@@ -4,6 +4,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { isAppErrorOf } from "../../../models/AppError";
 import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
+import { NiceButton } from "../../../shared/pure/NiceButton";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
@@ -134,7 +135,7 @@ const UserForm: React.FC<{
         </label>
       </p>
       <p>
-        <button disabled={disabled}>OK</button>
+        <NiceButton disabled={disabled}>OK</NiceButton>
       </p>
     </form>
   );

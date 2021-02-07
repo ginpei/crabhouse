@@ -7,6 +7,7 @@ import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
 import { LoginForm } from "../../shared/LoginForm";
+import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
@@ -65,8 +66,10 @@ const HomePageBase: React.FC<
               <br />
               <Link to={myProfileEditPagePath()}>Edit my profile</Link>
               <br />
-              <button onClick={() => auth.signOut()}>Log out</button> User ID:{" "}
-              {currentUserId}
+              <NiceButton onClick={() => auth.signOut()}>
+                Log out
+              </NiceButton>{" "}
+              User ID: {currentUserId}
             </p>
             <ul>
               {userRooms ? (

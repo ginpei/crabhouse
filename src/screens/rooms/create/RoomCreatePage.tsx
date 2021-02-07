@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { createRoom, Room } from "../../../models/Room";
 import { saveRoom } from "../../../models/RoomDb";
+import { NiceButton } from "../../../shared/pure/NiceButton";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BaseLayout } from "../../shared/BaseLayout";
@@ -107,7 +108,7 @@ const RoomForm: React.FC<{
         </label>
       </p>
       <p>
-        <button disabled={disabled}>OK</button>
+        <NiceButton disabled={disabled}>OK</NiceButton>
       </p>
     </form>
   );
