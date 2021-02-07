@@ -12,6 +12,7 @@ import { useCurrentUserIdStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
+import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
@@ -56,6 +57,9 @@ const HomePageBase: React.FC<
         <h1 className="HomePage-heading">Clubroom</h1>
         {currentUserId ? (
           <div>
+            <p>
+              <Link to={userViewPagePath(currentUserId)}>User page</Link>
+            </p>
             <p>
               <Link to={roomCreatePagePath()}>Create a room</Link>
               <br />

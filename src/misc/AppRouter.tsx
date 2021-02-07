@@ -12,11 +12,17 @@ import {
   RoomViewPage,
   roomViewPagePath,
 } from "../screens/rooms/view/RoomViewPage";
+import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
 
 export const AppRouter: React.FC = () => {
   return (
     <Router>
       <Switch>
+        <Route
+          exact={true}
+          path={userViewPagePath(null)}
+          component={UserViewPage}
+        />
         <Route
           exact={true}
           path={roomCreatePagePath()}
