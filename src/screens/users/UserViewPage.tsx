@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
-import { User } from "../../models/User";
 import { useUser } from "../../models/UserDb";
+import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { LoginPage } from "../login/LoginPage";
@@ -49,21 +49,10 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     <BaseLayout className="UserViewPage" title={userName}>
       <h1>{userName}</h1>
       <p>
-        <FollowButton currentUser={currentUser} user={user} />
+        <FollowButton user={user} />
       </p>
     </BaseLayout>
   );
 };
 
 export const UserViewPage = connect(mapState)(UserViewPageBase);
-
-const FollowButton: React.FC<{ currentUser?: User | null; user: User }> = ({
-  currentUser,
-  user,
-}) => {
-  if (currentUser && currentUser.id === user.id) {
-    return <button>My profile</button>;
-  }
-
-  return <button className="FollowButton">Follow</button>;
-};
