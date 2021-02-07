@@ -11,11 +11,11 @@ export const appSlice = createSlice({
     currentUserId: null as string | null,
   },
   reducers: {
-    setCurrentUser(state, action: PayloadAction<{ currentUser: User }>) {
+    setCurrentUser(state, action: PayloadAction<{ currentUser: User | null }>) {
       return {
         ...state,
         currentUser: action.payload.currentUser,
-        currentUserId: action.payload.currentUser.id,
+        currentUserId: action.payload.currentUser?.id || "",
       };
     },
 

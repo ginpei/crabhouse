@@ -16,6 +16,9 @@ export function useCurrentUserStore(): void {
 
   useEffect(() => {
     if (!userId) {
+      const action = appSlice.actions.setCurrentUser({ currentUser: null });
+      appStore.dispatch(action);
+
       return noop;
     }
 
