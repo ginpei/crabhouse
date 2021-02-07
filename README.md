@@ -21,6 +21,13 @@ Give secrets to Cloud Functions.
 $ npx firebase functions:config:get > .runtimeconfig.json
 ```
 
+### Update local Cloud Function implementation
+
+```bash
+$ cd functions/
+$ npm run build
+```
+
 ### Start local server
 
 ```bash
