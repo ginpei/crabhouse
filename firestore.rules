@@ -11,8 +11,17 @@ service cloud.firestore {
       allow create: if request.resource.data.userId == request.auth.uid;
       allow update:
         if request.auth.uid == resource.data.userId
-        && request.resource.data.userId == resource.data.userId;
+        && request.resource.data.userId == resource.data.userId
+        && isCorrectStateTransition(resource);
       // allow delete: if request.auth.uid == resource.data.userId;
+
+      function isCorrectStateTransition(room) {
+        let none = room.data.state == request.resource.data.state;
+        let opening = room.data.state == "preparing"
+          && request.resource.data.state == "open";
+        let closing = request.resource.data.state == "closed";
+        return none || opening || closing;
+      }
     }
   }
 }

@@ -1,12 +1,13 @@
 import AgoraRTC from "agora-rtc-sdk-ng";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { functions } from "../../../models/firebase";
-import { useRoom } from "../../../models/RoomDb";
+import { saveRoom, useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
+import { NiceButton } from "../../../shared/pure/NiceButton";
 import {
   useAgoraChannelParticipants,
   useAgoraClient,
@@ -36,8 +37,12 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [error, setError] = useState<Error | null>(null);
   useErrorLog(error);
 
-  const [room, roomError] = useRoom(currentUserId ? params.roomId : null);
+  const [initialRoom, roomError] = useRoom(
+    currentUserId ? params.roomId : null
+  );
+  const [room, setRoom] = useState(initialRoom);
   const [owner, ownerError] = useUser(room?.userId ?? null);
+  const [updatingRoom, setUpdatingRoom] = useState(false);
   useCurrentUserStore();
   useErrorLog(roomError);
   useErrorLog(ownerError);
@@ -53,6 +58,54 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const disconnected = agoraState !== "CONNECTED";
 
   const getToken = functions.httpsCallable("getToken");
+
+  useEffect(() => {
+    setRoom(initialRoom);
+  }, [initialRoom]);
+
+  const onOpenRoomClick = async () => {
+    if (!room) {
+      throw new Error();
+    }
+
+    // eslint-disable-next-line no-alert
+    const ok = window.confirm("Are you ready to open?");
+    if (!ok) {
+      return;
+    }
+
+    setUpdatingRoom(true);
+    try {
+      const updatedRoom = await saveRoom({ ...room, state: "open" });
+      setRoom(updatedRoom);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setUpdatingRoom(false);
+    }
+  };
+
+  const onCloseRoomClick = async () => {
+    if (!room) {
+      throw new Error();
+    }
+
+    // eslint-disable-next-line no-alert
+    const ok = window.confirm("Are you sure you want to close this room?");
+    if (!ok) {
+      return;
+    }
+
+    setUpdatingRoom(true);
+    try {
+      const updatedRoom = await saveRoom({ ...room, state: "closed" });
+      setRoom(updatedRoom);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setUpdatingRoom(false);
+    }
+  };
 
   const onJoinClick = async () => {
     if (!room) {
@@ -127,6 +180,20 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>ID: {room.id}</p>
       <p>State: {room.state}</p>
       <p>Owner: {owner.name}</p>
+      {room.state === "preparing" && (
+        <p>
+          <NiceButton disabled={updatingRoom} onClick={onOpenRoomClick}>
+            🎉 Open room
+          </NiceButton>
+        </p>
+      )}
+      {room.state !== "closed" && (
+        <p>
+          <NiceButton disabled={updatingRoom} onClick={onCloseRoomClick}>
+            👋 Close room
+          </NiceButton>
+        </p>
+      )}
       <hr />
       <p>
         <button disabled={connected} onClick={onJoinClick}>

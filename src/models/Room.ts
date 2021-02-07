@@ -7,14 +7,14 @@ export interface Room extends DataRecord {
   userId: string;
 }
 
-export type RoomState = "open" | "closed";
+export type RoomState = "preparing" | "open" | "closed";
 
 export function createRoom(initial?: Partial<Room>): Room {
   return {
     ...createDataRecord(initial),
     name: initial?.name || "",
     speakerIds: initial?.speakerIds || [],
-    state: initial?.state || "closed",
+    state: initial?.state || "preparing",
     userId: initial?.userId || "",
   };
 }
