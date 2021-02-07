@@ -1,8 +1,10 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
+import { AppError } from "../../models/AppError";
 import { useUser } from "../../models/UserDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
+import { NotFoundPage } from "../../shared/screens/NotFoundPage";
 import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -34,6 +36,13 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   if (userError) {
+    if (
+      userError instanceof AppError &&
+      userError.code === "document-not-found"
+    ) {
+      return <NotFoundPage targetName="User" />;
+    }
+
     // TODO create error page
     return (
       <div>

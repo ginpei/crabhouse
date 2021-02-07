@@ -14,6 +14,7 @@ import {
   roomViewPagePath,
 } from "../screens/rooms/view/RoomViewPage";
 import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
+import { NotFoundPage } from "../shared/screens/NotFoundPage";
 
 export const AppRouter: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ export const AppRouter: React.FC = () => {
           component={MyProfileEditPage}
         />
         <Route exact={true} path="/" component={HomePage} />
+        <Route component={NotFoundPage} />
       </Switch>
     </Router>
   );
