@@ -11,6 +11,7 @@ import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
+import { myPagePath } from "../my/MyPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { userViewPagePath } from "../users/UserViewPage";
@@ -60,6 +61,8 @@ const HomePageBase: React.FC<
           <div>
             <p>
               <Link to={userViewPagePath(currentUserId)}>User page</Link>
+              {" | "}
+              <Link to={myPagePath()}>My page</Link>
             </p>
             <p>
               <Link to={roomCreatePagePath()}>Create a room</Link>
