@@ -5,7 +5,7 @@ import { getUserDocument, ssToUser } from "../models/UserDb";
 import { appSlice, appStore } from "./appStore";
 
 export function useCurrentUserStore(): void {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
@@ -15,13 +15,19 @@ export function useCurrentUserStore(): void {
   }, []);
 
   useEffect(() => {
-    if (!userId) {
-      const action = appSlice.actions.setCurrentUser({ currentUser: null });
-      appStore.dispatch(action);
-
+    // loading
+    if (userId === null) {
       return noop;
     }
 
+    // not logged in
+    if (userId === "") {
+      const action = appSlice.actions.setCurrentUser({ currentUser: null });
+      appStore.dispatch(action);
+      return noop;
+    }
+
+    // watch logged in user profile
     return getUserDocument(userId).onSnapshot((ss) => {
       const currentUser = ssToUser(ss);
       const action = appSlice.actions.setCurrentUser({ currentUser });
