@@ -12,7 +12,7 @@ import {
   useAgoraConnectionState,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
-import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
 import { BaseLayout } from "../../shared/BaseLayout";
 
@@ -37,7 +37,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   const [room, roomError] = useRoom(currentUserId ? params.roomId : null);
   const [owner, ownerError] = useUser(room?.userId ?? null);
-  useCurrentUserIdStore();
+  useCurrentUserStore();
   useErrorLog(roomError);
   useErrorLog(ownerError);
 

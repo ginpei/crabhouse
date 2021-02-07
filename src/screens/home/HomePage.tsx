@@ -8,7 +8,7 @@ import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
 import { LoginForm } from "../../shared/LoginForm";
 import { AppState } from "../../stores/appStore";
-import { useCurrentUserIdStore } from "../../stores/currentUser";
+import { useCurrentUserStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
@@ -25,7 +25,7 @@ const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ currentUserId }) => {
   const [userRooms, setUserRooms] = useState<Room[] | null>(null);
-  useCurrentUserIdStore();
+  useCurrentUserStore();
 
   // TODO remove these temporary room list
   useEffect(() => {

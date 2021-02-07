@@ -4,6 +4,7 @@ import { useErrorLog } from "../../misc/misc";
 import { User } from "../../models/User";
 import { useUser } from "../../models/UserDb";
 import { AppState } from "../../stores/appStore";
+import { useCurrentUserStore } from "../../stores/currentUser";
 import { LoginPage } from "../login/LoginPage";
 import { BaseLayout } from "../shared/BaseLayout";
 
@@ -12,12 +13,15 @@ export function userViewPagePath(userId: string | null): string {
 }
 
 const mapState = (state: AppState) => ({
+  currentUser: state.currentUser,
   currentUserId: state.currentUserId,
 });
 
 const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
+  currentUser,
   currentUserId,
 }) => {
+  useCurrentUserStore();
   const { userId } = useParams<{ userId: string }>();
   const [user, userError] = useUser(userId);
   useErrorLog(userError);
@@ -45,14 +49,21 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     <BaseLayout className="UserViewPage" title={userName}>
       <h1>{userName}</h1>
       <p>
-        <FollowButton user={user} />
+        <FollowButton currentUser={currentUser} user={user} />
       </p>
     </BaseLayout>
   );
 };
 
-export const UserViewPage = connect()(UserViewPageBase);
+export const UserViewPage = connect(mapState)(UserViewPageBase);
 
-const FollowButton: React.FC<{ user: User }> = ({ user }) => {
+const FollowButton: React.FC<{ currentUser?: User | null; user: User }> = ({
+  currentUser,
+  user,
+}) => {
+  if (currentUser && currentUser.id === user.id) {
+    return <button>My profile</button>;
+  }
+
   return <button className="FollowButton">Follow</button>;
 };

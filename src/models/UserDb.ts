@@ -1,3 +1,4 @@
+import { DocumentSnapshot } from "./firebase";
 import { createModelFunctions } from "./modelDbBase";
 import { createUser, User } from "./User";
 
@@ -9,7 +10,9 @@ export const [
   useUser,
 ] = createModelFunctions<User>({
   collectionName: "users",
-  ssToModel(ss) {
-    return createUser({ ...ss.data(), id: ss.id });
-  },
+  ssToModel: ssToUser,
 });
+
+export function ssToUser(ss: DocumentSnapshot): User {
+  return createUser({ ...ss.data(), id: ss.id });
+}

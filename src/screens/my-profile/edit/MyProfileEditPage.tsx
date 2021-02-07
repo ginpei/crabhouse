@@ -5,7 +5,7 @@ import { isAppErrorOf } from "../../../models/AppError";
 import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
 import { AppState } from "../../../stores/appStore";
-import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
 import { BaseLayout } from "../../shared/BaseLayout";
 
@@ -16,7 +16,7 @@ export function myProfileEditPagePath(): string {
 const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
-  useCurrentUserIdStore();
+  useCurrentUserStore();
   const [user, setUser] = useState<User | null>(null);
   const [userError, setUserError] = useState<Error | null>(null);
   const [saving, setSaving] = useState(false);

@@ -5,7 +5,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { createRoom, Room } from "../../../models/Room";
 import { saveRoom } from "../../../models/RoomDb";
 import { AppState } from "../../../stores/appStore";
-import { useCurrentUserIdStore } from "../../../stores/currentUser";
+import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BaseLayout } from "../../shared/BaseLayout";
 import { roomViewPagePath } from "../view/RoomViewPage";
 
@@ -20,7 +20,7 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [roomError, setRoomError] = useState<Error | null>(null);
   const [saving, setSaving] = useState(false);
   const history = useHistory();
-  useCurrentUserIdStore();
+  useCurrentUserStore();
   useErrorLog(roomError);
 
   const onFormSubmit = async (newRoom: Room) => {
