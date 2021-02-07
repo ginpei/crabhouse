@@ -1,11 +1,12 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
+import { LoginForm } from "../../shared/LoginForm";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserIdStore } from "../../stores/currentUser";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
@@ -76,15 +77,7 @@ const HomePageBase: React.FC<
             </ul>
           </div>
         ) : (
-          <p>
-            <button
-              onClick={() =>
-                auth.signInWithEmailAndPassword("test@example.com", "123456")
-              }
-            >
-              Log in
-            </button>
-          </p>
+          <LoginForm />
         )}
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ipsum
