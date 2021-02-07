@@ -32,7 +32,8 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
     setRoomError(null);
     try {
       const createdRoom = await saveRoom({ ...newRoom, userId: currentUserId });
-      history.push(roomViewPagePath(createdRoom.id));
+      // replace for better page back experience
+      history.replace(roomViewPagePath(createdRoom.id));
     } catch (error) {
       setRoomError(error);
       setSaving(false);
