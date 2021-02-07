@@ -3,18 +3,18 @@ import { createDataRecord, DataRecord } from "./DataRecord";
 export interface Room extends DataRecord {
   name: string;
   speakerIds: string[];
-  status: RoomStatus;
+  state: RoomState;
   userId: string;
 }
 
-export type RoomStatus = "open" | "closed";
+export type RoomState = "open" | "closed";
 
 export function createRoom(initial?: Partial<Room>): Room {
   return {
     ...createDataRecord(initial),
     name: initial?.name || "",
     speakerIds: initial?.speakerIds || [],
-    status: initial?.status || "closed",
+    state: initial?.state || "closed",
     userId: initial?.userId || "",
   };
 }

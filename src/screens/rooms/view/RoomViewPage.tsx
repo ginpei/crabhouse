@@ -125,7 +125,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
     <BaseLayout className="RoomViewPage" title={room.name}>
       <h1>{room.name}</h1>
       <p>ID: {room.id}</p>
-      <p>Status: {room.status}</p>
+      <p>State: {room.state}</p>
       <p>Owner: {owner.name}</p>
       <hr />
       <p>
