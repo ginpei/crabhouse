@@ -1,10 +1,10 @@
 import { HTMLProps } from "react";
 import { Helmet } from "react-helmet-async";
 
-export const BaseLayout: React.FC<
+export const BasicLayout: React.FC<
   HTMLProps<HTMLDivElement> & { className: string; title: string }
 > = ({ className, children, title, ...props }) => {
-  const rootClassName = `${className} BaseLayout ui-container`;
+  const rootClassName = `${className} BasicLayout ui-container`;
   return (
     <div {...props} className={rootClassName}>
       <Helmet>

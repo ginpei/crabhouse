@@ -11,7 +11,7 @@ import { useCurrentUserStore } from "../../stores/currentUser";
 import { LoginPage } from "../login/LoginPage";
 import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
-import { BaseLayout } from "../shared/BaseLayout";
+import { BasicLayout } from "../shared/BasicLayout";
 
 export function myPagePath(): string {
   return "/my/";
@@ -63,7 +63,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="MyPage" title="My page">
+    <BasicLayout className="MyPage" title="My page">
       <h1>MyPage</h1>
       <p>
         <Link to={myProfileEditPagePath()}>Edit my profile</Link>
@@ -73,7 +73,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
           Open your room
         </NiceButton>
       </p>
-    </BaseLayout>
+    </BasicLayout>
   );
 };
 

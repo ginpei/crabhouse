@@ -8,7 +8,7 @@ import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../../shared/pure/NiceButton";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
-import { BaseLayout } from "../../shared/BaseLayout";
+import { BasicLayout } from "../../shared/BasicLayout";
 import { roomViewPagePath } from "../view/RoomViewPage";
 
 export function roomCreatePagePath(): string {
@@ -55,7 +55,7 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="RoomCreatePage" title="Create a new room">
+    <BasicLayout className="RoomCreatePage" title="Create a new room">
       <h1>RoomCreatePage</h1>
       <RoomForm
         disabled={saving}
@@ -63,7 +63,7 @@ export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({
         onChange={onFormChange}
         room={room}
       />
-    </BaseLayout>
+    </BasicLayout>
   );
 };
 

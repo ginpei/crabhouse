@@ -16,7 +16,7 @@ import {
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
-import { BaseLayout } from "../../shared/BaseLayout";
+import { BasicLayout } from "../../shared/BasicLayout";
 
 const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
@@ -175,7 +175,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="RoomViewPage" title={room.name}>
+    <BasicLayout className="RoomViewPage" title={room.name}>
       <h1>{room.name}</h1>
       <p>ID: {room.id}</p>
       <p>State: {room.state}</p>
@@ -228,7 +228,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
           <li key={listener.uid}>{listener.uid}</li>
         ))}
       </ul>
-    </BaseLayout>
+    </BasicLayout>
   );
 };
 

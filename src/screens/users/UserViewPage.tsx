@@ -7,7 +7,7 @@ import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { LoginPage } from "../login/LoginPage";
-import { BaseLayout } from "../shared/BaseLayout";
+import { BasicLayout } from "../shared/BasicLayout";
 
 export function userViewPagePath(userId: string | null): string {
   return `/users/${userId ?? ":userId"}`;
@@ -47,12 +47,12 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="UserViewPage" title={userName}>
+    <BasicLayout className="UserViewPage" title={userName}>
       <h1>{userName}</h1>
       <p>
         <FollowButton user={user} />
       </p>
-    </BaseLayout>
+    </BasicLayout>
   );
 };
 

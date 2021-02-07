@@ -9,7 +9,7 @@ import { NiceButton } from "../../../shared/pure/NiceButton";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
-import { BaseLayout } from "../../shared/BaseLayout";
+import { BasicLayout } from "../../shared/BasicLayout";
 
 export function myProfileEditPagePath(): string {
   return "/my-profile/edit";
@@ -86,7 +86,7 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   return (
-    <BaseLayout className="MyProfileEditPage" title="Edit profile">
+    <BasicLayout className="MyProfileEditPage" title="Edit profile">
       <h1>MyProfileEditPage</h1>
       <UserForm
         disabled={saving}
@@ -94,7 +94,7 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
         onSubmit={onNewUserSubmit}
         user={user}
       />
-    </BaseLayout>
+    </BasicLayout>
   );
 };
 
