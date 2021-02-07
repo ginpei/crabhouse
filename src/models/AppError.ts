@@ -1,5 +1,7 @@
+export type AppErrorCode = "document-not-found";
+
 export class AppError extends Error {
-  constructor(message: string, public code: string) {
+  constructor(public code: AppErrorCode, message: string) {
     super(message);
   }
 }

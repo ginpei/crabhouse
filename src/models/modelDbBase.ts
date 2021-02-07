@@ -46,8 +46,8 @@ export function createModelFunctions<T extends DataRecord>(options: {
     const ss = await doc.get();
     if (!ss.exists) {
       throw new AppError(
-        `Document "${id}" is not found in "${collectionName}"`,
-        "document-not-found"
+        "document-not-found",
+        `Document "${id}" is not found in "${collectionName}"`
       );
     }
 
