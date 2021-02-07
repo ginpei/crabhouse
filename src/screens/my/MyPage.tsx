@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { createRoom } from "../../models/Room";
 import { saveRoom } from "../../models/RoomDb";
+import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -54,7 +55,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
   };
 
   if (currentUserId === null) {
-    return null;
+    return <LoadingScreen />;
   }
 
   if (currentUserId === "") {

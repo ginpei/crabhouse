@@ -6,6 +6,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { functions } from "../../../models/firebase";
 import { useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
+import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import {
   useAgoraChannelParticipants,
   useAgoraClient,
@@ -117,7 +118,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   // loading
   if (currentUserId === null || room === null || owner === null) {
-    return null;
+    return <LoadingScreen />;
   }
 
   return (

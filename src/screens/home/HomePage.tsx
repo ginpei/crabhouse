@@ -7,6 +7,7 @@ import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection } from "../../models/RoomDb";
 import { LoginForm } from "../../shared/LoginForm";
+import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -47,7 +48,7 @@ const HomePageBase: React.FC<
   }, [currentUserId]);
 
   if (currentUserId === null) {
-    return null;
+    return <LoadingScreen />;
   }
 
   return (

@@ -1,0 +1,24 @@
+.LoadingScreen-bar {
+  animation: LoadingScreen-bar-fakeGrowing 3s forwards;
+  background-color: #036;
+  height: 0.1rem;
+  left: 0;
+  opacity: 0.3;
+  position: fixed;
+  top: 0;
+  transform-origin: left top;
+  transform: scaleX(0);
+  width: 100%;
+
+  // 😈
+  @keyframes LoadingScreen-bar-fakeGrowing {
+    0% { transform: scaleX(0); }
+    10% { transform: scaleX(0.3); }
+    40% { transform: scaleX(0.6); }
+    50% { transform: scaleX(0.6); }
+    55% { transform: scaleX(0.7); }
+    60% { transform: scaleX(0.7); }
+    70% { transform: scaleX(0.1); }
+    100% { transform: scaleX(0.2); }
+  }
+}

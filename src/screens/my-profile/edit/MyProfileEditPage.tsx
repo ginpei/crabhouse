@@ -4,6 +4,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { isAppErrorOf } from "../../../models/AppError";
 import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
+import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../../shared/pure/NiceButton";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
@@ -81,7 +82,7 @@ const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   if (!user) {
-    return null;
+    return <LoadingScreen />;
   }
 
   return (
