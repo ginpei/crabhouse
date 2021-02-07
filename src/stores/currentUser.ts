@@ -10,8 +10,6 @@ export function useCurrentUserStore(): void {
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
       const currentUserId = user?.uid ?? "";
-      const action = appSlice.actions.setCurrentUserId({ currentUserId });
-      appStore.dispatch(action);
       setUserId(currentUserId);
     });
   }, []);

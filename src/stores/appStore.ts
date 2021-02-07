@@ -15,6 +15,7 @@ export const appSlice = createSlice({
       return {
         ...state,
         currentUser: action.payload.currentUser,
+        currentUserId: action.payload.currentUser.id,
       };
     },
 
