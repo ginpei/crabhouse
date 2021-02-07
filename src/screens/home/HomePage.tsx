@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { useErrorLog } from "../../misc/misc";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
-import { getRoomCollection } from "../../models/RoomDb";
+import { getRoomCollection, useOpenRooms } from "../../models/RoomDb";
 import { LoginForm } from "../../shared/LoginForm";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
@@ -90,6 +91,9 @@ const HomePageBase: React.FC<
         ) : (
           <LoginForm />
         )}
+        <h2>Open rooms</h2>
+        <OpenRoomList />
+        <hr />
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ipsum
           quidem dolorem ut architecto voluptatem placeat quam, aut eum iure
@@ -107,3 +111,36 @@ const HomePageBase: React.FC<
 };
 
 export const HomePage = connect(mapState, mapDispatch)(HomePageBase);
+
+const OpenRoomList: React.FC = () => {
+  const [openRooms, openRoomsError] = useOpenRooms();
+  useErrorLog(openRoomsError);
+
+  if (!openRooms) {
+    return (
+      <ul>
+        <li>...</li>
+      </ul>
+    );
+  }
+
+  if (openRooms.length < 1) {
+    return (
+      <ul>
+        <li>
+          <small>(No open rooms now)</small>
+        </li>
+      </ul>
+    );
+  }
+
+  return (
+    <ul>
+      {openRooms.map((room) => (
+        <li key={room.id}>
+          <Link to={roomViewPagePath(room.id)}>{room.name}</Link>
+        </li>
+      ))}
+    </ul>
+  );
+};
