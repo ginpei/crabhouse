@@ -2,6 +2,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
+import { auth } from "../../models/firebase";
 import { createRoom } from "../../models/Room";
 import { saveRoom, useUserRooms } from "../../models/RoomDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
@@ -57,6 +58,11 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     }
   };
 
+  const onLogOutClick = () => {
+    auth.signOut();
+    history.push("/");
+  };
+
   if (currentUserId === null || userRooms === null) {
     return <LoadingScreen />;
   }
@@ -75,6 +81,9 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
         <NiceButton disabled={creatingRoom} onClick={onOpenRoomClick}>
           Open your room
         </NiceButton>
+      </p>
+      <p>
+        <NiceButton onClick={onLogOutClick}>Log out</NiceButton>
       </p>
       <h2>My rooms</h2>
       <ul>
