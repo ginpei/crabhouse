@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
-import { auth } from "../models/firebase";
+import { auth, isTimestamp } from "../models/firebase";
 import { createUser } from "../models/User";
 import { getUserDocument, saveUser, ssToUser } from "../models/UserDb";
 import { appSlice, appStore } from "./appStore";
@@ -42,6 +42,12 @@ export function useCurrentUserStore(): void {
             name: authCurrentUser?.displayName || "Kani",
           })
         );
+        return;
+      }
+
+      // this is the 1st step of 2 steps that serverTimestamp() requires
+      const data = ss.data() || {};
+      if (!isTimestamp(data.createdAt) || !isTimestamp(data.updatedAt)) {
         return;
       }
 

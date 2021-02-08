@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { ssToDataRecord } from "./DataRecordDb";
 import { DocumentSnapshot } from "./firebase";
 import { createModelFunctions } from "./modelDbBase";
 import { createRoom, Room } from "./Room";
 
 export function ssToRoom(ss: DocumentSnapshot): Room {
-  return createRoom({ ...ss.data(), id: ss.id });
+  return createRoom({ ...ss.data(), ...ssToDataRecord(ss) });
 }
 
 export const [

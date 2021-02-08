@@ -7,11 +7,6 @@ export interface DataRecord {
   updatedAt: number;
 }
 
-/**
- * Data on Firebase Firestore.
- */
-export type DocumentData<T extends DataRecord> = Omit<T, "id">;
-
 export function createDataRecord(initial?: Partial<DataRecord>): DataRecord {
   return {
     createdAt: initial?.createdAt || 0,

@@ -60,6 +60,10 @@ export function initializeFirebase(): firebase.app.App {
   return app;
 }
 
+export function isTimestamp(obj: unknown): obj is Timestamp {
+  return obj instanceof firebase.firestore.Timestamp;
+}
+
 // export function isFirebaseError(
 //   error: unknown
 // ): error is firebase.FirebaseError {

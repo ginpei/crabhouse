@@ -1,11 +1,14 @@
+import firebase from "firebase";
 import { useEffect, useState } from "react";
 import { AppError } from "./AppError";
-import { DataRecord, DocumentData } from "./DataRecord";
+import { DataRecord } from "./DataRecord";
+import { DocumentData } from "./DataRecordDb";
 import {
   CollectionReference,
   db,
   DocumentReference,
   DocumentSnapshot,
+  Timestamp,
 } from "./firebase";
 
 export function createModelFunctions<T extends DataRecord>(options: {
@@ -27,15 +30,24 @@ export function createModelFunctions<T extends DataRecord>(options: {
 
   async function saveModel(model: T): Promise<T> {
     const data = modelToDocumentData(model);
+    const now = firebase.firestore.FieldValue.serverTimestamp();
 
     if (model.id) {
+      // User can create with ID
+      const createdAt = data.createdAt.toMillis() === 0 ? now : data.createdAt;
+
       const doc = getModelDocument(model.id);
-      await doc.set(data);
+      await doc.set({ ...data, createdAt, updatedAt: now });
       return model;
     }
 
     const coll = getModelCollection();
     const doc = await coll.add(data);
+    // timestamp is not for add()
+    await doc.update({
+      createdAt: now,
+      updatedAt: now,
+    });
     const newSs = await doc.get();
     const newModel = ssToModel(newSs);
     return newModel;
@@ -89,6 +101,10 @@ export function createModelFunctions<T extends DataRecord>(options: {
 export function defaultModelToDocumentData<T extends DataRecord>(
   model: T
 ): DocumentData<T> {
-  const { id, ...data } = model;
-  return data;
+  const { createdAt, id, updatedAt, ...data } = model;
+  return {
+    ...data,
+    createdAt: new Timestamp(createdAt / 1000, 0),
+    updatedAt: new Timestamp(updatedAt / 1000, 0),
+  };
 }
