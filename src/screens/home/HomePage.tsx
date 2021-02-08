@@ -12,8 +12,8 @@ import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
-import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { myPagePath } from "../my/MyPage";
+import { profileEditPagePath } from "../my/profileEdit/ProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { userViewPagePath } from "../users/UserViewPage";
@@ -69,7 +69,7 @@ const HomePageBase: React.FC<
             <p>
               <Link to={roomCreatePagePath()}>Create a room</Link>
               <br />
-              <Link to={myProfileEditPagePath()}>Edit my profile</Link>
+              <Link to={profileEditPagePath()}>Edit my profile</Link>
               <br />
               <NiceButton onClick={() => auth.signOut()}>
                 Log out

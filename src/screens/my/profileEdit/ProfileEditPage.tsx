@@ -11,11 +11,11 @@ import { useCurrentUserStore } from "../../../stores/currentUser";
 import { LoginPage } from "../../login/LoginPage";
 import { BasicLayout } from "../../shared/BasicLayout";
 
-export function myProfileEditPagePath(): string {
-  return "/my-profile/edit";
+export function profileEditPagePath(): string {
+  return "/my/editProfile";
 }
 
-const MyProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
+const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
   useCurrentUserStore();
@@ -146,4 +146,4 @@ const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
 });
 
-export const MyProfileEditPage = connect(mapState)(MyProfileEditPageBase);
+export const ProfileEditPage = connect(mapState)(ProfileEditPageBase);

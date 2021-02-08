@@ -2,7 +2,7 @@ import { DetailedHTMLProps } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { User } from "../../models/User";
-import { myProfileEditPagePath } from "../../screens/my-profile/edit/MyProfileEditPage";
+import { profileEditPagePath } from "../../screens/my/profileEdit/ProfileEditPage";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { NiceButton } from "../pure/NiceButton";
@@ -28,7 +28,7 @@ const FollowButtonBase: React.FC<
 
   if (currentUser && currentUser.id === user.id) {
     return (
-      <FollowButtonFrame onClick={() => history.push(myProfileEditPagePath())}>
+      <FollowButtonFrame onClick={() => history.push(profileEditPagePath())}>
         Edit
       </FollowButtonFrame>
     );

@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HomePage } from "../screens/home/HomePage";
-import {
-  MyProfileEditPage,
-  myProfileEditPagePath,
-} from "../screens/my-profile/edit/MyProfileEditPage";
 import { MyPage, myPagePath } from "../screens/my/MyPage";
+import {
+  ProfileEditPage,
+  profileEditPagePath,
+} from "../screens/my/profileEdit/ProfileEditPage";
 import {
   RoomCreatePage,
   roomCreatePagePath,
@@ -38,8 +38,8 @@ export const AppRouter: React.FC = () => {
         <Route exact={true} path={myPagePath()} component={MyPage} />
         <Route
           exact={true}
-          path={myProfileEditPagePath()}
-          component={MyProfileEditPage}
+          path={profileEditPagePath()}
+          component={ProfileEditPage}
         />
         <Route exact={true} path="/" component={HomePage} />
         <Route component={NotFoundPage} />

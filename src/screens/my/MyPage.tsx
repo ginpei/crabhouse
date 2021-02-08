@@ -9,9 +9,9 @@ import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { LoginPage } from "../login/LoginPage";
-import { myProfileEditPagePath } from "../my-profile/edit/MyProfileEditPage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicLayout } from "../shared/BasicLayout";
+import { profileEditPagePath } from "./profileEdit/ProfileEditPage";
 
 export function myPagePath(): string {
   return "/my/";
@@ -66,7 +66,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     <BasicLayout className="MyPage" title="My page">
       <h1>MyPage</h1>
       <p>
-        <Link to={myProfileEditPagePath()}>Edit my profile</Link>
+        <Link to={profileEditPagePath()}>Edit my profile</Link>
       </p>
       <p>
         <NiceButton disabled={creatingRoom} onClick={onOpenRoomClick}>
