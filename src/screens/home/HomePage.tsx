@@ -1,23 +1,16 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
-import { auth } from "../../models/firebase";
-import { createRoom, Room } from "../../models/Room";
-import { getRoomCollection, useOpenRooms } from "../../models/RoomDb";
-import { LoadingScreen } from "../../shared/pure/LoadingScreen";
+import { useOpenRooms } from "../../models/RoomDb";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { loginPagePath } from "../login/LoginPage";
 import { myPagePath } from "../my/MyPage";
-import { profileEditPagePath } from "../my/profileEdit/ProfileEditPage";
-import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicHeaderFrame } from "../shared/BasicHeaderFrame";
-import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
