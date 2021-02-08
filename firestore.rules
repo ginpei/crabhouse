@@ -6,8 +6,13 @@ service cloud.firestore {
       allow read;
 
       // owner
-      allow create: if userId == request.auth.uid;
-      allow update: if userId == request.auth.uid;
+      allow create:
+        if userId == request.auth.uid
+        && isCreatedNow(request.resource)
+        && isUpdatedNow(request.resource);
+      allow update:
+        if userId == request.auth.uid
+        && isUpdatedNow(request.resource);
     }
 
     match /rooms/{roomId} {
@@ -32,6 +37,14 @@ service cloud.firestore {
         let closing = request.resource.data.state == "closed";
         return none || opening || closing;
       }
+    }
+
+    function isCreatedNow(resource) {
+      return resource.data.createdAt == request.time;
+    }
+
+    function isUpdatedNow(resource) {
+      return resource.data.updatedAt == request.time;
     }
   }
 }
