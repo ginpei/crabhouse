@@ -6,9 +6,9 @@ import { createUser, User } from "../../../models/User";
 import { getUser, saveUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../../shared/pure/NiceButton";
+import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
-import { LoginPage } from "../../login/LoginPage";
 import { BasicLayout } from "../../shared/BasicLayout";
 
 export function profileEditPagePath(): string {
@@ -74,7 +74,7 @@ const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }, [currentUserId]);
 
   if (currentUserId === "") {
-    return <LoginPage />;
+    return <LoginScreen />;
   }
 
   if (userError) {

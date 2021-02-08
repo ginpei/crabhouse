@@ -8,6 +8,7 @@ import { saveRoom, useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../../shared/pure/NiceButton";
+import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import {
   useAgoraChannelParticipants,
   useAgoraClient,
@@ -15,7 +16,6 @@ import {
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
-import { LoginPage } from "../../login/LoginPage";
 import { BasicLayout } from "../../shared/BasicLayout";
 
 const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
@@ -166,7 +166,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   };
 
   if (currentUserId === "") {
-    return <LoginPage />;
+    return <LoginScreen />;
   }
 
   // loading

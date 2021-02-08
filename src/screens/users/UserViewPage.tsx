@@ -4,11 +4,11 @@ import { useErrorLog } from "../../misc/misc";
 import { AppError } from "../../models/AppError";
 import { useUser } from "../../models/UserDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
+import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { NotFoundPage } from "../../shared/screens/NotFoundPage";
 import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
-import { LoginPage } from "../login/LoginPage";
 import { BasicLayout } from "../shared/BasicLayout";
 
 export function userViewPagePath(userId: string | null): string {
@@ -32,7 +32,7 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const userName = user?.name || "(No name)";
 
   if (currentUserId === "") {
-    return <LoginPage />;
+    return <LoginScreen />;
   }
 
   if (userError) {

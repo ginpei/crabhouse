@@ -6,9 +6,9 @@ import { createRoom } from "../../models/Room";
 import { saveRoom } from "../../models/RoomDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
+import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
-import { LoginPage } from "../login/LoginPage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicLayout } from "../shared/BasicLayout";
 import { profileEditPagePath } from "./profileEdit/ProfileEditPage";
@@ -59,7 +59,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
   }
 
   if (currentUserId === "") {
-    return <LoginPage title="My page" />;
+    return <LoginScreen title="My page" />;
   }
 
   return (
