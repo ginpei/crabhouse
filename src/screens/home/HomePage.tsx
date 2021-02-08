@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
@@ -16,6 +16,7 @@ import { myPagePath } from "../my/MyPage";
 import { profileEditPagePath } from "../my/profileEdit/ProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
+import { BasicHeaderFrame } from "../shared/BasicHeaderFrame";
 import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
 
@@ -28,91 +29,60 @@ const mapDispatch = (dispatch: Dispatch) => ({});
 const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ currentUserId }) => {
-  const [userRooms, setUserRooms] = useState<Room[] | null>(null);
   useCurrentUserStore();
-
-  // TODO remove these temporary room list
-  useEffect(() => {
-    setUserRooms(null);
-
-    if (!currentUserId) {
-      return;
-    }
-
-    const coll = getRoomCollection().where("userId", "==", currentUserId);
-    coll.get().then((ssRooms) => {
-      const newRooms = ssRooms.docs.map((v) =>
-        createRoom({ ...v.data(), id: v.id })
-      );
-      setUserRooms(newRooms);
-    });
-  }, [currentUserId]);
-
-  if (currentUserId === null) {
-    return <LoadingScreen />;
-  }
 
   return (
     <div className="HomePage">
       <Helmet>
         <title>Crabhouse 🦀 カニヤシキ</title>
       </Helmet>
+      <BasicHeaderFrame />
       <div className="ui-container">
-        <h1 className="HomePage-heading">Clubroom</h1>
-        {currentUserId ? (
-          <div>
-            <p>
-              <Link to={userViewPagePath(currentUserId)}>User page</Link>
-              {" | "}
-              <Link to={myPagePath()}>My page</Link>
-            </p>
-            <p>
-              <Link to={roomCreatePagePath()}>Create a room</Link>
-              <br />
-              <Link to={profileEditPagePath()}>Edit my profile</Link>
-              <br />
-              <NiceButton onClick={() => auth.signOut()}>
-                Log out
-              </NiceButton>{" "}
-              User ID: {currentUserId}
-            </p>
-            <ul>
-              {userRooms ? (
-                userRooms.map((room) => (
-                  <li key={room.id}>
-                    <Link to={roomViewPagePath(room.id)}>{room.name}</Link>
-                  </li>
-                ))
-              ) : (
-                <li>...</li>
-              )}
-            </ul>
+        <header className="HomePage-header">
+          <h1 className="HomePage-heading">Crabhouse</h1>
+          <div className="HomePage-hero">
+            <div className="HomePage-heroLogo">🦀</div>
+            <HeroLoginButton currentUserId={currentUserId} />
           </div>
-        ) : (
-          <p>
-            <Link to={loginPagePath()}>Login</Link>
-          </p>
-        )}
-        <h2>Open rooms</h2>
+        </header>
+        <h2>🔊 Open rooms</h2>
+        <p>
+          <Link to={myPagePath()}>▶️ Open your room in your page</Link>
+        </p>
         <OpenRoomList />
-        <hr />
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa ipsum
-          quidem dolorem ut architecto voluptatem placeat quam, aut eum iure
-          ullam qui exercitationem doloribus nisi, officiis, eos accusantium
-          expedita explicabo?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-          ea ad? Fugiat, accusamus ipsam? Eaque fugiat aliquid et dolorem ea,
-          excepturi vel iusto blanditiis unde quasi. Maxime rerum libero soluta.
-        </p>
       </div>
     </div>
   );
 };
 
 export const HomePage = connect(mapState, mapDispatch)(HomePageBase);
+
+const HeroLoginButton: React.FC<{ currentUserId: string | null }> = ({
+  currentUserId,
+}) => {
+  const history = useHistory();
+
+  const text = currentUserId ? "My page" : "Log in";
+
+  const onClick = () => {
+    if (currentUserId) {
+      history.push(myPagePath());
+      return;
+    }
+
+    history.push(loginPagePath());
+  };
+
+  if (currentUserId === null) {
+    return null;
+  }
+
+  return (
+    <NiceButton className="HomePage-HeroLoginButton" onClick={onClick}>
+      {text}
+    </NiceButton>
+  );
+};
 
 const OpenRoomList: React.FC = () => {
   const [openRooms, openRoomsError] = useOpenRooms();

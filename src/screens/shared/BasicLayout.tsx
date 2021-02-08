@@ -2,6 +2,7 @@ import { HTMLProps } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { jcn } from "../../misc/misc";
+import { BasicHeaderFrame } from "./BasicHeaderFrame";
 import "./BasicLayout.scss";
 
 export const BasicLayout: React.FC<
@@ -12,11 +13,11 @@ export const BasicLayout: React.FC<
       <Helmet>
         <title>{title} - Crabhouse</title>
       </Helmet>
-      <header className="BasicLayout-header">
+      <BasicHeaderFrame>
         <div className="ui-container">
           <Link to="/">🦀 Crabhouse</Link>
         </div>
-      </header>
+      </BasicHeaderFrame>
       <div className="ui-container">{children}</div>
     </div>
   );

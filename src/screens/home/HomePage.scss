@@ -1,3 +1,20 @@
 .HomePage-heading {
   font-size: min(5em, 18vw);
 }
+
+.HomePage-hero {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  height: 3rem;
+}
+
+.HomePage-heroLogo {
+  align-items: center;
+  display: flex;
+  font-size: 2rem;
+  justify-content: center;
+}
+
+.HomePage-HeroLoginButton {
+  font-size: 2rem;
+}

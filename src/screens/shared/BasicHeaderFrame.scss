@@ -1,0 +1,16 @@
+.BasicHeaderFrame {
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
+  height: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
