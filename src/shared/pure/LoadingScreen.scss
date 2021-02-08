@@ -1,10 +1,15 @@
+.LoadingScreen {
+  background-color: var(--theme-bg);
+  height: 1.5rem;
+  position: relative;
+}
+
 .LoadingScreen-bar {
   animation: LoadingScreen-bar-fakeGrowing 3s forwards;
-  background-color: #036;
+  background-color: var(--theme-fg);
   height: 0.1rem;
   left: 0;
-  opacity: 0.3;
-  position: fixed;
+  position: absolute;
   top: 0;
   transform-origin: left top;
   transform: scaleX(0);
