@@ -6,7 +6,8 @@ service cloud.firestore {
       allow read;
 
       // owner
-      allow read, write: if userId == request.auth.uid;
+      allow create: if userId == request.auth.uid;
+      allow update: if userId == request.auth.uid;
     }
 
     match /rooms/{roomId} {
