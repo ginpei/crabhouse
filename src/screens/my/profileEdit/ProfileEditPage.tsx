@@ -77,10 +77,6 @@ const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
     return <LoginScreen />;
   }
 
-  if (userError) {
-    return <div>Error {userError.message}</div>;
-  }
-
   if (!user) {
     return <LoadingScreen />;
   }
@@ -88,6 +84,9 @@ const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
   return (
     <BasicLayout className="MyProfileEditPage" title="Edit profile">
       <h1>MyProfileEditPage</h1>
+      {userError && (
+        <p style={{ color: "tomato" }}>[Bug] {userError.message}</p>
+      )}
       <UserForm
         disabled={saving}
         onChange={onNewUserChange}
