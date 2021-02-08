@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { sleep } from "../misc/misc";
 import { AppError } from "./AppError";
