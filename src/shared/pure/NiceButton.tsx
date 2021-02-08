@@ -1,4 +1,5 @@
 import { DetailedHTMLProps } from "react";
+import { jcn } from "../../misc/misc";
 import "./NiceButton.scss";
 
 export const NiceButton: React.FC<
@@ -7,10 +8,8 @@ export const NiceButton: React.FC<
     HTMLButtonElement
   >
 > = ({ children, className, ...props }) => {
-  const wholeClassName = `NiceButton ${className}`;
-
   return (
-    <button className={wholeClassName} {...props}>
+    <button className={jcn(className, "NiceButton")} {...props}>
       {children}
     </button>
   );
