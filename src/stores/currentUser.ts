@@ -1,14 +1,20 @@
+import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
 import { auth } from "../models/firebase";
-import { getUserDocument, ssToUser } from "../models/UserDb";
+import { createUser } from "../models/User";
+import { getUserDocument, saveUser, ssToUser } from "../models/UserDb";
 import { appSlice, appStore } from "./appStore";
 
 export function useCurrentUserStore(): void {
   const [userId, setUserId] = useState<string | null>(null);
+  const [authCurrentUser, setAuthCurrentUser] = useState<firebase.User | null>(
+    null
+  );
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
+      setAuthCurrentUser(user);
       const currentUserId = user?.uid ?? "";
       setUserId(currentUserId);
     });
@@ -28,10 +34,20 @@ export function useCurrentUserStore(): void {
     }
 
     // watch logged in user profile
-    return getUserDocument(userId).onSnapshot((ss) => {
+    return getUserDocument(userId).onSnapshot(async (ss) => {
+      if (!ss.exists) {
+        saveUser(
+          createUser({
+            id: ss.id,
+            name: authCurrentUser?.displayName || "Kani",
+          })
+        );
+        return;
+      }
+
       const currentUser = ssToUser(ss);
       const action = appSlice.actions.setCurrentUser({ currentUser });
       appStore.dispatch(action);
     });
-  }, [userId]);
+  }, [authCurrentUser?.displayName, userId]);
 }
