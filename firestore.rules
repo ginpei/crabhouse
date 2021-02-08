@@ -2,7 +2,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
+      // anybody
       allow read;
+
+      // owner
       allow read, write: if userId == request.auth.uid;
     }
 
