@@ -18,6 +18,15 @@ export const [
   ssToModel: ssToRoom,
 });
 
+export async function getUserRooms(userId: string): Promise<Room[]> {
+  const ss = await getRoomCollection()
+    .where("userId", "==", userId)
+    .orderBy("updatedAt", "desc")
+    .get();
+  const rooms = ss.docs.map((v) => ssToRoom(v));
+  return rooms;
+}
+
 export async function getOpenRooms(): Promise<Room[]> {
   const ss = await getRoomCollection()
     .where("state", "==", "open")
@@ -27,6 +36,27 @@ export async function getOpenRooms(): Promise<Room[]> {
   return rooms;
 }
 
+export function useUserRooms(
+  userId: string | null
+): [Room[] | null, Error | null] {
+  const [rooms, setRooms] = useState<Room[] | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setRooms(null);
+    setError(null);
+
+    if (!userId) {
+      return;
+    }
+
+    getUserRooms(userId)
+      .then((v) => setRooms(v))
+      .catch((v) => setError(v));
+  }, [userId]);
+
+  return [rooms, error];
+}
 export function useOpenRooms(): [Room[] | null, Error | null] {
   const [rooms, setRooms] = useState<Room[] | null>(null);
   const [error, setError] = useState<Error | null>(null);

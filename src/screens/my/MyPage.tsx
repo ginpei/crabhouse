@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { createRoom } from "../../models/Room";
-import { saveRoom } from "../../models/RoomDb";
+import { saveRoom, useUserRooms } from "../../models/RoomDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
@@ -32,6 +32,9 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [createRoomError, setCreateRoomError] = useState<Error | null>(null);
   useErrorLog(createRoomError);
 
+  const [userRooms, userRoomsError] = useUserRooms(currentUserId);
+  useErrorLog(userRoomsError);
+
   const onOpenRoomClick = async () => {
     if (!currentUser) {
       throw new Error();
@@ -54,7 +57,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     }
   };
 
-  if (currentUserId === null) {
+  if (currentUserId === null || userRooms === null) {
     return <LoadingScreen />;
   }
 
@@ -73,6 +76,16 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
           Open your room
         </NiceButton>
       </p>
+      <h2>My rooms</h2>
+      <ul>
+        {userRooms.map((room) => (
+          <li key={room.id}>
+            <Link to={roomViewPagePath(room.id)}>
+              {room.name} ({room.state})
+            </Link>
+          </li>
+        ))}
+      </ul>
     </BasicLayout>
   );
 };
