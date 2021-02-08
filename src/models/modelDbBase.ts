@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import { useEffect, useState } from "react";
+import { sleep } from "../misc/misc";
 import { AppError } from "./AppError";
 import { DataRecord } from "./DataRecord";
 import { DocumentData } from "./DataRecordDb";
@@ -8,6 +9,7 @@ import {
   db,
   DocumentReference,
   DocumentSnapshot,
+  isTimestamp,
   Timestamp,
 } from "./firebase";
 
@@ -61,6 +63,14 @@ export function createModelFunctions<T extends DataRecord>(options: {
         "document-not-found",
         `Document "${id}" is not found in "${collectionName}"`
       );
+    }
+
+    // this is the 1st step of 2 steps that serverTimestamp() requires
+    const data = ss.data() || {};
+    if (!isTimestamp(data.createdAt) || !isTimestamp(data.updatedAt)) {
+      // retry
+      await sleep(Math.random() * 1000);
+      return getModel(id);
     }
 
     const model = ssToModel(ss);

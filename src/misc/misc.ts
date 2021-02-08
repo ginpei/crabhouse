@@ -3,6 +3,10 @@ import { useEffect } from "react";
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop: () => void = () => {};
 
+export function sleep(ms: number): Promise<void> {
+  return new Promise((v) => setTimeout(v, ms));
+}
+
 /**
  * Join class names
  */
