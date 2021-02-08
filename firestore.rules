@@ -23,10 +23,14 @@ service cloud.firestore {
 
       // owner
       allow read: if resource.data.userId == request.auth.uid;
-      allow create: if request.resource.data.userId == request.auth.uid;
+      allow create:
+        if request.resource.data.userId == request.auth.uid
+        && isCreatedNow(request.resource)
+        && isUpdatedNow(request.resource);
       allow update:
         if request.auth.uid == resource.data.userId
         && request.resource.data.userId == resource.data.userId
+        && isUpdatedNow(request.resource)
         && isCorrectStateTransition(resource);
       // allow delete: if request.auth.uid == resource.data.userId;
 

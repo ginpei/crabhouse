@@ -44,9 +44,8 @@ export function createModelFunctions<T extends DataRecord>(options: {
     }
 
     const coll = getModelCollection();
-    const doc = await coll.add(data);
-    // timestamp is not for add()
-    await doc.update({
+    const doc = await coll.add({
+      ...data,
       createdAt: now,
       updatedAt: now,
     });
