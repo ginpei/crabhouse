@@ -7,11 +7,11 @@ import { useErrorLog } from "../../misc/misc";
 import { auth } from "../../models/firebase";
 import { createRoom, Room } from "../../models/Room";
 import { getRoomCollection, useOpenRooms } from "../../models/RoomDb";
-import { LoginForm } from "../../shared/LoginForm";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
+import { loginPagePath } from "../login/LoginPage";
 import { myPagePath } from "../my/MyPage";
 import { profileEditPagePath } from "../my/profileEdit/ProfileEditPage";
 import { roomCreatePagePath } from "../rooms/create/RoomCreatePage";
@@ -89,7 +89,9 @@ const HomePageBase: React.FC<
             </ul>
           </div>
         ) : (
-          <LoginForm />
+          <p>
+            <Link to={loginPagePath()}>Login</Link>
+          </p>
         )}
         <h2>Open rooms</h2>
         <OpenRoomList />

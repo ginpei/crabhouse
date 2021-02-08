@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { HomePage } from "../screens/home/HomePage";
+import { LoginPage, loginPagePath } from "../screens/login/LoginPage";
 import { MyPage, myPagePath } from "../screens/my/MyPage";
 import {
   ProfileEditPage,
@@ -41,6 +42,7 @@ export const AppRouter: React.FC = () => {
           path={profileEditPagePath()}
           component={ProfileEditPage}
         />
+        <Route exact={true} path={loginPagePath()} component={LoginPage} />
         <Route exact={true} path="/" component={HomePage} />
         <Route component={NotFoundPage} />
       </Switch>
