@@ -1,6 +1,22 @@
 .NiceButton {
+  --NiceButton-bg: var(--theme2-bg);
+  --NiceButton-border-color: var(--theme2-border-color);
+  --NiceButton-fg: var(--theme2-fg);
+  background-color: var(--NiceButton-bg);
+  border-color: var(--NiceButton-border-color);
   border-radius: 0.1rem;
   border-style: solid;
   border-width: 1px;
-  min-width: 4em;
+  color: var(--NiceButton-fg);
+  cursor: pointer;
+  padding: 0.5em 1em;
+
+  &:hover,
+  &:focus {
+    --NiceButton-bg: hsl(210, 100%, 97%);
+  }
+
+  &:active {
+    --NiceButton-bg: hsl(210, 100%, 90%);
+  }
 }

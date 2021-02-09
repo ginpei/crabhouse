@@ -1,6 +1,11 @@
 :root {
-  --theme-bg: #036;
+  --base-bg: #fff;
+  --base-fg: #333;
+  --theme-bg: hsl(210, 100%, 20%);
   --theme-fg: #fff;
+  --theme2-bg: hsl(210, 100%, 95%);
+  --theme2-border-color: hsl(210, 50%, 80%);
+  --theme2-fg: hsl(210, 50%, 30%);
 }
 
 body {
