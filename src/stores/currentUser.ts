@@ -1,9 +1,9 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
-import { auth, isTimestamp } from "../models/firebase";
+import { auth } from "../models/firebase";
 import { createUser } from "../models/User";
-import { getUserDocument, saveUser, ssToUser } from "../models/UserDb";
+import { onUserSnapshot, saveUser } from "../models/UserDb";
 import { appSlice, appStore } from "./appStore";
 
 export function useCurrentUserStore(): void {
@@ -34,8 +34,8 @@ export function useCurrentUserStore(): void {
     }
 
     // watch logged in user profile
-    return getUserDocument(userId).onSnapshot(async (ss) => {
-      if (!ss.exists) {
+    return onUserSnapshot(userId, async (currentUser, ss) => {
+      if (!currentUser) {
         saveUser(
           createUser({
             id: ss.id,
@@ -45,13 +45,6 @@ export function useCurrentUserStore(): void {
         return;
       }
 
-      // this is the 1st step of 2 steps that serverTimestamp() requires
-      const data = ss.data() || {};
-      if (!isTimestamp(data.createdAt) || !isTimestamp(data.updatedAt)) {
-        return;
-      }
-
-      const currentUser = ssToUser(ss);
       const action = appSlice.actions.setCurrentUser({ currentUser });
       appStore.dispatch(action);
     });
