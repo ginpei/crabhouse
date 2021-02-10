@@ -63,12 +63,16 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     history.push("/");
   };
 
-  if (currentUserId === null || userRooms === null) {
+  if (currentUserId === null) {
     return <LoadingScreen />;
   }
 
   if (currentUserId === "") {
     return <LoginScreen title="My page" />;
+  }
+
+  if (userRooms === null) {
+    return <LoadingScreen />;
   }
 
   return (
