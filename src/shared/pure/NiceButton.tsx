@@ -13,7 +13,7 @@ export const NiceButton: React.FC<
   return (
     <button
       className={jcn(className, "NiceButton")}
-      data-NiceButton-style={niceStyle}
+      data-nicebutton-style={niceStyle}
       {...props}
     >
       {children}

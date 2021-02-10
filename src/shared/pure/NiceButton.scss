@@ -21,7 +21,7 @@
     --NiceButton-bg: hsl(210, 100%, 90%);
   }
 
-  &[data-NiceButton-style="danger"] {
+  &[data-nicebutton-style="danger"] {
     --NiceButton-bg: var(--danger-bg);
     --NiceButton-border-color: var(--danger-border-color);
     --NiceButton-fg: var(--danger-fg);
