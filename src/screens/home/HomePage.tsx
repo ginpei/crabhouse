@@ -66,7 +66,7 @@ const HomePageBase: React.FC<
         <ul>
           {users ? (
             users.map((user) => (
-              <li>
+              <li key={user.id}>
                 <Link to={userViewPagePath(user.id)}>{user.name}</Link>
               </li>
             ))
