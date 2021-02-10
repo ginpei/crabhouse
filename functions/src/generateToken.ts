@@ -6,10 +6,30 @@ const appID = functions.config().agora.app_id;
 const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
+export const getToken = functions.https.onCall((data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError("permission-denied", "Not logged in");
+  }
+
+  const {channelName: rawChannelName} = data;
+  const channelName = String(rawChannelName);
+  if (!channelName) {
+    throw new functions.https.HttpsError(
+        "invalid-argument",
+        "`channelName` is required"
+    );
+  }
+
+  const uid = Math.floor(Math.random() * 2 ** 30);
+  const token = generateToken(channelName, uid);
+
+  return {channelName, token, uid};
+});
+
 /**
  * https://docs.agora.io/en/Voice/token_server?platform=All%20Platforms
  */
-export function generateToken(channelName: string, uid: number): string {
+function generateToken(channelName: string, uid: number): string {
   if (!appID) {
     throw new Error("Agora app ID is required");
   }
