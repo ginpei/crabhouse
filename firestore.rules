@@ -13,6 +13,16 @@ service cloud.firestore {
       allow update:
         if userId == request.auth.uid
         && isUpdatedNow(request.resource);
+
+      match /followings/{followingId} {
+        // handled by functions
+        allow read;
+      }
+
+      match /followers/{followingId} {
+        // handled by functions
+        allow read;
+      }
     }
 
     match /rooms/{roomId} {

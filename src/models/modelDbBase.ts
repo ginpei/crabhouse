@@ -10,6 +10,7 @@ import {
   DocumentReference,
   DocumentSnapshot,
   isTimestamp,
+  QueryDocumentSnapshot,
   Timestamp,
 } from "./firebase";
 
@@ -116,4 +117,28 @@ export function defaultModelToDocumentData<T extends DataRecord>(
     createdAt: new Timestamp(createdAt / 1000, 0),
     updatedAt: new Timestamp(updatedAt / 1000, 0),
   };
+}
+
+export function useCollection<T extends DataRecord>(
+  ref: CollectionReference | null,
+  ssToModel: (ss: QueryDocumentSnapshot) => T
+): [T[] | null, Error | null] {
+  const [items, setItems] = useState<T[] | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setItems(null);
+    setError(null);
+
+    if (!ref) {
+      return;
+    }
+
+    ref
+      .get()
+      .then((ss) => setItems(ss.docs.map((v) => ssToModel(v))))
+      .catch((v) => setError(v));
+  }, [ref, ssToModel]);
+
+  return [items, error];
 }

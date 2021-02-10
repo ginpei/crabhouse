@@ -12,9 +12,17 @@ export type DocumentSnapshot<
   T = firebase.firestore.DocumentData
 > = firebase.firestore.DocumentSnapshot<T>;
 
+export type QueryDocumentSnapshot<
+  T = firebase.firestore.DocumentData
+> = firebase.firestore.QueryDocumentSnapshot<T>;
+
 export type CollectionReference<
   T = firebase.firestore.DocumentData
 > = firebase.firestore.CollectionReference<T>;
+
+export type QuerySnapshot<
+  T = firebase.firestore.DocumentData
+> = firebase.firestore.QuerySnapshot<T>;
 
 export type Query<
   T = firebase.firestore.DocumentData

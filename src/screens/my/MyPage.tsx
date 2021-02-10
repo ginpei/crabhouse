@@ -5,6 +5,7 @@ import { useErrorLog } from "../../misc/misc";
 import { auth } from "../../models/firebase";
 import { createRoom } from "../../models/Room";
 import { saveRoom, useUserRooms } from "../../models/RoomDb";
+import { useUserFollowers, useUserFollowings } from "../../models/UserDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { WideNiceButton } from "../../shared/pure/WideNiceButton";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
@@ -12,6 +13,7 @@ import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicLayout } from "../shared/BasicLayout";
+import { userViewPagePath } from "../users/UserViewPage";
 import { profileEditPagePath } from "./profileEdit/ProfileEditPage";
 
 export function myPagePath(): string {
@@ -29,6 +31,11 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
 }) => {
   useCurrentUserStore();
   const history = useHistory();
+  const [followings, followingsError] = useUserFollowings(currentUserId);
+  useErrorLog(followingsError);
+  const [followers, followersError] = useUserFollowers(currentUserId);
+  useErrorLog(followersError);
+
   const [creatingRoom, setCreatingRoom] = useState(false);
   const [createRoomError, setCreateRoomError] = useState<Error | null>(null);
   useErrorLog(createRoomError);
@@ -71,7 +78,7 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     return <LoginScreen title="My page" />;
   }
 
-  if (userRooms === null) {
+  if (userRooms === null || followings === null || followers === null) {
     return <LoadingScreen />;
   }
 
@@ -86,6 +93,22 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
           Open your room
         </WideNiceButton>
       </p>
+      <h2>Followings</h2>
+      <ul>
+        {followings.map((user) => (
+          <li key={user.id}>
+            <Link to={userViewPagePath(user.id)}>{user.name}</Link>
+          </li>
+        ))}
+      </ul>
+      <h2>Followers</h2>
+      <ul>
+        {followers.map((user) => (
+          <li key={user.id}>
+            <Link to={userViewPagePath(user.id)}>{user.name}</Link>
+          </li>
+        ))}
+      </ul>
       <h2>My rooms</h2>
       <ul>
         {userRooms.map((room) => (
