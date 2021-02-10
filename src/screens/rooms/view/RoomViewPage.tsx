@@ -7,7 +7,7 @@ import { functions } from "../../../models/firebase";
 import { saveRoom, useRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
-import { NiceButton } from "../../../shared/pure/NiceButton";
+import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import {
   useAgoraChannelParticipants,
@@ -182,16 +182,16 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>Owner: {owner.name}</p>
       {room.state === "preparing" && (
         <p>
-          <NiceButton disabled={updatingRoom} onClick={onOpenRoomClick}>
+          <WideNiceButton disabled={updatingRoom} onClick={onOpenRoomClick}>
             🎉 Open room
-          </NiceButton>
+          </WideNiceButton>
         </p>
       )}
       {room.state !== "closed" && (
         <p>
-          <NiceButton disabled={updatingRoom} onClick={onCloseRoomClick}>
+          <WideNiceButton disabled={updatingRoom} onClick={onCloseRoomClick}>
             👋 Close room
-          </NiceButton>
+          </WideNiceButton>
         </p>
       )}
       <hr />

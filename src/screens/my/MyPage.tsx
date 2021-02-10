@@ -6,7 +6,7 @@ import { auth } from "../../models/firebase";
 import { createRoom } from "../../models/Room";
 import { saveRoom, useUserRooms } from "../../models/RoomDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
-import { NiceButton } from "../../shared/pure/NiceButton";
+import { WideNiceButton } from "../../shared/pure/WideNiceButton";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -78,12 +78,9 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
         <Link to={profileEditPagePath()}>Edit my profile</Link>
       </p>
       <p>
-        <NiceButton disabled={creatingRoom} onClick={onOpenRoomClick}>
+        <WideNiceButton disabled={creatingRoom} onClick={onOpenRoomClick}>
           Open your room
-        </NiceButton>
-      </p>
-      <p>
-        <NiceButton onClick={onLogOutClick}>Log out</NiceButton>
+        </WideNiceButton>
       </p>
       <h2>My rooms</h2>
       <ul>
@@ -95,6 +92,10 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
           </li>
         ))}
       </ul>
+      <h2>Session</h2>
+      <p>
+        <WideNiceButton onClick={onLogOutClick}>Log out</WideNiceButton>
+      </p>
     </BasicLayout>
   );
 };
