@@ -1,9 +1,12 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { useOpenRooms } from "../../models/RoomDb";
+import { User } from "../../models/User";
+import { getUserCollection, ssToUser } from "../../models/UserDb";
 import { NiceButton } from "../../shared/pure/NiceButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -11,6 +14,7 @@ import { loginPagePath } from "../login/LoginPage";
 import { myPagePath } from "../my/MyPage";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicHeaderFrame } from "../shared/BasicHeaderFrame";
+import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
 
 const mapState = (state: AppState) => ({
@@ -23,6 +27,21 @@ const HomePageBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ currentUserId }) => {
   useCurrentUserStore();
+  const [users, setUsers] = useState<User[] | null>(null);
+
+  // temporary user list
+  useEffect(() => {
+    getUserCollection()
+      .get()
+      .then(async (ss) => {
+        const newUsers = await ss.docs.map((v) => ssToUser(v));
+        setUsers(newUsers);
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      });
+  }, []);
 
   return (
     <div className="HomePage">
@@ -43,6 +62,18 @@ const HomePageBase: React.FC<
           <Link to={myPagePath()}>▶️ Open your room in your page</Link>
         </p>
         <OpenRoomList />
+        <h2>Users (debug)</h2>
+        <ul>
+          {users ? (
+            users.map((user) => (
+              <li>
+                <Link to={userViewPagePath(user.id)}>{user.name}</Link>
+              </li>
+            ))
+          ) : (
+            <li>...</li>
+          )}
+        </ul>
       </div>
     </div>
   );
