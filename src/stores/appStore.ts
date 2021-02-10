@@ -8,6 +8,8 @@ export const appSlice = createSlice({
   name: "app",
   initialState: {
     currentUser: null as User | null,
+    currentUserFollowers: null as User[] | null,
+    currentUserFollowings: null as User[] | null,
     currentUserId: null as string | null,
   },
   reducers: {
@@ -16,6 +18,26 @@ export const appSlice = createSlice({
         ...state,
         currentUser: action.payload.currentUser,
         currentUserId: action.payload.currentUser?.id || "",
+      };
+    },
+
+    setCurrentUserFollowers(
+      state,
+      action: PayloadAction<{ currentUserFollowers: User[] }>
+    ) {
+      return {
+        ...state,
+        currentUserFollowers: action.payload.currentUserFollowers,
+      };
+    },
+
+    setCurrentUserFollowings(
+      state,
+      action: PayloadAction<{ currentUserFollowings: User[] }>
+    ) {
+      return {
+        ...state,
+        currentUserFollowings: action.payload.currentUserFollowings,
       };
     },
 

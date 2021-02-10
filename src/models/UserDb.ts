@@ -40,6 +40,11 @@ export async function follow(userId: string): Promise<void> {
   await f({ userId });
 }
 
+export async function unfollow(userId: string): Promise<void> {
+  const f = functions.httpsCallable("unfollow");
+  await f({ userId });
+}
+
 export async function getUserFollowings(userId: string): Promise<User[]> {
   const ss = await getUserFollowingCollection(userId)
     .orderBy("createdAt", "desc")

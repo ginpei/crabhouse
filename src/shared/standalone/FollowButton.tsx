@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { User } from "../../models/User";
-import { follow } from "../../models/UserDb";
+import { follow, unfollow } from "../../models/UserDb";
 import { profileEditPagePath } from "../../screens/my/profileEdit/ProfileEditPage";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -11,6 +11,7 @@ import { NiceButton } from "../pure/NiceButton";
 
 const mapState = (state: AppState) => ({
   currentUser: state.currentUser,
+  currentUserFollowings: state.currentUserFollowings,
   currentUserId: state.currentUserId,
 });
 
@@ -18,17 +19,23 @@ const FollowButtonBase: React.FC<
   ReturnType<typeof mapState> & {
     user: User;
   }
-> = ({ currentUser, currentUserId, user }) => {
+> = ({ currentUser, currentUserFollowings, currentUserId, user }) => {
   useCurrentUserStore();
   const [following, setFollowing] = useState(false);
   const [followError, setFollowError] = useState<Error | null>(null);
   useErrorLog(followError);
   const history = useHistory();
 
+  const isFollowing = currentUserFollowings?.some((v) => v.id === user.id);
+
   const onFollowClick = async () => {
     setFollowing(true);
     try {
-      await follow(user.id);
+      if (isFollowing) {
+        await unfollow(user.id);
+      } else {
+        await follow(user.id);
+      }
     } catch (error) {
       setFollowError(error);
     } finally {
@@ -36,7 +43,7 @@ const FollowButtonBase: React.FC<
     }
   };
 
-  if (currentUserId === null) {
+  if (currentUserId === null || currentUserFollowings === null) {
     return (
       <FollowButtonFrame style={{ visibility: "hidden" }}></FollowButtonFrame>
     );
@@ -52,7 +59,7 @@ const FollowButtonBase: React.FC<
 
   return (
     <FollowButtonFrame disabled={following} onClick={onFollowClick}>
-      Follow
+      {isFollowing ? "Unfollow" : "Follow"}
     </FollowButtonFrame>
   );
 };

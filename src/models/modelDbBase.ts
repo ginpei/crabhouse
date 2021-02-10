@@ -11,6 +11,7 @@ import {
   DocumentSnapshot,
   isTimestamp,
   QueryDocumentSnapshot,
+  QuerySnapshot,
   Timestamp,
 } from "./firebase";
 
@@ -141,4 +142,15 @@ export function useCollection<T extends DataRecord>(
   }, [ref, ssToModel]);
 
   return [items, error];
+}
+
+export function onCollectionSnapshot<T extends DataRecord>(
+  ref: CollectionReference | null,
+  ssToModel: (ss: QueryDocumentSnapshot) => T,
+  callback: (models: T[], ss: QuerySnapshot) => void
+): (() => void) | undefined {
+  return ref?.onSnapshot((ss) => {
+    const models = ss.docs.map((v) => ssToModel(v));
+    callback(models, ss);
+  });
 }

@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import {generateToken} from "./generateToken";
 export * from "./follow";
+export * from "./unfollow";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript

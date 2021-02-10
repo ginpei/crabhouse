@@ -2,8 +2,15 @@ import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
 import { auth } from "../models/firebase";
+import { onCollectionSnapshot } from "../models/modelDbBase";
 import { createUser } from "../models/User";
-import { onUserSnapshot, saveUser } from "../models/UserDb";
+import {
+  getUserFollowerCollection,
+  getUserFollowingCollection,
+  onUserSnapshot,
+  saveUser,
+  ssToUser,
+} from "../models/UserDb";
 import { appSlice, appStore } from "./appStore";
 
 export function useCurrentUserStore(): void {
@@ -49,4 +56,32 @@ export function useCurrentUserStore(): void {
       appStore.dispatch(action);
     });
   }, [authCurrentUser?.displayName, userId]);
+
+  useEffect(() => {
+    if (!userId) {
+      return noop;
+    }
+
+    const ref = getUserFollowerCollection(userId);
+    return onCollectionSnapshot(ref, ssToUser, (currentUserFollowers) => {
+      const action = appSlice.actions.setCurrentUserFollowers({
+        currentUserFollowers,
+      });
+      appStore.dispatch(action);
+    });
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId) {
+      return noop;
+    }
+
+    const ref = getUserFollowingCollection(userId);
+    return onCollectionSnapshot(ref, ssToUser, (currentUserFollowings) => {
+      const action = appSlice.actions.setCurrentUserFollowings({
+        currentUserFollowings,
+      });
+      appStore.dispatch(action);
+    });
+  }, [userId]);
 }
