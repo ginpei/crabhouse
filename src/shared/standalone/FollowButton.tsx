@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { User } from "../../models/User";
 import { follow, unfollow } from "../../models/UserDb";
-import { profileEditPagePath } from "../../screens/my/profileEdit/ProfileEditPage";
+import { myPagePath } from "../../screens/my/MyPage";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { NiceButton } from "../pure/NiceButton";
@@ -51,8 +51,8 @@ const FollowButtonBase: React.FC<
 
   if (currentUser && currentUser.id === user.id) {
     return (
-      <FollowButtonFrame onClick={() => history.push(profileEditPagePath())}>
-        Edit
+      <FollowButtonFrame onClick={() => history.push(myPagePath())}>
+        My page
       </FollowButtonFrame>
     );
   }

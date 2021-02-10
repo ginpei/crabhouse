@@ -90,7 +90,9 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
   return (
     <BasicLayout className="MyPage" title={currentUser.name}>
       <p>My page</p>
-      <h1>{currentUser.name}</h1>
+      <h1>
+        <Link to={userViewPagePath(currentUserId)}>{currentUser.name}</Link>
+      </h1>
       <p>
         <Link to={profileEditPagePath()}>Edit my profile</Link>
       </p>
