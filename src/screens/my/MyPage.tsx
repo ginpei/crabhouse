@@ -78,13 +78,19 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     return <LoginScreen title="My page" />;
   }
 
-  if (userRooms === null || followings === null || followers === null) {
+  if (
+    currentUser === null ||
+    userRooms === null ||
+    followings === null ||
+    followers === null
+  ) {
     return <LoadingScreen />;
   }
 
   return (
-    <BasicLayout className="MyPage" title="My page">
-      <h1>MyPage</h1>
+    <BasicLayout className="MyPage" title={currentUser.name}>
+      <p>My page</p>
+      <h1>{currentUser.name}</h1>
       <p>
         <Link to={profileEditPagePath()}>Edit my profile</Link>
       </p>
