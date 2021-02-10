@@ -9,6 +9,9 @@
   --theme2-bg: hsl(210, 100%, 95%);
   --theme2-border-color: hsl(210, 50%, 80%);
   --theme2-fg: hsl(210, 50%, 30%);
+  --danger-bg: hsl(0, 100%, 95%);
+  --danger-border-color: hsl(0, 50%, 80%);
+  --danger-fg: hsl(0, 50%, 30%);
 }
 
 body {

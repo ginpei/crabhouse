@@ -2,14 +2,20 @@ import { DetailedHTMLProps } from "react";
 import { jcn } from "../../misc/misc";
 import "./NiceButton.scss";
 
+export type NiceButtonStyle = "normal" | "danger";
+
 export const NiceButton: React.FC<
   DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >
-> = ({ children, className, ...props }) => {
+  > & { niceStyle?: NiceButtonStyle }
+> = ({ children, className, niceStyle = "normal", ...props }) => {
   return (
-    <button className={jcn(className, "NiceButton")} {...props}>
+    <button
+      className={jcn(className, "NiceButton")}
+      data-NiceButton-style={niceStyle}
+      {...props}
+    >
       {children}
     </button>
   );

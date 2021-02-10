@@ -189,7 +189,11 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       )}
       {room.state !== "closed" && (
         <p>
-          <WideNiceButton disabled={updatingRoom} onClick={onCloseRoomClick}>
+          <WideNiceButton
+            disabled={updatingRoom}
+            niceStyle="danger"
+            onClick={onCloseRoomClick}
+          >
             👋 Close room
           </WideNiceButton>
         </p>
