@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import { RtcTokenBuilder, RtcRole } from "agora-access-token";
+import {RtcTokenBuilder, RtcRole} from "agora-access-token";
 
 // TODO find values from env
 const appID = functions.config().agora.app_id;
@@ -11,14 +11,14 @@ const lifeTimeSec = 60 * 60; // 60 min in sec
  */
 export function generateToken(channelName: string, uid: number): string {
   if (!appID) {
-    throw new Error("Agora app ID is required")
+    throw new Error("Agora app ID is required");
   }
 
   if (!appCertificate) {
-    throw new Error("Agora app certificate is required")
+    throw new Error("Agora app certificate is required");
   }
 
-    if (uid === 0) {
+  if (uid === 0) {
     // 0 means for anyone. See document
     throw new Error("You cannot open token");
   }
@@ -27,12 +27,12 @@ export function generateToken(channelName: string, uid: number): string {
   const privilegeExpiredTs = Math.floor(Date.now() / 1000) + lifeTimeSec;
 
   const token = RtcTokenBuilder.buildTokenWithUid(
-    appID,
-    appCertificate,
-    channelName,
-    uid,
-    role,
-    privilegeExpiredTs
+      appID,
+      appCertificate,
+      channelName,
+      uid,
+      role,
+      privilegeExpiredTs
   );
   return token;
 }
