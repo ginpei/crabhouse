@@ -67,7 +67,12 @@ const HeroLoginButton: React.FC<{ currentUserId: string | null }> = ({
   };
 
   if (currentUserId === null) {
-    return null;
+    return (
+      <NiceButton
+        className="HomePage-HeroLoginButton"
+        style={{ visibility: "hidden" }}
+      />
+    );
   }
 
   return (
