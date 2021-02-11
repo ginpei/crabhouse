@@ -4,6 +4,8 @@ import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
   joinAgoraChannel,
   leaveAgoraChannel,
+  publishAgora,
+  unpublishAgora,
   useAgoraClient,
   useAgoraConnectionState,
 } from "../../../stores/agora";
@@ -30,12 +32,22 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
 
-  const onUnmuteClick = async () => {
+  const onSpeakClick = async () => {
+    if (!agoraClient) {
+      throw new Error("Client must be prepared");
+    }
+
     setMuted(false);
+    await publishAgora(agoraClient);
   };
 
   const onMuteClick = async () => {
+    if (!agoraClient) {
+      throw new Error("Client must be prepared");
+    }
+
     setMuted(true);
+    await unpublishAgora(agoraClient);
   };
 
   const onOpenRoomClick = async () => {
@@ -85,7 +97,7 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
           <input
             checked={roomOpened && !muted}
             name="muted"
-            onChange={onUnmuteClick}
+            onChange={onSpeakClick}
             type="radio"
             value="false"
           />

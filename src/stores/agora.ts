@@ -33,8 +33,22 @@ export async function joinAgoraChannel(
 export async function leaveAgoraChannel(
   client: IAgoraRTCClient
 ): Promise<void> {
+  await unpublishAgora(client);
   await client.leave();
 }
+
+export async function publishAgora(client: IAgoraRTCClient): Promise<void> {
+  const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+  await client.publish([localAudioTrack]);
+}
+
+export async function unpublishAgora(client: IAgoraRTCClient): Promise<void> {
+  if (client.localTracks.length > 0) {
+    client.localTracks.forEach((v) => v.close());
+    client.unpublish();
+  }
+}
+
 export function useAgoraClient(): IAgoraRTCClient | null {
   const [client, setClient] = useState<IAgoraRTCClient | null>(null);
 
