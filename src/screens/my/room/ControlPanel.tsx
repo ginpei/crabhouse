@@ -48,7 +48,7 @@ export const ControlPanel: React.FC = () => {
           <input
             checked={roomOpened && !muted}
             name="muted"
-            onClick={onUnmuteClick}
+            onChange={onUnmuteClick}
             type="radio"
             value="false"
           />
@@ -58,7 +58,7 @@ export const ControlPanel: React.FC = () => {
           <input
             checked={roomOpened && muted}
             name="muted"
-            onClick={onMuteClick}
+            onChange={onMuteClick}
             type="radio"
             value="true"
           />
