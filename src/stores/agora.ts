@@ -6,12 +6,35 @@ import AgoraRTC, {
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
+import { functions } from "../models/firebase";
 
 export interface AgoraRemoteUser {
   id: UID;
   type: "LISTENER" | "SPEAKER";
 }
 
+const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
+
+export async function joinAgoraChannel(
+  client: IAgoraRTCClient,
+  currentUserId: string,
+  roomId: string
+): Promise<void> {
+  if (!agoraAppId) {
+    throw new NoAgoraAppIdError();
+  }
+
+  const getToken = functions.httpsCallable("getToken");
+  const { token } = (await getToken({ roomId })).data;
+
+  await client.join(agoraAppId, roomId, token, currentUserId);
+}
+
+export async function leaveAgoraChannel(
+  client: IAgoraRTCClient
+): Promise<void> {
+  await client.leave();
+}
 export function useAgoraClient(): IAgoraRTCClient | null {
   const [client, setClient] = useState<IAgoraRTCClient | null>(null);
 
@@ -95,4 +118,10 @@ export function useAgoraChannelParticipants(
     users.filter((v) => speakerIds.includes(v.uid)),
     users.filter((v) => !speakerIds.includes(v.uid)),
   ];
+}
+
+class NoAgoraAppIdError extends Error {
+  constructor() {
+    super("Agora app ID must be prepared");
+  }
 }

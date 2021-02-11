@@ -7,29 +7,29 @@ const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
 export const getToken = functions.https.onCall((data, context) => {
-  if (!context.auth) {
+  const currentUserId = context.auth?.uid;
+  if (!currentUserId) {
     throw new functions.https.HttpsError("permission-denied", "Not logged in");
   }
 
-  const {channelName: rawChannelName} = data;
-  const channelName = String(rawChannelName);
-  if (!channelName) {
+  const roomId = data.roomId;
+  if (!roomId || typeof roomId !== "string") {
     throw new functions.https.HttpsError(
         "invalid-argument",
-        "`channelName` is required"
+        "`roomId` is required"
     );
   }
 
-  const uid = Math.floor(Math.random() * 2 ** 30);
-  const token = generateToken(channelName, uid);
+  // const uid = Math.floor(Math.random() * 2 ** 30);
+  const token = generateToken(roomId, currentUserId);
 
-  return {channelName, token, uid};
+  return {roomId, token, currentUserId};
 });
 
 /**
  * https://docs.agora.io/en/Voice/token_server?platform=All%20Platforms
  */
-function generateToken(channelName: string, uid: number): string {
+function generateToken(channelName: string, userId: string): string {
   if (!appID) {
     throw new Error("Agora app ID is required");
   }
@@ -38,19 +38,28 @@ function generateToken(channelName: string, uid: number): string {
     throw new Error("Agora app certificate is required");
   }
 
-  if (uid === 0) {
-    // 0 means for anyone. See document
-    throw new Error("You cannot open token");
+  if (!channelName) {
+    throw new functions.https.HttpsError(
+        "invalid-argument",
+        "Channel name is required"
+    );
+  }
+
+  if (!userId) {
+    throw new functions.https.HttpsError(
+        "invalid-argument",
+        "User ID is required"
+    );
   }
 
   const role = RtcRole.PUBLISHER;
   const privilegeExpiredTs = Math.floor(Date.now() / 1000) + lifeTimeSec;
 
-  const token = RtcTokenBuilder.buildTokenWithUid(
+  const token = RtcTokenBuilder.buildTokenWithAccount(
       appID,
       appCertificate,
       channelName,
-      uid,
+      userId,
       role,
       privilegeExpiredTs
   );
