@@ -1,3 +1,4 @@
+import { ConnectionState } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
@@ -25,7 +26,10 @@ const mapState = (state: AppState) => ({
 const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
+  // it has intermediate state
   const [roomOpened, setRoomOpened] = useState(false);
+  const [roomClosed, setRoomClosed] = useState(true);
+
   const [muted, setMuted] = useState(false);
   const [updatingRoom, setUpdatingRoom] = useState(false);
 
@@ -73,24 +77,19 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
   useEffect(() => {
     if (agoraState === "CONNECTED") {
       setRoomOpened(true);
+      setRoomClosed(false);
     } else if (agoraState === "DISCONNECTED") {
       setRoomOpened(false);
+      setRoomClosed(true);
     }
+    // and ignore the other states like "CONNECTING"
   }, [agoraState]);
 
   return (
     <div className="MyRoomPage-ControlPanel">
       <p>Agora [{agoraState}]</p>
       <p>
-        {"Status: "}
-        {roomOpened ? (
-          <strong>
-            Broadcasting...
-            <span className="MyRoomPage-speakerIcon">🔊</span>
-          </strong>
-        ) : (
-          <strong>Ready.</strong>
-        )}
+        Status: <RoomState state={agoraState} />
       </p>
       <p className="MyRoomPage-ControlPanel-micIndicator">
         <label className="NiceButton">
@@ -115,16 +114,13 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
         </label>
       </p>
       <p>
-        <WideNiceButton
-          disabled={roomOpened || updatingRoom}
-          onClick={onOpenRoomClick}
-        >
+        <WideNiceButton disabled={roomOpened} onClick={onOpenRoomClick}>
           🎉 Open room
         </WideNiceButton>
       </p>
       <p>
         <WideNiceButton
-          disabled={!roomOpened || updatingRoom}
+          disabled={roomClosed}
           niceStyle="danger"
           onClick={onCloseRoomClick}
         >
@@ -136,3 +132,20 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
 };
 
 export const ControlPanel = connect(mapState)(ControlPanelBase);
+
+const RoomState: React.FC<{ state: ConnectionState | "" }> = ({ state }) => {
+  if (state === "CONNECTED") {
+    return (
+      <strong>
+        Broadcasting...
+        <span className="MyRoomPage-speakerIcon">🔊</span>
+      </strong>
+    );
+  }
+
+  if (state === "CONNECTING" || state === "DISCONNECTING") {
+    return <>…</>;
+  }
+
+  return <strong>Ready.</strong>;
+};
