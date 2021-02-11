@@ -31,7 +31,6 @@ const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
   const [roomClosed, setRoomClosed] = useState(true);
 
   const [muted, setMuted] = useState(false);
-  const [updatingRoom, setUpdatingRoom] = useState(false);
 
   const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
