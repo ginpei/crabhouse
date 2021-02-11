@@ -2,6 +2,7 @@ import { useState } from "react";
 import { sleep } from "../../../misc/misc";
 import { NiceButton } from "../../../shared/pure/NiceButton";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
+import "./ControlPanel.scss";
 
 export const ControlPanel: React.FC = () => {
   const [roomOpened, setRoomOpened] = useState(false);
@@ -31,7 +32,7 @@ export const ControlPanel: React.FC = () => {
   };
 
   return (
-    <div className="ControlPanel">
+    <div className="MyRoomPage-ControlPanel">
       <p>
         {"Status: "}
         {roomOpened ? (
@@ -43,14 +44,27 @@ export const ControlPanel: React.FC = () => {
           <strong>Ready.</strong>
         )}
       </p>
-      <p className="MyRoomPage-controlPanel">
-        <span className="ui-center">{muted ? "🔇" : "💬"}</span>
-        <NiceButton disabled={!roomOpened || !muted} onClick={onUnmuteClick}>
+      <p className="MyRoomPage-ControlPanel-micIndicator">
+        <label className="NiceButton">
+          <input
+            checked={roomOpened && !muted}
+            name="muted"
+            onClick={onUnmuteClick}
+            type="radio"
+            value="false"
+          />
           💬 Speak
-        </NiceButton>
-        <NiceButton disabled={!roomOpened || muted} onClick={onMuteClick}>
+        </label>
+        <label className="NiceButton">
+          <input
+            checked={roomOpened && muted}
+            name="muted"
+            onClick={onMuteClick}
+            type="radio"
+            value="true"
+          />
           🔇 Mute
-        </NiceButton>
+        </label>
       </p>
       <p>
         <WideNiceButton
