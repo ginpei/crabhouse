@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { sleep } from "../../../misc/misc";
-import { NiceButton } from "../../../shared/pure/NiceButton";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import "./ControlPanel.scss";
 
