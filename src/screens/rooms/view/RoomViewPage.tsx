@@ -54,7 +54,7 @@ const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
   // const [agoraUserId, setAgoraUserId] = useState<UID>("");
   const agoraUserId = useMemo(() => Math.floor(Math.random() * 2 ** 30), []);
 
-  const connected = agoraState !== "" && agoraState !== "DISCONNECTED";
+  const connected = agoraState !== "DISCONNECTED";
   const disconnected = agoraState !== "CONNECTED";
 
   const getToken = functions.httpsCallable("getToken");

@@ -69,14 +69,16 @@ export function useAgoraClient(): IAgoraRTCClient | null {
 
 export function useAgoraConnectionState(
   client: IAgoraRTCClient | null
-): ConnectionState | "" {
-  const [state, setState] = useState<ConnectionState | "">("");
+): ConnectionState {
+  const [state, setState] = useState(client?.connectionState ?? "DISCONNECTED");
 
   useEffect(() => {
-    setState("");
     if (!client) {
+      setState("DISCONNECTED");
       return noop;
     }
+
+    setState(client.connectionState);
 
     const listener = (newState: ConnectionState) => {
       setState(newState);
