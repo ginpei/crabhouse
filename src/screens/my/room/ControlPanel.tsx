@@ -44,9 +44,9 @@ export const ControlPanel: React.FC = () => {
         )}
       </p>
       <p className="MyRoomPage-controlPanel">
-        <span className="ui-center">{muted ? "🔇" : "🔊"}</span>
+        <span className="ui-center">{muted ? "🔇" : "💬"}</span>
         <NiceButton disabled={!roomOpened || !muted} onClick={onUnmuteClick}>
-          🔊 Unmute
+          💬 Speak
         </NiceButton>
         <NiceButton disabled={!roomOpened || muted} onClick={onMuteClick}>
           🔇 Mute
