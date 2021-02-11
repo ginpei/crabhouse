@@ -26,13 +26,14 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
     return <LoadingScreen />;
   }
 
-  if (currentUserId === "") {
+  if (currentUserId === "" || currentUser === null) {
     return <LoginScreen title="My room" />;
   }
 
   return (
     <BasicLayout className="MyRoomPage" title="My room">
-      <h1>My room</h1>
+      <p>My room</p>
+      <h1>{currentUser.name}'s room</h1>
       <ControlPanel />
       <h2>Speakers (0)</h2>
       <h2>Reactions (0)</h2>
