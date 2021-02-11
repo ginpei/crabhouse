@@ -1,4 +1,4 @@
-import { ConnectionState } from "agora-rtc-sdk-ng";
+import { ConnectionState, IAgoraRTCClient } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
@@ -7,7 +7,6 @@ import {
   leaveAgoraChannel,
   publishAgora,
   unpublishAgora,
-  useAgoraClient,
   useAgoraConnectionState,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
@@ -23,16 +22,17 @@ const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
 });
 
-const ControlPanelBase: React.FC<ReturnType<typeof mapState>> = ({
-  currentUserId,
-}) => {
+const ControlPanelBase: React.FC<
+  ReturnType<typeof mapState> & {
+    agoraClient: IAgoraRTCClient;
+  }
+> = ({ agoraClient, currentUserId }) => {
   // it has intermediate state
   const [roomOpened, setRoomOpened] = useState(false);
   const [roomClosed, setRoomClosed] = useState(true);
 
   const [muted, setMuted] = useState(false);
 
-  const agoraClient = useAgoraClient();
   const agoraState = useAgoraConnectionState(agoraClient);
 
   const onSpeakClick = async () => {
