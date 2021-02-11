@@ -13,6 +13,7 @@ import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicLayout } from "../shared/BasicLayout";
+import { userRoomPagePath } from "../users/room/UserRoomPage";
 import { userViewPagePath } from "../users/UserViewPage";
 import { profileEditPagePath } from "./profileEdit/ProfileEditPage";
 
@@ -95,6 +96,9 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
       </h1>
       <p>
         <Link to={profileEditPagePath()}>Edit my profile</Link>
+      </p>
+      <p>
+        <Link to={userRoomPagePath(currentUserId)}>My room</Link>
       </p>
       <p>
         <WideNiceButton disabled={creatingRoom} onClick={onOpenRoomClick}>

@@ -14,6 +14,10 @@ import {
   RoomViewPage,
   roomViewPagePath,
 } from "../screens/rooms/view/RoomViewPage";
+import {
+  UserRoomPage,
+  userRoomPagePath,
+} from "../screens/users/room/UserRoomPage";
 import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
 import { NotFoundPage } from "../shared/screens/NotFoundPage";
 
@@ -25,6 +29,11 @@ export const AppRouter: React.FC = () => {
           exact={true}
           path={userViewPagePath(null)}
           component={UserViewPage}
+        />
+        <Route
+          exact={true}
+          path={userRoomPagePath(null)}
+          component={UserRoomPage}
         />
         <Route
           exact={true}

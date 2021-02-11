@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { AppError } from "../../models/AppError";
 import { useUser } from "../../models/UserDb";
@@ -10,6 +10,7 @@ import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { BasicLayout } from "../shared/BasicLayout";
+import { userRoomPagePath } from "./room/UserRoomPage";
 
 export function userViewPagePath(userId: string | null): string {
   return `/users/${userId ?? ":userId"}`;
@@ -60,6 +61,9 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h1>{userName}</h1>
       <p>
         <FollowButton user={user} />
+      </p>
+      <p>
+        <Link to={userRoomPagePath(user.id)}>Visit {user.name}'s room</Link>
       </p>
     </BasicLayout>
   );
