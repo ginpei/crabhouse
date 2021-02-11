@@ -1,6 +1,10 @@
 .MyRoomPage-ControlPanel-micIndicator {
   align-content: center;
   display: grid;
+  gap: 1px;
   grid-template-columns: 1fr 1fr;
   justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: min(400px, 100%);
 }
