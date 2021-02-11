@@ -8,7 +8,6 @@
   border-style: solid;
   border-width: 1px;
   color: var(--NiceButton-fg);
-  cursor: pointer;
   font-family: -apple-system, Roboto, sans-serif;
   padding: 0.5em 1em;
 
@@ -17,6 +16,8 @@
   }
 
   &:not(:disabled) {
+    cursor: pointer;
+
     &:hover,
     &:focus {
       --NiceButton-bg: hsl(210, 100%, 97%);
