@@ -1,6 +1,8 @@
 import * as functions from "firebase-functions";
 import {db} from "./firebase";
 
+// TODO reflect user profile update
+
 export const follow = functions.https.onCall(async (data, context) => {
   const userId = context.auth?.uid;
   if (!userId) {
