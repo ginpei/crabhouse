@@ -16,18 +16,20 @@
     filter: grayscale(0.8);
   }
 
-  &:not(:disabled):hover,
-  &:not(:disabled):focus {
-    --NiceButton-bg: hsl(210, 100%, 97%);
-  }
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      --NiceButton-bg: hsl(210, 100%, 97%);
+    }
 
-  &:not(:disabled):active {
-    --NiceButton-bg: hsl(210, 100%, 90%);
-  }
+    &:active {
+      --NiceButton-bg: hsl(210, 100%, 90%);
+    }
 
-  &[data-nicebutton-style="danger"] {
-    --NiceButton-bg: var(--danger-bg);
-    --NiceButton-border-color: var(--danger-border-color);
-    --NiceButton-fg: var(--danger-fg);
+    &[data-nicebutton-style="danger"] {
+      --NiceButton-bg: var(--danger-bg);
+      --NiceButton-border-color: var(--danger-border-color);
+      --NiceButton-fg: var(--danger-fg);
+    }
   }
 }

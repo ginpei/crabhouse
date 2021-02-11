@@ -1,0 +1,20 @@
+.MyRoomPage-speakerIcon {
+  animation: MyRoomPage-speakerIcon 1s infinite;
+  display: inline-block;
+
+  @keyframes MyRoomPage-speakerIcon {
+    0% { transform: scale(1); }
+    80% { transform: scale(1); }
+    85% { transform: scale(1.5); }
+    90% { transform: scale(1); }
+    95% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+}
+
+.MyRoomPage-controlPanel {
+  align-content: center;
+  display: grid;
+  grid-template-columns: 3rem 1fr 1fr;
+  justify-content: center;
+}

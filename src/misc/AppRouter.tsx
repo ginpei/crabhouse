@@ -6,6 +6,7 @@ import {
   ProfileEditPage,
   profileEditPagePath,
 } from "../screens/my/profileEdit/ProfileEditPage";
+import { MyRoomPage, myRoomPagePath } from "../screens/my/room/MyRoomPage";
 import {
   RoomCreatePage,
   roomCreatePagePath,
@@ -46,6 +47,7 @@ export const AppRouter: React.FC = () => {
           component={RoomViewPage}
         />
         <Route exact={true} path={myPagePath()} component={MyPage} />
+        <Route exact={true} path={myRoomPagePath()} component={MyRoomPage} />
         <Route
           exact={true}
           path={profileEditPagePath()}

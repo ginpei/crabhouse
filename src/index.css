@@ -42,3 +42,9 @@ code {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.ui-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
