@@ -1,3 +1,4 @@
 export * from "./follow";
-export * from "./generateToken";
+export * from "./getRoomToken";
 export * from "./unfollow";
+

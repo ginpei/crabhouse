@@ -6,7 +6,7 @@ const appID = functions.config().agora.app_id;
 const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
-export const getToken = functions.https.onCall((data, context) => {
+export const getRoomToken = functions.https.onCall((data, context) => {
   const currentUserId = context.auth?.uid;
   if (!currentUserId) {
     throw new functions.https.HttpsError("permission-denied", "Not logged in");

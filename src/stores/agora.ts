@@ -24,8 +24,8 @@ export async function joinAgoraChannel(
     throw new NoAgoraAppIdError();
   }
 
-  const getToken = functions.httpsCallable("getToken");
-  const { token } = (await getToken({ roomId })).data;
+  const getRoomToken = functions.httpsCallable("getRoomToken");
+  const { token } = (await getRoomToken({ roomId })).data;
 
   await client.join(agoraAppId, roomId, token, currentUserId);
 }
