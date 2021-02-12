@@ -5,7 +5,7 @@ import { AppError } from "../../models/AppError";
 import { useUser } from "../../models/UserDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
-import { NotFoundPage } from "../../shared/screens/NotFoundPage";
+import { NotFoundScreen } from "../../shared/screens/NotFoundScreen";
 import { FollowButton } from "../../shared/standalone/FollowButton";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
@@ -41,7 +41,7 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       userError instanceof AppError &&
       userError.code === "document-not-found"
     ) {
-      return <NotFoundPage targetName="User" />;
+      return <NotFoundScreen targetName="User" />;
     }
 
     // TODO create error page

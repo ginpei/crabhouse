@@ -20,7 +20,7 @@ import {
   userRoomPagePath,
 } from "../screens/users/room/UserRoomPage";
 import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
-import { NotFoundPage } from "../shared/screens/NotFoundPage";
+import { NotFoundScreen } from "../shared/screens/NotFoundScreen";
 
 export const AppRouter: React.FC = () => {
   return (
@@ -55,7 +55,7 @@ export const AppRouter: React.FC = () => {
         />
         <Route exact={true} path={loginPagePath()} component={LoginPage} />
         <Route exact={true} path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
+        <Route component={NotFoundScreen} />
       </Switch>
     </Router>
   );
