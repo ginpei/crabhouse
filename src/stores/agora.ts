@@ -109,8 +109,11 @@ export function useAgoraChannelJoined(
     } else if (agoraState === "DISCONNECTED") {
       setOpened(false);
       setClosed(true);
+    } else {
+      // the other states like "CONNECTING"
+      setOpened(false);
+      setClosed(false);
     }
-    // and ignore the other states like "CONNECTING"
   }, [agoraState]);
 
   return [opened, closed];
