@@ -1,10 +1,14 @@
 import { IAgoraRTCClient } from "agora-rtc-sdk-ng";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { User } from "../../../models/User";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
   joinAgoraChannel,
   leaveAgoraChannel,
+  publishAgora,
+  unpublishAgora,
+  useAgoraChannelJoined,
   useAgoraConnectionState,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
@@ -18,8 +22,28 @@ const ControlPanelBase: React.FC<
   ReturnType<typeof mapState> & { agoraClient: IAgoraRTCClient; user: User }
 > = ({ agoraClient, currentUserId, user }) => {
   useCurrentUserStore();
+  const [muted, setMuted] = useState(true);
 
   const agoraState = useAgoraConnectionState(agoraClient);
+  const [listening, left] = useAgoraChannelJoined(agoraClient);
+
+  const onSpeakClick = async () => {
+    if (!agoraClient) {
+      throw new Error("Client must be prepared");
+    }
+
+    setMuted(false);
+    await publishAgora(agoraClient);
+  };
+
+  const onMuteClick = async () => {
+    if (!agoraClient) {
+      throw new Error("Client must be prepared");
+    }
+
+    setMuted(true);
+    await unpublishAgora(agoraClient);
+  };
 
   const onPlayClick = () => {
     if (!agoraClient) {
@@ -48,6 +72,33 @@ const ControlPanelBase: React.FC<
   return (
     <div className="UserRoomPage-ControlPanel">
       <p>State: [{agoraState}]</p>
+      <p
+        className="MyRoomPage-ControlPanel-micIndicator"
+        data-available={listening}
+      >
+        <label className="ui-center">
+          <input
+            checked={listening && !muted}
+            disabled={!listening}
+            name="muted"
+            onChange={onSpeakClick}
+            type="radio"
+            value="false"
+          />
+          💬 Speak
+        </label>
+        <label className="ui-center">
+          <input
+            checked={listening && muted}
+            disabled={!listening}
+            name="muted"
+            onChange={onMuteClick}
+            type="radio"
+            value="true"
+          />
+          🔇 Mute
+        </label>
+      </p>
       <WideNiceButton
         disabled={agoraState !== "DISCONNECTED"}
         className="UserRoomPage-playButton"
