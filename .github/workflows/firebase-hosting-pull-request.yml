@@ -21,6 +21,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CRABHOUSE_DEV }}'
-          projectId: crabhouse
+          projectId: crabhouse-dev
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
