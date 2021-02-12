@@ -31,7 +31,7 @@ const ControlPanelBase: React.FC<
   const [roomOpened, setRoomOpened] = useState(false);
   const [roomClosed, setRoomClosed] = useState(true);
 
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   const agoraState = useAgoraConnectionState(agoraClient);
 
@@ -71,6 +71,7 @@ const ControlPanelBase: React.FC<
     }
 
     leaveAgoraChannel(agoraClient);
+    setMuted(true);
   };
 
   useEffect(() => {
