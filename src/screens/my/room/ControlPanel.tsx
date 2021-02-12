@@ -14,12 +14,6 @@ import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import "./ControlPanel.scss";
 
-const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
-const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
-if (!projectId || !agoraAppId) {
-  throw new Error("Project ID and Agora app ID must be prepared");
-}
-
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
 });
