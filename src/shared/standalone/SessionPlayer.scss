@@ -1,0 +1,52 @@
+.SessionPlayer {
+  background-color: #f0f0f0;
+  border-top: solid 1px #999;
+  bottom: 0;
+  box-shadow: 0 0 0.5rem 0.5rem #fff;
+  box-sizing: border-box;
+  height: calc(4rem + 1px);
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  z-index: 10001; // larger than `.firebase-emulator-warning`
+}
+
+.SessionPlayer-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min(100%, 800px);
+  padding: 0 1rem;
+}
+
+.SessionPlayer-room {
+  line-height: 4rem;
+}
+
+.SessionPlayer-controls {
+  display: grid;
+}
+
+.SessionPlayer-button {
+  --SessionPlayer-button-bg: var(--theme2-bg);
+  --SessionPlayer-button-border-color: var(--theme2-border-color);
+  --SessionPlayer-button-fg: var(--theme2-fg);
+  background-color: var(--SessionPlayer-button-bg);
+  border-color: var(--SessionPlayer-button-border-color);
+  border-style: none solid;
+  border-width: 1px;
+  color: var(--SessionPlayer-button-fg);
+  cursor: pointer;
+  width: 4rem;
+
+  &:hover,
+  &:focus {
+    --SessionPlayer-button-bg: hsl(210, 100%, 97%);
+  }
+
+  &:active {
+    --SessionPlayer-button-bg: hsl(210, 100%, 90%);
+  }
+}

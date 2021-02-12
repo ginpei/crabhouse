@@ -15,7 +15,7 @@
 }
 
 body {
-  margin: 0;
+  margin: 0 0 calc(4rem + 3rem); /* have room at bottom for radio player */
   font-family: -apple-system, Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

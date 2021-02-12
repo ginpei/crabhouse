@@ -22,7 +22,7 @@ import {
 import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
 import { NotFoundScreen } from "../shared/screens/NotFoundScreen";
 
-export const AppRouter: React.FC = () => {
+export const AppRouter: React.FC = ({ children }) => {
   return (
     <Router>
       <Switch>
@@ -57,6 +57,7 @@ export const AppRouter: React.FC = () => {
         <Route exact={true} path="/" component={HomePage} />
         <Route component={NotFoundScreen} />
       </Switch>
+      {children}
     </Router>
   );
 };
