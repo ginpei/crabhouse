@@ -7,7 +7,7 @@ import { useCurrentUserStore } from "../../stores/currentUser";
 import { myPagePath } from "../my/MyPage";
 
 export function loginPagePath(): string {
-  return "/login";
+  return "/login/";
 }
 
 const mapState = (state: AppState) => ({

@@ -12,7 +12,7 @@ import { BasicLayout } from "../../shared/BasicLayout";
 import { roomViewPagePath } from "../view/RoomViewPage";
 
 export function roomCreatePagePath(): string {
-  return "/rooms/new";
+  return "/rooms/new/";
 }
 
 export const RoomCreatePageBase: React.FC<ReturnType<typeof mapState>> = ({

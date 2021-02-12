@@ -13,7 +13,7 @@ import { BasicLayout } from "../shared/BasicLayout";
 import { userRoomPagePath } from "./room/UserRoomPage";
 
 export function userViewPagePath(userId: string | null): string {
-  return `/users/${userId ?? ":userId"}`;
+  return `/users/${userId ?? ":userId"}/`;
 }
 
 const mapState = (state: AppState) => ({

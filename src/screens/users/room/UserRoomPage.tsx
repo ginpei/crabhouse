@@ -12,7 +12,7 @@ import { ControlPanel } from "./ControlPanel";
 import "./UserRoomPage.scss";
 
 export function userRoomPagePath(userId: string | null): string {
-  return `${userViewPagePath(userId)}/room`;
+  return `${userViewPagePath(userId)}room/`;
 }
 
 const mapState = (state: AppState) => ({

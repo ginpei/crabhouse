@@ -25,7 +25,7 @@ if (!projectId || !agoraAppId) {
 }
 
 export function roomViewPagePath(roomId: string | null): string {
-  return `/rooms/${roomId || ":roomId"}`;
+  return `/rooms/${roomId || ":roomId"}/`;
 }
 
 const RoomViewPageBase: React.FC<ReturnType<typeof mapState>> = ({

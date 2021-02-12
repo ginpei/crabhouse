@@ -12,7 +12,7 @@ import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
 
 export function profileEditPagePath(): string {
-  return "/my/editProfile";
+  return "/my/editProfile/";
 }
 
 const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({

@@ -15,7 +15,7 @@ import { ControlPanel } from "./ControlPanel";
 import "./MyRoomPage.scss";
 
 export function myRoomPagePath(): string {
-  return `${myPagePath()}/room`;
+  return `${myPagePath()}room/`;
 }
 
 const mapState = (state: AppState) => ({
