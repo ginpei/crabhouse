@@ -90,6 +90,32 @@ export function useAgoraConnectionState(
   return state;
 }
 
+/**
+ * Both `opened` and `closed` can be `false` in the same time.
+ * @example
+ * const [opened, closed] = useAgoraChannelJoined(client);
+ */
+export function useAgoraChannelJoined(
+  client: IAgoraRTCClient
+): [boolean, boolean] {
+  const agoraState = useAgoraConnectionState(client);
+  const [opened, setOpened] = useState(false);
+  const [closed, setClosed] = useState(true);
+
+  useEffect(() => {
+    if (agoraState === "CONNECTED") {
+      setOpened(true);
+      setClosed(false);
+    } else if (agoraState === "DISCONNECTED") {
+      setOpened(false);
+      setClosed(true);
+    }
+    // and ignore the other states like "CONNECTING"
+  }, [agoraState]);
+
+  return [opened, closed];
+}
+
 export function useAgoraChannelParticipants(
   client: IAgoraRTCClient | null
 ): [IAgoraRTCRemoteUser[], IAgoraRTCRemoteUser[]] {

@@ -1,5 +1,5 @@
 import { ConnectionState, IAgoraRTCClient } from "agora-rtc-sdk-ng";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
@@ -7,6 +7,7 @@ import {
   leaveAgoraChannel,
   publishAgora,
   unpublishAgora,
+  useAgoraChannelJoined,
   useAgoraConnectionState,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
@@ -27,13 +28,10 @@ const ControlPanelBase: React.FC<
     agoraClient: IAgoraRTCClient;
   }
 > = ({ agoraClient, currentUserId }) => {
-  // it has intermediate state
-  const [roomOpened, setRoomOpened] = useState(false);
-  const [roomClosed, setRoomClosed] = useState(true);
-
   const [muted, setMuted] = useState(true);
 
   const agoraState = useAgoraConnectionState(agoraClient);
+  const [roomOpened, roomClosed] = useAgoraChannelJoined(agoraClient);
 
   const onSpeakClick = async () => {
     if (!agoraClient) {
@@ -73,17 +71,6 @@ const ControlPanelBase: React.FC<
     leaveAgoraChannel(agoraClient);
     setMuted(true);
   };
-
-  useEffect(() => {
-    if (agoraState === "CONNECTED") {
-      setRoomOpened(true);
-      setRoomClosed(false);
-    } else if (agoraState === "DISCONNECTED") {
-      setRoomOpened(false);
-      setRoomClosed(true);
-    }
-    // and ignore the other states like "CONNECTING"
-  }, [agoraState]);
 
   return (
     <div className="MyRoomPage-ControlPanel">
