@@ -100,7 +100,7 @@ const ControlPanelBase: React.FC<
         </label>
       </p>
       <WideNiceButton
-        disabled={agoraState !== "DISCONNECTED"}
+        disabled={!left}
         className="UserRoomPage-playButton"
         onClick={onPlayClick}
       >
@@ -108,10 +108,7 @@ const ControlPanelBase: React.FC<
         <div className="UserRoomPage-playButtonLabel">Listen</div>
       </WideNiceButton>
       <p>
-        <WideNiceButton
-          disabled={agoraState !== "CONNECTED"}
-          onClick={onStopClick}
-        >
+        <WideNiceButton disabled={!listening} onClick={onStopClick}>
           ⏹ Stop
         </WideNiceButton>
       </p>
