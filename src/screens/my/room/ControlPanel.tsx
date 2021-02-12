@@ -90,10 +90,14 @@ const ControlPanelBase: React.FC<
       <p>
         Status: <RoomState state={agoraState} />
       </p>
-      <p className="MyRoomPage-ControlPanel-micIndicator">
-        <label className="NiceButton">
+      <p
+        className="MyRoomPage-ControlPanel-micIndicator"
+        data-available={roomOpened}
+      >
+        <label className="ui-center">
           <input
             checked={roomOpened && !muted}
+            disabled={!roomOpened}
             name="muted"
             onChange={onSpeakClick}
             type="radio"
@@ -101,9 +105,10 @@ const ControlPanelBase: React.FC<
           />
           💬 Speak
         </label>
-        <label className="NiceButton">
+        <label className="ui-center">
           <input
             checked={roomOpened && muted}
+            disabled={!roomOpened}
             name="muted"
             onChange={onMuteClick}
             type="radio"
