@@ -11,6 +11,7 @@ import {
   useAgoraConnectionState,
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
+import { useCurrentUserStore } from "../../../stores/currentUser";
 import "./ControlPanel.scss";
 
 const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
@@ -28,6 +29,7 @@ const ControlPanelBase: React.FC<
     agoraClient: IAgoraRTCClient;
   }
 > = ({ agoraClient, currentUserId }) => {
+  useCurrentUserStore();
   const [muted, setMuted] = useState(true);
 
   const agoraState = useAgoraConnectionState(agoraClient);
