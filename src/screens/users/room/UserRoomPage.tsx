@@ -21,12 +21,10 @@ export function userRoomPagePath(userId: string | null): string {
 }
 
 const mapState = (state: AppState) => ({
-  currentUser: state.currentUser,
   currentUserId: state.currentUserId,
 });
 
 const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
-  currentUser,
   currentUserId,
 }) => {
   useCurrentUserStore();
