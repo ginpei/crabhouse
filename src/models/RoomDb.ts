@@ -14,6 +14,7 @@ export const [
   getRoomCollection,
   getRoomDocument,
   useRoom,
+  useLiveRoom,
 ] = createModelFunctions<Room>({
   collectionName: "rooms",
   ssToModel: ssToRoom,

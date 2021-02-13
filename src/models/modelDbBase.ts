@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
-import { sleep } from "../misc/misc";
+import { noop, sleep } from "../misc/misc";
 import { AppError } from "./AppError";
 import { DataRecord } from "./DataRecord";
 import { DocumentData } from "./DataRecordDb";
@@ -24,7 +24,8 @@ export function createModelFunctions<T extends DataRecord>(options: {
   getModel: (id: string) => Promise<T>,
   getModelCollection: () => CollectionReference,
   getModelDocument: (id: string) => DocumentReference,
-  useModel: (id: string | null) => [T | null, Error | null]
+  useModel: (id: string | null) => [T | null, Error | null],
+  useLiveModel: (id: string | null) => [T | null, Error | null]
 ] {
   const {
     collectionName,
@@ -106,7 +107,46 @@ export function createModelFunctions<T extends DataRecord>(options: {
     return [model, error];
   }
 
-  return [saveModel, getModel, getModelCollection, getModelDocument, useModel];
+  function useLiveModel(id: string | null): [T | null, Error | null] {
+    const [model, setModel] = useState<T | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+
+    useEffect(() => {
+      setModel(null);
+      setError(null);
+
+      if (!id) {
+        return noop;
+      }
+
+      return getModelDocument(id).onSnapshot({
+        next(ss) {
+          // this is the 1st step of 2 steps that serverTimestamp() requires
+          const data = ss.data() || {};
+          if (!isTimestamp(data.createdAt) || !isTimestamp(data.updatedAt)) {
+            return;
+          }
+
+          const newModel = ssToModel(ss);
+          setModel(newModel);
+        },
+        error(newError) {
+          setError(newError);
+        },
+      });
+    }, [id]);
+
+    return [model, error];
+  }
+
+  return [
+    saveModel,
+    getModel,
+    getModelCollection,
+    getModelDocument,
+    useModel,
+    useLiveModel,
+  ];
 }
 
 export function defaultModelToDocumentData<T extends DataRecord>(
