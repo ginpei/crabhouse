@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useErrorLog } from "../../../misc/misc";
-import { getRoomStateLabel, Room } from "../../../models/Room";
-import { saveRoom, useLiveRoom } from "../../../models/RoomDb";
+import { useLiveRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
-import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import {
   useAgoraChannelParticipants,
@@ -17,6 +14,7 @@ import { BasicLayout } from "../../shared/BasicLayout";
 import { myPagePath } from "../MyPage";
 import { ControlPanel } from "./ControlPanel";
 import "./MyRoomPage.scss";
+import { RoomStateSection } from "./RoomStateSection";
 
 export function myRoomPagePath(): string {
   return `${myPagePath()}room/`;
@@ -76,70 +74,6 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 };
 
 export const MyRoomPage = connect(mapState)(MyRoomPageBase);
-
-const RoomStateSection: React.FC<{ room: Room }> = ({ room }) => {
-  const [dirty, setDirty] = useState(false);
-
-  const onClosedClick = () => {
-    setDirty(true);
-    saveRoom({ ...room, state: "closed" });
-    // TODO stop streaming
-  };
-
-  const onOpenClick = () => {
-    setDirty(true);
-    saveRoom({ ...room, state: "open" });
-  };
-
-  const onLiveClick = () => {
-    setDirty(true);
-    saveRoom({ ...room, state: "live" });
-    // TODO start streaming
-  };
-
-  useEffect(() => {
-    setDirty(false);
-  }, [room]);
-
-  return (
-    <details className="MyRoomPage-RoomStateSelect" open>
-      <summary>
-        Room state: {getRoomStateLabel(room)}
-        {room.state === "live" && (
-          <span className="MyRoomPage-speakerIcon">📡</span>
-        )}
-      </summary>
-      <p>
-        <WideNiceButton
-          disabled={dirty || room.state === "closed"}
-          onClick={onClosedClick}
-        >
-          🛌 Closed
-        </WideNiceButton>
-        Not available now
-      </p>
-      <p>
-        <WideNiceButton
-          disabled={dirty || room.state === "open"}
-          onClick={onOpenClick}
-        >
-          🎉 Open
-        </WideNiceButton>
-        Can join but not sounds yet
-      </p>
-      <p>
-        <WideNiceButton
-          disabled={dirty || room.state === "live"}
-          niceStyle="danger"
-          onClick={onLiveClick}
-        >
-          📡 Live
-        </WideNiceButton>
-        Can join and listen!
-      </p>
-    </details>
-  );
-};
 
 const UserInline: React.FC<{ id: string }> = ({ id }) => {
   const [user, userError] = useUser(id);
