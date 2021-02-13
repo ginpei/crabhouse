@@ -2,6 +2,9 @@
   --base-bg: #fff;
   --base-fg: #333;
   --base-font-family: -apple-system, Roboto, sans-serif;
+  --danger-bg: hsl(0, 100%, 95%);
+  --danger-border-color: hsl(0, 50%, 80%);
+  --danger-fg: hsl(0, 50%, 30%);
   --link-color: hsl(210, 90%, 30%);
   --link-hover-color: hsl(210, 90%, 45%);
   --theme-bg: hsl(210, 100%, 20%);
@@ -9,9 +12,6 @@
   --theme2-bg: hsl(210, 100%, 95%);
   --theme2-border-color: hsl(210, 50%, 80%);
   --theme2-fg: hsl(210, 50%, 30%);
-  --danger-bg: hsl(0, 100%, 95%);
-  --danger-border-color: hsl(0, 50%, 80%);
-  --danger-fg: hsl(0, 50%, 30%);
 }
 
 body {
