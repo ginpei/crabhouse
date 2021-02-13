@@ -32,7 +32,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const agoraClient = useAgoraClient();
   const [speakers, participants] = useAgoraChannelParticipants(agoraClient);
 
-  if (currentUserId === null || agoraClient === null) {
+  if (currentUserId === null) {
     return <LoadingScreen />;
   }
 

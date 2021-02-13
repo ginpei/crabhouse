@@ -31,7 +31,7 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [user, userError] = useUser(userId);
   useErrorLog(userError);
 
-  if (currentUserId === null || user === null || agoraClient === null) {
+  if (currentUserId === null || user === null) {
     return <LoadingScreen />;
   }
 
