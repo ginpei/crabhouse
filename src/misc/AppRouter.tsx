@@ -8,14 +8,6 @@ import {
 } from "../screens/my/profileEdit/ProfileEditPage";
 import { MyRoomPage, myRoomPagePath } from "../screens/my/room/MyRoomPage";
 import {
-  RoomCreatePage,
-  roomCreatePagePath,
-} from "../screens/rooms/create/RoomCreatePage";
-import {
-  RoomViewPage,
-  roomViewPagePath,
-} from "../screens/rooms/view/RoomViewPage";
-import {
   UserRoomPage,
   userRoomPagePath,
 } from "../screens/users/room/UserRoomPage";
@@ -35,16 +27,6 @@ export const AppRouter: React.FC = ({ children }) => {
           exact={true}
           path={userRoomPagePath(null)}
           component={UserRoomPage}
-        />
-        <Route
-          exact={true}
-          path={roomCreatePagePath()}
-          component={RoomCreatePage}
-        />
-        <Route
-          exact={true}
-          path={roomViewPagePath(null)}
-          component={RoomViewPage}
         />
         <Route exact={true} path={myPagePath()} component={MyPage} />
         <Route exact={true} path={myRoomPagePath()} component={MyRoomPage} />

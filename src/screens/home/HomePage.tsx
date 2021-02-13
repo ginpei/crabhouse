@@ -12,7 +12,6 @@ import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { loginPagePath } from "../login/LoginPage";
 import { myPagePath } from "../my/MyPage";
-import { roomViewPagePath } from "../rooms/view/RoomViewPage";
 import { BasicHeaderFrame } from "../shared/BasicHeaderFrame";
 import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
@@ -139,7 +138,7 @@ const OpenRoomList: React.FC = () => {
     <ul>
       {openRooms.map((room) => (
         <li key={room.id}>
-          <Link to={roomViewPagePath(room.id)}>{room.name}</Link>
+          <Link to={userViewPagePath(room.id)}>{room.name}</Link>
         </li>
       ))}
     </ul>
