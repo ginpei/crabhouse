@@ -28,6 +28,10 @@ export async function joinAgoraChannel(
     throw new NoAgoraAppIdError();
   }
 
+  if (client.connectionState !== "DISCONNECTED") {
+    leaveAgoraChannel(client);
+  }
+
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
   try {
     const getRoomToken = functions.httpsCallable("getRoomToken");
