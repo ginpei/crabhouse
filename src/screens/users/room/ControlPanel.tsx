@@ -1,8 +1,7 @@
 import { IAgoraRTCClient } from "agora-rtc-sdk-ng";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { useErrorLog } from "../../../misc/misc";
-import { useRoom } from "../../../models/RoomDb";
+import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
@@ -21,13 +20,14 @@ const mapState = (state: AppState) => ({
 });
 
 const ControlPanelBase: React.FC<
-  ReturnType<typeof mapState> & { agoraClient: IAgoraRTCClient; user: User }
-> = ({ agoraClient, currentUserId, user }) => {
+  ReturnType<typeof mapState> & {
+    agoraClient: IAgoraRTCClient;
+    room: Room;
+    user: User;
+  }
+> = ({ agoraClient, currentUserId, room, user }) => {
   useCurrentUserStore();
   const [muted, setMuted] = useState(true);
-
-  const [room, roomError] = useRoom(currentUserId);
-  useErrorLog(roomError);
 
   const agoraState = useAgoraConnectionState(agoraClient);
   const [listening, left] = useAgoraChannelJoined(agoraClient);
