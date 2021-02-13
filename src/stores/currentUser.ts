@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
 import { auth } from "../models/firebase";
 import { onCollectionSnapshot } from "../models/modelDbBase";
+import { createRoom } from "../models/Room";
+import { saveRoom } from "../models/RoomDb";
 import { createUser } from "../models/User";
 import {
   getUserFollowerCollection,
@@ -43,10 +45,15 @@ export function useCurrentUserStore(): void {
     // watch logged in user profile
     return onUserSnapshot(userId, async (currentUser, ss) => {
       if (!currentUser) {
-        saveUser(
-          createUser({
-            id: ss.id,
-            name: authCurrentUser?.displayName || "Kani",
+        const user = {
+          id: ss.id,
+          name: authCurrentUser?.displayName || "Kani",
+        };
+        saveUser(createUser(user));
+        saveRoom(
+          createRoom({
+            id: user.id,
+            name: `${user.name}'s room`,
           })
         );
         return;

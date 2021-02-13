@@ -25,24 +25,19 @@ service cloud.firestore {
       }
     }
 
-    match /rooms/{roomId} {
+    match /rooms/{userId} {
       // anybody
-      allow read:
-        if resource.data.state == "open"
-        || resource.data.state == "closed";
+      allow read;
 
       // owner
-      allow read: if resource.data.userId == request.auth.uid;
       allow create:
-        if request.resource.data.userId == request.auth.uid
+        if userId == request.auth.uid
         && isCreatedNow(request.resource)
         && isUpdatedNow(request.resource);
       allow update:
-        if request.auth.uid == resource.data.userId
-        && request.resource.data.userId == resource.data.userId
+        if userId == request.auth.uid
         && isUpdatedNow(request.resource)
         && isCorrectStateTransition(resource);
-      // allow delete: if request.auth.uid == resource.data.userId;
 
       function isCorrectStateTransition(room) {
         let none = room.data.state == request.resource.data.state;
