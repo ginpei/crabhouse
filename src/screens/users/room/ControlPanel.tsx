@@ -17,6 +17,7 @@ import { useCurrentUserStore } from "../../../stores/currentUser";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
+  participatingSession: state.participatingSession,
 });
 
 const ControlPanelBase: React.FC<
@@ -25,12 +26,15 @@ const ControlPanelBase: React.FC<
     room: Room;
     user: User;
   }
-> = ({ agoraClient, currentUserId, room, user }) => {
+> = ({ agoraClient, currentUserId, participatingSession, room, user }) => {
   useCurrentUserStore();
   const [muted, setMuted] = useState(true);
 
   const agoraState = useAgoraConnectionState(agoraClient);
-  const [listening, left] = useAgoraChannelJoined(agoraClient);
+  const [playing, stopped] = useAgoraChannelJoined(agoraClient);
+
+  const listening = participatingSession?.id === room.id && playing;
+  const left = participatingSession?.id !== room.id || stopped;
 
   const onSpeakClick = async () => {
     if (!agoraClient) {
