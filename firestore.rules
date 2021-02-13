@@ -36,16 +36,7 @@ service cloud.firestore {
         && isUpdatedNow(request.resource);
       allow update:
         if userId == request.auth.uid
-        && isUpdatedNow(request.resource)
-        && isCorrectStateTransition(resource);
-
-      function isCorrectStateTransition(room) {
-        let none = room.data.state == request.resource.data.state;
-        let opening = room.data.state == "preparing"
-          && request.resource.data.state == "open";
-        let closing = request.resource.data.state == "closed";
-        return none || opening || closing;
-      }
+        && isUpdatedNow(request.resource);
     }
 
     function isCreatedNow(resource) {
