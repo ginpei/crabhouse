@@ -1,4 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Room } from "../models/Room";
 import { User } from "../models/User";
 
 export type AppState = ReturnType<typeof appSlice["reducer"]>;
@@ -11,6 +12,8 @@ export const appSlice = createSlice({
     currentUserFollowers: null as User[] | null,
     currentUserFollowings: null as User[] | null,
     currentUserId: null as string | null,
+    participatingSession: null as Room | null,
+    sessionPlayerVisible: false,
   },
   reducers: {
     setCurrentUser(state, action: PayloadAction<{ currentUser: User | null }>) {
@@ -45,6 +48,22 @@ export const appSlice = createSlice({
       return {
         ...state,
         currentUserId: action.payload.currentUserId,
+      };
+    },
+
+    setPlayingSession(state, action: PayloadAction<{ room: Room | null }>) {
+      return {
+        ...state,
+        participatingSession: action.payload.room,
+        sessionPlayerVisible: true,
+      };
+    },
+
+    hideSessionPlayer(state) {
+      return {
+        ...state,
+        participatingSession: null,
+        sessionPlayerVisible: true,
       };
     },
   },

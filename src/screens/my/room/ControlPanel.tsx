@@ -1,6 +1,8 @@
 import { ConnectionState, IAgoraRTCClient } from "agora-rtc-sdk-ng";
 import { useState } from "react";
 import { connect } from "react-redux";
+import { useErrorLog } from "../../../misc/misc";
+import { useRoom } from "../../../models/RoomDb";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
   joinAgoraChannel,
@@ -25,6 +27,9 @@ const ControlPanelBase: React.FC<
 > = ({ agoraClient, currentUserId }) => {
   useCurrentUserStore();
   const [muted, setMuted] = useState(true);
+
+  const [room, roomError] = useRoom(currentUserId);
+  useErrorLog(roomError);
 
   const agoraState = useAgoraConnectionState(agoraClient);
   const [roomOpened, roomClosed] = useAgoraChannelJoined(agoraClient);
@@ -56,7 +61,11 @@ const ControlPanelBase: React.FC<
       throw new Error("User must have logged in");
     }
 
-    joinAgoraChannel(agoraClient, currentUserId, currentUserId);
+    if (!room) {
+      throw new Error("Room must be fetched");
+    }
+
+    joinAgoraChannel(agoraClient, currentUserId, room);
   };
 
   const onCloseRoomClick = async () => {
