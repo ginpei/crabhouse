@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
+import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { useAgoraClient } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
@@ -30,11 +31,15 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [user, userError] = useUser(userId);
   useErrorLog(userError);
 
-  if (user === null || agoraClient === null) {
+  if (currentUserId === null || user === null || agoraClient === null) {
     return <LoadingScreen />;
   }
 
   const title = `${user.name}'s room`;
+
+  if (currentUserId === "") {
+    return <LoginScreen title={title} />;
+  }
 
   return (
     <BasicLayout className="UserRoomPage" title={title}>
