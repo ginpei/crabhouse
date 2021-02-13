@@ -7,6 +7,7 @@ import {
   leaveAgoraChannel,
   useAgoraChannelJoined,
   useAgoraClient,
+  useAgoraSound,
 } from "../../stores/agora";
 import { appSlice, AppState } from "../../stores/appStore";
 import "./SessionPlayer.scss";
@@ -29,6 +30,7 @@ const SessionPlayerBase: React.FC<
   usePlayingRoomStore();
 
   const agoraClient = useAgoraClient();
+  useAgoraSound(agoraClient);
   const [listening, left] = useAgoraChannelJoined(agoraClient);
 
   const onStopClick = () => {

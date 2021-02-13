@@ -75,6 +75,24 @@ export function useAgoraClient(): IAgoraRTCClient {
   return globalAgoraClient;
 }
 
+export function useAgoraSound(client: IAgoraRTCClient): void {
+  useEffect(() => {
+    client.on("user-published", onAgoraUserPublished);
+
+    return () => {
+      client.off("user-published", onAgoraUserPublished);
+    };
+
+    async function onAgoraUserPublished(
+      user: IAgoraRTCRemoteUser,
+      mediaType: "audio"
+    ) {
+      const remoteTrack = await client.subscribe(user, mediaType);
+      remoteTrack.play();
+    }
+  }, [client]);
+}
+
 export function useAgoraConnectionState(
   client: IAgoraRTCClient
 ): ConnectionState {
