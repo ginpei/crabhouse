@@ -2,6 +2,7 @@
   --base-bg: #fff;
   --base-fg: #333;
   --base-font-family: -apple-system, Roboto, sans-serif;
+  --clickable-height: 1.5rem;
   --danger-bg: hsl(0, 100%, 95%);
   --danger-border-color: hsl(0, 50%, 80%);
   --danger-fg: hsl(0, 50%, 30%);
@@ -12,6 +13,13 @@
   --theme2-bg: hsl(210, 100%, 95%);
   --theme2-border-color: hsl(210, 50%, 80%);
   --theme2-fg: hsl(210, 50%, 30%);
+}
+
+/* no mouse devices */
+@media (pointer:coarse) {
+  :root {
+    --clickable-height: 3rem;
+  }
 }
 
 body {

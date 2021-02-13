@@ -1,9 +1,9 @@
 .BasicHeaderFrame {
   background-color: var(--theme-bg);
   color: var(--theme-fg);
-  height: 1.5rem;
+  height: var(--clickable-height);
   font-size: 1rem;
-  line-height: 1.5rem;
+  line-height: var(--clickable-height);
 
   a {
     color: inherit;

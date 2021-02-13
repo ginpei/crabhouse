@@ -1,9 +1,10 @@
+import { BasicHeaderFrame } from "../../screens/shared/BasicHeaderFrame";
 import "./LoadingScreen.scss";
 
 export const LoadingScreen: React.FC = () => {
   return (
-    <div className="LoadingScreen">
+    <BasicHeaderFrame>
       <div className="LoadingScreen-bar"></div>
-    </div>
+    </BasicHeaderFrame>
   );
 };

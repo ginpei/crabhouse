@@ -9,6 +9,7 @@
   border-width: 1px;
   color: var(--NiceButton-fg);
   font-family: -apple-system, Roboto, sans-serif;
+  min-height: calc(0.5em * 2 + var(--clickable-height));
   padding: 0.5em 1em;
 
   &:disabled {
