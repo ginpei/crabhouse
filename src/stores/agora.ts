@@ -5,7 +5,6 @@ import AgoraRTC, {
   UID,
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
-import { noop } from "../misc/misc";
 import { functions } from "../models/firebase";
 import { Room } from "../models/Room";
 import { appSlice, appStore } from "./appStore";
