@@ -29,7 +29,7 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
     playingSession?.state === "open" || playingSession?.state === "live";
 
   useEffect(() => {
-    if (agoraState === "CONNECTED" && !roomOpen) {
+    if (agoraState !== "DISCONNECTED" && !roomOpen) {
       leaveAgoraChannel(agoraClient);
     }
   }, [agoraClient, agoraState, roomOpen]);
