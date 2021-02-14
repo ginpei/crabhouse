@@ -28,23 +28,35 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     setDirty(false);
   }, [room]);
 
-  if (!currentUserId || !room) {
-    return null;
-  }
-
   const onClosedClick = () => {
+    if (!room) {
+      throw new Error("Room must be prepared");
+    }
+
     setDirty(true);
     saveRoom({ ...room, state: "closed" });
     leaveAgoraChannel(agoraClient);
   };
 
   const onOpenClick = () => {
+    if (!room) {
+      throw new Error("Room must be prepared");
+    }
+
     setDirty(true);
     saveRoom({ ...room, state: "open" });
     leaveAgoraChannel(agoraClient);
   };
 
   const onLiveClick = () => {
+    if (!room) {
+      throw new Error("Room must be prepared");
+    }
+
+    if (!currentUserId) {
+      throw new Error("User data must have been loaded");
+    }
+
     setDirty(true);
     saveRoom({ ...room, state: "live" });
     joinAgoraChannel(agoraClient, currentUserId, room);
@@ -54,13 +66,13 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     <details className="MyRoomPage-RoomStateSelect" open>
       <summary>
         Room state: {getRoomStateLabel(room)}
-        {room.state === "live" && (
+        {room?.state === "live" && (
           <span className="MyRoomPage-speakerIcon">📡</span>
         )}
       </summary>
       <p>
         <WideNiceButton
-          disabled={dirty || room.state === "closed"}
+          disabled={!room || dirty || room.state === "closed"}
           onClick={onClosedClick}
         >
           👋 Close
@@ -69,7 +81,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
       </p>
       <p>
         <WideNiceButton
-          disabled={dirty || room.state === "open"}
+          disabled={!room || dirty || room.state === "open"}
           onClick={onOpenClick}
         >
           🎉 Open
@@ -78,8 +90,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
       </p>
       <p>
         <WideNiceButton
-          disabled={dirty || room.state === "live"}
-          niceStyle="danger"
+          disabled={!room || dirty || room.state === "live"}
           onClick={onLiveClick}
         >
           📡 Live

@@ -20,7 +20,11 @@ export function createRoom(initial?: Partial<Room>): Room {
   };
 }
 
-export function getRoomStateLabel(room: Room): string {
+export function getRoomStateLabel(room: Room | null): string {
+  if (!room) {
+    return "...";
+  }
+
   if (room.state === "closed") {
     return "Closed";
   }
