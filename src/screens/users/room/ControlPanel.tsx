@@ -1,4 +1,3 @@
-import { IAgoraRTCClient } from "agora-rtc-sdk-ng";
 import { connect } from "react-redux";
 import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
@@ -20,23 +19,18 @@ const mapState = (state: AppState) => ({
 
 const ControlPanelBase: React.FC<
   ReturnType<typeof mapState> & {
-    agoraClient: IAgoraRTCClient;
     room: Room;
     user: User;
   }
-> = ({ agoraClient, currentUserId, participatingSession, room, user }) => {
+> = ({ currentUserId, participatingSession, room, user }) => {
   useCurrentUserStore();
-  const agoraState = useAgoraConnectionState(agoraClient);
-  const [playing, stopped] = useAgoraChannelJoined(agoraClient);
+  const agoraState = useAgoraConnectionState();
+  const [playing, stopped] = useAgoraChannelJoined();
 
   const listening = participatingSession?.id === room.id && playing;
   const left = participatingSession?.id !== room.id || stopped;
 
   const onPlayClick = () => {
-    if (!agoraClient) {
-      throw new Error("Client must be prepared");
-    }
-
     if (!user) {
       throw new Error("User data must be prepared");
     }
@@ -49,15 +43,11 @@ const ControlPanelBase: React.FC<
       throw new Error("Room must be fetched");
     }
 
-    joinAgoraChannel(agoraClient, currentUserId, room);
+    joinAgoraChannel(currentUserId, room);
   };
 
   const onStopClick = () => {
-    if (!agoraClient) {
-      throw new Error("Client must be prepared");
-    }
-
-    leaveAgoraChannel(agoraClient);
+    leaveAgoraChannel();
   };
 
   if (room.state !== "open" && room.state !== "live") {

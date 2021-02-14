@@ -4,11 +4,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { Room } from "../../../models/Room";
 import { saveRoom, useLiveRoom } from "../../../models/RoomDb";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
-import {
-  joinAgoraChannel,
-  leaveAgoraChannel,
-  useAgoraClient,
-} from "../../../stores/agora";
+import { joinAgoraChannel, leaveAgoraChannel } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 
 const mapState = (state: AppState) => ({
@@ -21,7 +17,6 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
   const [room, roomError] = useLiveRoom(currentUserId);
   useErrorLog(roomError);
 
-  const agoraClient = useAgoraClient();
   const [dirty, setDirty] = useState(false);
 
   useEffect(() => {
@@ -35,7 +30,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 
     setDirty(true);
     saveRoom({ ...room, state: "closed" });
-    leaveAgoraChannel(agoraClient);
+    leaveAgoraChannel();
   };
 
   const onOpenClick = () => {
@@ -45,7 +40,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 
     setDirty(true);
     saveRoom({ ...room, state: "open" });
-    leaveAgoraChannel(agoraClient);
+    leaveAgoraChannel();
   };
 
   const onLiveClick = () => {
@@ -59,7 +54,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 
     setDirty(true);
     saveRoom({ ...room, state: "live" });
-    joinAgoraChannel(agoraClient, currentUserId, room);
+    joinAgoraChannel(currentUserId, room);
   };
 
   return (

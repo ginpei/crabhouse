@@ -4,10 +4,7 @@ import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
-import {
-  useAgoraChannelParticipants,
-  useAgoraClient,
-} from "../../../stores/agora";
+import { useAgoraChannelParticipants } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -30,8 +27,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 }) => {
   useCurrentUserStore();
 
-  const agoraClient = useAgoraClient();
-  const [speakers, participants] = useAgoraChannelParticipants(agoraClient);
+  const [speakers, participants] = useAgoraChannelParticipants();
 
   if (currentUserId === null) {
     return <LoadingScreen />;

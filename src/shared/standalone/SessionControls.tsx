@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { noop } from "../../misc/misc";
 import { myRoomPagePath } from "../../screens/my/room/MyRoomPage";
-import {
-  leaveAgoraChannel,
-  useAgoraChannelJoined,
-  useAgoraClient,
-} from "../../stores/agora";
+import { leaveAgoraChannel, useAgoraChannelJoined } from "../../stores/agora";
 import { appSlice, AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 
@@ -28,8 +24,7 @@ const SessionControlsBase: React.FC<
   useCurrentUserStore();
   const history = useHistory();
 
-  const agoraClient = useAgoraClient();
-  const [listening, left] = useAgoraChannelJoined(agoraClient);
+  const [listening, left] = useAgoraChannelJoined();
 
   const processing = !listening && !left;
   const ownRoom = playingSession?.id === currentUserId;
@@ -93,7 +88,7 @@ const SessionControlsBase: React.FC<
   }
 
   const onStopClick = () => {
-    leaveAgoraChannel(agoraClient);
+    leaveAgoraChannel();
   };
 
   return (

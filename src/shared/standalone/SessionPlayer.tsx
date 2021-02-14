@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { userRoomPagePath } from "../../screens/users/room/UserRoomPage";
 import {
   leaveAgoraChannel,
-  useAgoraClient,
   useAgoraConnectionState,
   useAgoraSound,
 } from "../../stores/agora";
@@ -21,18 +20,17 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
   playingSession,
   sessionPlayerVisible,
 }) => {
-  const agoraClient = useAgoraClient();
-  const agoraState = useAgoraConnectionState(agoraClient);
-  useAgoraSound(agoraClient);
+  const agoraState = useAgoraConnectionState();
+  useAgoraSound();
 
   const roomOpen =
     playingSession?.state === "open" || playingSession?.state === "live";
 
   useEffect(() => {
     if (agoraState !== "DISCONNECTED" && !roomOpen) {
-      leaveAgoraChannel(agoraClient);
+      leaveAgoraChannel();
     }
-  }, [agoraClient, agoraState, roomOpen]);
+  }, [agoraState, roomOpen]);
 
   if (!playingSession || !sessionPlayerVisible) {
     return null;

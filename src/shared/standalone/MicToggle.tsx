@@ -4,7 +4,6 @@ import {
   publishAgora,
   unpublishAgora,
   useAgoraChannelJoined,
-  useAgoraClient,
   useAgoraSpeaking,
 } from "../../stores/agora";
 import { NiceButton } from "../pure/NiceButton";
@@ -12,9 +11,8 @@ import "./MicToggle.scss";
 
 const MicToggleBase: React.FC = () => {
   const [updating, setUpdating] = useState(false);
-  const agoraClient = useAgoraClient();
-  const [live] = useAgoraChannelJoined(agoraClient);
-  const speaking = useAgoraSpeaking(agoraClient);
+  const [live] = useAgoraChannelJoined();
+  const speaking = useAgoraSpeaking();
 
   useEffect(() => {
     setUpdating(false);
@@ -22,12 +20,12 @@ const MicToggleBase: React.FC = () => {
 
   const onSpeakClick = async () => {
     setUpdating(true);
-    await publishAgora(agoraClient);
+    await publishAgora();
   };
 
   const onMuteClick = async () => {
     setUpdating(true);
-    await unpublishAgora(agoraClient);
+    await unpublishAgora();
   };
 
   return (

@@ -5,7 +5,6 @@ import { useLiveRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
-import { useAgoraClient } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -25,8 +24,6 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   currentUserId,
 }) => {
   useCurrentUserStore();
-
-  const agoraClient = useAgoraClient();
 
   const { userId } = useParams<{ userId: string }>();
   const [user, userError] = useUser(userId);
@@ -57,7 +54,7 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   return (
     <BasicLayout className="UserRoomPage" title={room.name}>
       <h1>{room.name}</h1>
-      <ControlPanel agoraClient={agoraClient} room={room} user={user} />
+      <ControlPanel room={room} user={user} />
       <h2>Speakers (0)</h2>
       <h2>Participants (0)</h2>
     </BasicLayout>

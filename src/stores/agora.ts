@@ -20,16 +20,17 @@ const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 let globalAgoraClient: IAgoraRTCClient | null = null;
 
 export async function joinAgoraChannel(
-  client: IAgoraRTCClient,
   currentUserId: string,
   room: Room
 ): Promise<void> {
+  const client = getClient();
+
   if (!agoraAppId) {
     throw new NoAgoraAppIdError();
   }
 
   if (client.connectionState !== "DISCONNECTED") {
-    leaveAgoraChannel(client);
+    leaveAgoraChannel();
   }
 
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
@@ -44,38 +45,32 @@ export async function joinAgoraChannel(
   }
 }
 
-export async function leaveAgoraChannel(
-  client: IAgoraRTCClient
-): Promise<void> {
-  await unpublishAgora(client);
+export async function leaveAgoraChannel(): Promise<void> {
+  const client = getClient();
+
+  await unpublishAgora();
   await client.leave();
 }
 
-export async function publishAgora(client: IAgoraRTCClient): Promise<void> {
+export async function publishAgora(): Promise<void> {
+  const client = getClient();
+
   const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
   await client.publish([localAudioTrack]);
 }
 
-export async function unpublishAgora(client: IAgoraRTCClient): Promise<void> {
+export async function unpublishAgora(): Promise<void> {
+  const client = getClient();
+
   if (client.localTracks.length > 0) {
     client.localTracks.forEach((v) => v.close());
     client.unpublish();
   }
 }
 
-/**
- * Returns always the same instance.
- */
-export function useAgoraClient(): IAgoraRTCClient {
-  if (!globalAgoraClient) {
-    const newClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-    globalAgoraClient = newClient;
-  }
+export function useAgoraSound(): void {
+  const client = getClient();
 
-  return globalAgoraClient;
-}
-
-export function useAgoraSound(client: IAgoraRTCClient): void {
   useEffect(() => {
     client.on("user-published", onAgoraUserPublished);
 
@@ -93,9 +88,9 @@ export function useAgoraSound(client: IAgoraRTCClient): void {
   }, [client]);
 }
 
-export function useAgoraConnectionState(
-  client: IAgoraRTCClient
-): ConnectionState {
+export function useAgoraConnectionState(): ConnectionState {
+  const client = getClient();
+
   const [state, setState] = useState(client.connectionState);
 
   useEffect(() => {
@@ -116,10 +111,8 @@ export function useAgoraConnectionState(
  * @example
  * const [opened, closed] = useAgoraChannelJoined(client);
  */
-export function useAgoraChannelJoined(
-  client: IAgoraRTCClient
-): [boolean, boolean] {
-  const agoraState = useAgoraConnectionState(client);
+export function useAgoraChannelJoined(): [boolean, boolean] {
+  const agoraState = useAgoraConnectionState();
   const [opened, setOpened] = useState(false);
   const [closed, setClosed] = useState(true);
 
@@ -140,7 +133,9 @@ export function useAgoraChannelJoined(
   return [opened, closed];
 }
 
-export function useAgoraSpeaking(client: IAgoraRTCClient): boolean {
+export function useAgoraSpeaking(): boolean {
+  const client = getClient();
+
   const [speaking, setSpeaking] = useState(false);
 
   useEffect(() => {
@@ -153,9 +148,12 @@ export function useAgoraSpeaking(client: IAgoraRTCClient): boolean {
   return speaking;
 }
 
-export function useAgoraChannelParticipants(
-  client: IAgoraRTCClient
-): [IAgoraRTCRemoteUser[], IAgoraRTCRemoteUser[]] {
+export function useAgoraChannelParticipants(): [
+  IAgoraRTCRemoteUser[],
+  IAgoraRTCRemoteUser[]
+] {
+  const client = getClient();
+
   const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
   const [speakerIds, setSpeakerIds] = useState<UID[]>([]);
 
@@ -199,4 +197,13 @@ class NoAgoraAppIdError extends Error {
   constructor() {
     super("Agora app ID must be prepared");
   }
+}
+
+function getClient(): IAgoraRTCClient {
+  if (!globalAgoraClient) {
+    const newClient = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    globalAgoraClient = newClient;
+  }
+
+  return globalAgoraClient;
 }
