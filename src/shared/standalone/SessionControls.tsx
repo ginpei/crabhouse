@@ -55,7 +55,7 @@ const SessionControlsBase: React.FC<
           onClick={onCloseClick}
           title="Close"
         >
-          &times;
+          ❌
         </button>
       </div>
     );
