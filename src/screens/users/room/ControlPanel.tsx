@@ -1,5 +1,4 @@
 import { IAgoraRTCClient } from "agora-rtc-sdk-ng";
-import { useState } from "react";
 import { connect } from "react-redux";
 import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
@@ -8,8 +7,6 @@ import { MicToggle } from "../../../shared/standalone/MicToggle";
 import {
   joinAgoraChannel,
   leaveAgoraChannel,
-  publishAgora,
-  unpublishAgora,
   useAgoraChannelJoined,
   useAgoraConnectionState,
 } from "../../../stores/agora";
@@ -29,31 +26,11 @@ const ControlPanelBase: React.FC<
   }
 > = ({ agoraClient, currentUserId, participatingSession, room, user }) => {
   useCurrentUserStore();
-  const [muted, setMuted] = useState(true);
-
   const agoraState = useAgoraConnectionState(agoraClient);
   const [playing, stopped] = useAgoraChannelJoined(agoraClient);
 
   const listening = participatingSession?.id === room.id && playing;
   const left = participatingSession?.id !== room.id || stopped;
-
-  const onSpeakClick = async () => {
-    if (!agoraClient) {
-      throw new Error("Client must be prepared");
-    }
-
-    setMuted(false);
-    await publishAgora(agoraClient);
-  };
-
-  const onMuteClick = async () => {
-    if (!agoraClient) {
-      throw new Error("Client must be prepared");
-    }
-
-    setMuted(true);
-    await unpublishAgora(agoraClient);
-  };
 
   const onPlayClick = () => {
     if (!agoraClient) {
