@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
@@ -6,11 +5,7 @@ import { useLiveRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
-import {
-  leaveAgoraChannel,
-  useAgoraClient,
-  useAgoraConnectionState,
-} from "../../../stores/agora";
+import { useAgoraClient } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -32,7 +27,6 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   useCurrentUserStore();
 
   const agoraClient = useAgoraClient();
-  const agoraState = useAgoraConnectionState(agoraClient);
 
   const { userId } = useParams<{ userId: string }>();
   const [user, userError] = useUser(userId);
@@ -41,12 +35,6 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   useErrorLog(roomError);
 
   const roomOpen = room?.state === "open" || room?.state === "live";
-
-  useEffect(() => {
-    if (agoraState === "CONNECTED" && !roomOpen) {
-      leaveAgoraChannel(agoraClient);
-    }
-  }, [agoraClient, agoraState, roomOpen]);
 
   if (currentUserId === null || user === null || room === null) {
     return <LoadingScreen />;
