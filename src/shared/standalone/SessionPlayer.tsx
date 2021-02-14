@@ -1,7 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { noop } from "../../misc/misc";
+import { myRoomPagePath } from "../../screens/my/room/MyRoomPage";
 import { userRoomPagePath } from "../../screens/users/room/UserRoomPage";
 import {
   leaveAgoraChannel,
@@ -16,6 +17,7 @@ import "./SessionPlayer.scss";
 const usePlayingRoomStore = noop;
 
 const mapState = (state: AppState) => ({
+  currentUserId: state.currentUserId,
   playingSession: state.participatingSession,
   sessionPlayerVisible: state.sessionPlayerVisible,
 });
@@ -26,12 +28,24 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 const SessionPlayerBase: React.FC<
   ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
-> = ({ hideSessionPlayer, playingSession, sessionPlayerVisible }) => {
+> = ({
+  currentUserId,
+  hideSessionPlayer,
+  playingSession,
+  sessionPlayerVisible,
+}) => {
+  const history = useHistory();
   usePlayingRoomStore();
 
   const agoraClient = useAgoraClient();
   useAgoraSound(agoraClient);
   const [listening, left] = useAgoraChannelJoined(agoraClient);
+
+  const ownRoom = playingSession?.id === currentUserId;
+
+  const onMyPageClick = () => {
+    history.push(myRoomPagePath());
+  };
 
   const onStopClick = () => {
     leaveAgoraChannel(agoraClient);
@@ -55,7 +69,16 @@ const SessionPlayerBase: React.FC<
           {playingSession.name}
         </Link>
         <div className="SessionPlayer-controls">
-          {listening && (
+          {ownRoom && (
+            <button
+              className="SessionPlayer-button"
+              onClick={onMyPageClick}
+              title="My page"
+            >
+              🏠
+            </button>
+          )}
+          {!ownRoom && listening && (
             <button
               className="SessionPlayer-button"
               onClick={onStopClick}
@@ -64,7 +87,7 @@ const SessionPlayerBase: React.FC<
               ⏹
             </button>
           )}
-          {left && (
+          {!ownRoom && left && (
             <button
               className="SessionPlayer-button"
               onClick={onCloseClick}
