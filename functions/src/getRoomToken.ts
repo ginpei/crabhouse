@@ -26,7 +26,11 @@ export const getRoomToken = functions.https.onCall(async (data, context) => {
 
   const ss = await db.collection("rooms").doc(roomId).get();
   const roomState = ss.data()?.state ?? "";
-  if (roomState !== "open" && roomState !== "live") {
+  if (
+    currentUserId !== roomId &&
+    roomState !== "open" &&
+    roomState !== "live"
+  ) {
     throw new functions.https.HttpsError(
         "failed-precondition",
         "Room is not open"
