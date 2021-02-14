@@ -9,12 +9,6 @@ import { functions } from "../models/firebase";
 import { Room } from "../models/Room";
 import { appSlice, appStore } from "./appStore";
 
-// TODO delete
-export interface AgoraRemoteUser {
-  id: UID;
-  type: "LISTENER" | "SPEAKER";
-}
-
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 
 let globalAgoraClient: IAgoraRTCClient | null = null;
