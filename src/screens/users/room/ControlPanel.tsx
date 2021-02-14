@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
+import { MicToggle } from "../../../shared/standalone/MicToggle";
 import {
   joinAgoraChannel,
   leaveAgoraChannel,
@@ -85,41 +86,17 @@ const ControlPanelBase: React.FC<
   return (
     <div className="UserRoomPage-ControlPanel">
       <p>State: [{agoraState}]</p>
-      <p
-        className="MyRoomPage-ControlPanel-micIndicator"
-        data-available={listening}
-      >
-        <label className="ui-center">
-          <input
-            checked={listening && !muted}
-            disabled={!listening}
-            name="muted"
-            onChange={onSpeakClick}
-            type="radio"
-            value="false"
-          />
-          💬 Speak
-        </label>
-        <label className="ui-center">
-          <input
-            checked={listening && muted}
-            disabled={!listening}
-            name="muted"
-            onChange={onMuteClick}
-            type="radio"
-            value="true"
-          />
-          🔇 Mute
-        </label>
+      <MicToggle />
+      <p>
+        <WideNiceButton
+          disabled={!left}
+          className="UserRoomPage-playButton"
+          onClick={onPlayClick}
+        >
+          <div className="UserRoomPage-playButtonIcon">▶️</div>
+          <div className="UserRoomPage-playButtonLabel">Listen</div>
+        </WideNiceButton>
       </p>
-      <WideNiceButton
-        disabled={!left}
-        className="UserRoomPage-playButton"
-        onClick={onPlayClick}
-      >
-        <div className="UserRoomPage-playButtonIcon">▶️</div>
-        <div className="UserRoomPage-playButtonLabel">Listen</div>
-      </WideNiceButton>
       <p>
         <WideNiceButton disabled={!listening} onClick={onStopClick}>
           ⏹ Stop
