@@ -12,6 +12,7 @@ import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
 import { myPagePath } from "../MyPage";
 import { ControlPanel } from "./ControlPanel";
+import { MicToggle } from "./MicToggle";
 import "./MyRoomPage.scss";
 import { RoomStateSection } from "./RoomStateSection";
 
@@ -47,6 +48,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h1>{currentUser.name}'s room</h1>
       <RoomStateSection currentUserId={currentUserId} />
       <h2>Sound control</h2>
+      <MicToggle />
       <ControlPanel agoraClient={agoraClient} />
       <h2>Speakers ({speakers.length})</h2>
       <ul>
