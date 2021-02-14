@@ -23,27 +23,43 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     setDirty(false);
   }, [room]);
 
-  const onClosedClick = () => {
+  const onClosedClick = async () => {
     if (!room) {
       throw new Error("Room must be prepared");
     }
 
     setDirty(true);
-    saveRoom({ ...room, state: "closed" });
-    leaveAgoraChannel();
+    try {
+      await Promise.all([
+        saveRoom({ ...room, state: "closed" }),
+        leaveAgoraChannel(),
+      ]);
+    } catch (error) {
+      setDirty(false);
+      // TODO
+      throw error;
+    }
   };
 
-  const onOpenClick = () => {
+  const onOpenClick = async () => {
     if (!room) {
       throw new Error("Room must be prepared");
     }
 
     setDirty(true);
-    saveRoom({ ...room, state: "open" });
-    leaveAgoraChannel();
+    try {
+      await Promise.all([
+        saveRoom({ ...room, state: "open" }),
+        leaveAgoraChannel(),
+      ]);
+    } catch (error) {
+      setDirty(false);
+      // TODO
+      throw error;
+    }
   };
 
-  const onLiveClick = () => {
+  const onLiveClick = async () => {
     if (!room) {
       throw new Error("Room must be prepared");
     }
@@ -53,8 +69,16 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     }
 
     setDirty(true);
-    saveRoom({ ...room, state: "live" });
-    joinAgoraChannel(currentUserId, room);
+    try {
+      await Promise.all([
+        saveRoom({ ...room, state: "live" }),
+        joinAgoraChannel(currentUserId, room),
+      ]);
+    } catch (error) {
+      setDirty(false);
+      // TODO
+      throw error;
+    }
   };
 
   return (
