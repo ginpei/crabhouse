@@ -50,3 +50,14 @@
     --SessionPlayer-button-bg: hsl(210, 100%, 90%);
   }
 }
+
+.SessionPlayer-spinner {
+  animation: SessionPlayer-spinner 1s infinite;
+  display: inline-block;
+  height: 50%;
+
+  @keyframes SessionPlayer-spinner {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+}

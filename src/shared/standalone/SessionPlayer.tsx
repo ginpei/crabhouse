@@ -69,7 +69,7 @@ const SessionPlayerBase: React.FC<
           {playingSession.name}
         </Link>
         <div className="SessionPlayer-controls">
-          {ownRoom && (
+          {ownRoom && (listening || left) && (
             <button
               className="SessionPlayer-button"
               onClick={onMyPageClick}
@@ -96,8 +96,10 @@ const SessionPlayerBase: React.FC<
               &times;
             </button>
           )}
-          {!ownRoom && !listening && !left && (
-            <button className="SessionPlayer-button" disabled></button>
+          {!listening && !left && (
+            <button className="SessionPlayer-button" disabled>
+              <span className="SessionPlayer-spinner">*</span>
+            </button>
           )}
         </div>
       </div>
