@@ -138,7 +138,10 @@ const OpenRoomList: React.FC = () => {
     <ul>
       {openRooms.map((room) => (
         <li key={room.id}>
-          <Link to={userViewPagePath(room.id)}>{room.name}</Link>
+          <Link to={userViewPagePath(room.id)}>
+            {room.name}
+            {room.state === "live" && <span title="Live">📡</span>}
+          </Link>
         </li>
       ))}
     </ul>

@@ -22,7 +22,8 @@ export const [
 
 export async function getOpenRooms(): Promise<Room[]> {
   const ss = await getRoomCollection()
-    .where("state", "==", "open")
+    .where("state", "in", ["open", "live"])
+    .orderBy("state")
     .orderBy("updatedAt", "desc")
     .get();
   const rooms = ss.docs.map((v) => ssToRoom(v));
