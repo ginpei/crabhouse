@@ -140,6 +140,19 @@ export function useAgoraChannelJoined(
   return [opened, closed];
 }
 
+export function useAgoraSpeaking(client: IAgoraRTCClient): boolean {
+  const [speaking, setSpeaking] = useState(false);
+
+  useEffect(() => {
+    const tm = setInterval(() => {
+      setSpeaking(client.localTracks.length > 0);
+    }, 100);
+    return () => clearInterval(tm);
+  }, [client]);
+
+  return speaking;
+}
+
 export function useAgoraChannelParticipants(
   client: IAgoraRTCClient
 ): [IAgoraRTCRemoteUser[], IAgoraRTCRemoteUser[]] {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { NiceButton } from "../../../shared/pure/NiceButton";
 import {
@@ -6,50 +6,44 @@ import {
   unpublishAgora,
   useAgoraChannelJoined,
   useAgoraClient,
+  useAgoraSpeaking,
 } from "../../../stores/agora";
 import "./MicToggle.scss";
 
-type MicState = "speaking" | "muted" | "toggling";
-
 const MicToggleBase: React.FC = () => {
-  const [micState, setMicState] = useState<MicState>("muted");
+  const [updating, setUpdating] = useState(false);
   const agoraClient = useAgoraClient();
   const [live] = useAgoraChannelJoined(agoraClient);
+  const speaking = useAgoraSpeaking(agoraClient);
+
+  useEffect(() => {
+    setUpdating(false);
+  }, [speaking]);
 
   const onSpeakClick = async () => {
-    setMicState("toggling");
-    try {
-      await publishAgora(agoraClient);
-      setMicState("speaking");
-    } catch (error) {
-      setMicState("muted");
-      throw error;
-    }
+    setUpdating(true);
+    await publishAgora(agoraClient);
   };
 
   const onMuteClick = async () => {
-    setMicState("toggling");
-    try {
-      await unpublishAgora(agoraClient);
-    } finally {
-      setMicState("muted");
-    }
+    setUpdating(true);
+    await unpublishAgora(agoraClient);
   };
 
   return (
     <div className="MicToggle">
       <NiceButton
         className="MicToggle-button"
-        data-mictoggle-active={micState === "speaking"}
-        disabled={!live}
+        data-mictoggle-active={!updating && speaking}
+        disabled={!live || updating}
         onClick={onSpeakClick}
       >
         💬 Speak
       </NiceButton>
       <NiceButton
         className="MicToggle-button"
-        data-mictoggle-active={micState === "muted"}
-        disabled={!live}
+        data-mictoggle-active={!updating && !speaking}
+        disabled={!live || updating}
         onClick={onMuteClick}
       >
         🔇 Mute
