@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import {RtcTokenBuilder, RtcRole} from "agora-access-token";
+import {db} from "./firebase";
 
 if (!functions.config().agora) {
   // see README.md
@@ -9,9 +10,7 @@ const appID = functions.config().agora.app_id;
 const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
-export const getRoomToken = functions.https.onCall((data, context) => {
-  // TODO throw if owner closed room
-
+export const getRoomToken = functions.https.onCall(async (data, context) => {
   const currentUserId = context.auth?.uid;
   if (!currentUserId) {
     throw new functions.https.HttpsError("permission-denied", "Not logged in");
@@ -22,6 +21,15 @@ export const getRoomToken = functions.https.onCall((data, context) => {
     throw new functions.https.HttpsError(
         "invalid-argument",
         "`roomId` is required"
+    );
+  }
+
+  const ss = await db.collection("rooms").doc(roomId).get();
+  const roomState = ss.data()?.state ?? "";
+  if (roomState !== "open" && roomState !== "live") {
+    throw new functions.https.HttpsError(
+        "failed-precondition",
+        "Room is not open"
     );
   }
 

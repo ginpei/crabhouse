@@ -60,6 +60,14 @@ const ControlPanelBase: React.FC<
     leaveAgoraChannel(agoraClient);
   };
 
+  if (room.state !== "open" && room.state !== "live") {
+    return (
+      <div className="UserRoomPage-ControlPanel">
+        <p>Room is not open.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="UserRoomPage-ControlPanel">
       <p>State: [{agoraState}]</p>
