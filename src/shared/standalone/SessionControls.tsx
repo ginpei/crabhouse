@@ -29,21 +29,11 @@ const SessionControlsBase: React.FC<
   const agoraClient = useAgoraClient();
   const [listening, left] = useAgoraChannelJoined(agoraClient);
 
+  const processing = !listening && !left;
   const ownRoom = playingSession?.id === currentUserId;
+  const inMyRoom = history.location.pathname === myRoomPagePath();
 
-  const onMyPageClick = () => {
-    history.push(myRoomPagePath());
-  };
-
-  const onStopClick = () => {
-    leaveAgoraChannel(agoraClient);
-  };
-
-  const onCloseClick = () => {
-    hideSessionPlayer();
-  };
-
-  if (!listening && !left) {
+  if (processing) {
     return (
       <div className="SessionPlayer-controls">
         <button className="SessionPlayer-button" disabled>
@@ -53,7 +43,29 @@ const SessionControlsBase: React.FC<
     );
   }
 
+  if (left && (!ownRoom || inMyRoom)) {
+    const onCloseClick = () => {
+      hideSessionPlayer();
+    };
+
+    return (
+      <div className="SessionPlayer-controls">
+        <button
+          className="SessionPlayer-button"
+          onClick={onCloseClick}
+          title="Close"
+        >
+          &times;
+        </button>
+      </div>
+    );
+  }
+
   if (ownRoom) {
+    const onMyPageClick = () => {
+      history.push(myRoomPagePath());
+    };
+
     return (
       <div className="SessionPlayer-controls">
         <button
@@ -67,26 +79,19 @@ const SessionControlsBase: React.FC<
     );
   }
 
+  const onStopClick = () => {
+    leaveAgoraChannel(agoraClient);
+  };
+
   return (
     <div className="SessionPlayer-controls">
-      {listening && (
-        <button
-          className="SessionPlayer-button"
-          onClick={onStopClick}
-          title="Play"
-        >
-          ⏹
-        </button>
-      )}
-      {left && (
-        <button
-          className="SessionPlayer-button"
-          onClick={onCloseClick}
-          title="Close"
-        >
-          &times;
-        </button>
-      )}
+      <button
+        className="SessionPlayer-button"
+        onClick={onStopClick}
+        title="Play"
+      >
+        ⏹
+      </button>
     </div>
   );
 };
