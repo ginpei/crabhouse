@@ -1,6 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { noop } from "../../misc/misc";
 import { myRoomPagePath } from "../../screens/my/room/MyRoomPage";
 import {
   leaveAgoraChannel,
@@ -32,6 +34,17 @@ const SessionControlsBase: React.FC<
   const processing = !listening && !left;
   const ownRoom = playingSession?.id === currentUserId;
   const inMyRoom = history.location.pathname === myRoomPagePath();
+
+  useEffect(() => {
+    if (left) {
+      return noop;
+    }
+
+    window.onbeforeunload = () => "";
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [left]);
 
   if (processing) {
     return (
