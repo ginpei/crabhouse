@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, useState } from "react";
+import { DetailedHTMLProps, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
@@ -21,15 +21,19 @@ const FollowButtonBase: React.FC<
   }
 > = ({ currentUser, currentUserFollowings, currentUserId, user }) => {
   useCurrentUserStore();
-  const [following, setFollowing] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [followError, setFollowError] = useState<Error | null>(null);
   useErrorLog(followError);
   const history = useHistory();
 
   const isFollowing = currentUserFollowings?.some((v) => v.id === user.id);
 
+  useEffect(() => {
+    setUpdating(false);
+  }, [isFollowing]);
+
   const onFollowClick = async () => {
-    setFollowing(true);
+    setUpdating(true);
     try {
       if (isFollowing) {
         await unfollow(user.id);
@@ -38,8 +42,6 @@ const FollowButtonBase: React.FC<
       }
     } catch (error) {
       setFollowError(error);
-    } finally {
-      setFollowing(false);
     }
   };
 
@@ -58,7 +60,7 @@ const FollowButtonBase: React.FC<
   }
 
   return (
-    <FollowButtonFrame disabled={following} onClick={onFollowClick}>
+    <FollowButtonFrame disabled={updating} onClick={onFollowClick}>
       {isFollowing ? "Unfollow" : "Follow"}
     </FollowButtonFrame>
   );

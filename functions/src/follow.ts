@@ -22,7 +22,7 @@ export const follow = functions.https.onCall(async (data, context) => {
   // const b = db.batch();
   const docUser = collUsers.doc(userId);
   const docTarget = collUsers.doc(targetId);
-  db.runTransaction(async (transaction) => {
+  await db.runTransaction(async (transaction) => {
     const pAddFollowings = transaction.get(docTarget).then((ssTarget) => {
       transaction.set(
           docUser.collection("followings").doc(targetId),
