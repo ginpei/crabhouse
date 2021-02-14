@@ -43,9 +43,19 @@ const SessionControlsBase: React.FC<
     hideSessionPlayer();
   };
 
-  return (
-    <div className="SessionPlayer-controls">
-      {ownRoom && (listening || left) && (
+  if (!listening && !left) {
+    return (
+      <div className="SessionPlayer-controls">
+        <button className="SessionPlayer-button" disabled>
+          <span className="SessionPlayer-spinner">*</span>
+        </button>
+      </div>
+    );
+  }
+
+  if (ownRoom) {
+    return (
+      <div className="SessionPlayer-controls">
         <button
           className="SessionPlayer-button"
           onClick={onMyPageClick}
@@ -53,8 +63,13 @@ const SessionControlsBase: React.FC<
         >
           🏠
         </button>
-      )}
-      {!ownRoom && listening && (
+      </div>
+    );
+  }
+
+  return (
+    <div className="SessionPlayer-controls">
+      {listening && (
         <button
           className="SessionPlayer-button"
           onClick={onStopClick}
@@ -63,18 +78,13 @@ const SessionControlsBase: React.FC<
           ⏹
         </button>
       )}
-      {!ownRoom && left && (
+      {left && (
         <button
           className="SessionPlayer-button"
           onClick={onCloseClick}
           title="Close"
         >
           &times;
-        </button>
-      )}
-      {!listening && !left && (
-        <button className="SessionPlayer-button" disabled>
-          <span className="SessionPlayer-spinner">*</span>
         </button>
       )}
     </div>
