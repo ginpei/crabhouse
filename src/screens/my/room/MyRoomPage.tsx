@@ -3,6 +3,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
+import { MicToggle } from "../../../shared/standalone/MicToggle";
 import {
   useAgoraChannelParticipants,
   useAgoraClient,
@@ -11,7 +12,6 @@ import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
 import { myPagePath } from "../MyPage";
-import { MicToggle } from "./MicToggle";
 import "./MyRoomPage.scss";
 import { RoomStateSection } from "./RoomStateSection";
 

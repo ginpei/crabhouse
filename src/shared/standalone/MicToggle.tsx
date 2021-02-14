@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { NiceButton } from "../../../shared/pure/NiceButton";
 import {
   publishAgora,
   unpublishAgora,
   useAgoraChannelJoined,
   useAgoraClient,
   useAgoraSpeaking,
-} from "../../../stores/agora";
+} from "../../stores/agora";
+import { NiceButton } from "../pure/NiceButton";
 import "./MicToggle.scss";
 
 const MicToggleBase: React.FC = () => {
