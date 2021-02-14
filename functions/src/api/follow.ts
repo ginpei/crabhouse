@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import {db} from "./firebase";
+import {db} from "../firebase";
 
 // TODO reflect user profile update
 

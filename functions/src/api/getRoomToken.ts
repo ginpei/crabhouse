@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import {RtcTokenBuilder, RtcRole} from "agora-access-token";
-import {db} from "./firebase";
+import {db} from "../firebase";
 
 if (!functions.config().agora) {
   // see README.md

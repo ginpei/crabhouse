@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import {db} from "./firebase";
+import {db} from "../firebase";
 
 export const unfollow = functions.https.onCall(async (data, context) => {
   const userId = context.auth?.uid;
