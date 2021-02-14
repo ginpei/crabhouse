@@ -96,7 +96,7 @@ const SessionPlayerBase: React.FC<
               &times;
             </button>
           )}
-          {!listening && !left && (
+          {!ownRoom && !listening && !left && (
             <button className="SessionPlayer-button" disabled></button>
           )}
         </div>
