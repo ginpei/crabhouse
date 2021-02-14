@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { useErrorLog } from "../../../misc/misc";
-import { useLiveRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
@@ -31,13 +30,10 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 }) => {
   useCurrentUserStore();
 
-  const [room, roomError] = useLiveRoom(currentUserId);
-  useErrorLog(roomError);
-
   const agoraClient = useAgoraClient();
   const [speakers, participants] = useAgoraChannelParticipants(agoraClient);
 
-  if (currentUserId === null || room === null) {
+  if (currentUserId === null) {
     return <LoadingScreen />;
   }
 
@@ -49,7 +45,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
     <BasicLayout className="MyRoomPage" title="My room">
       <p>My room</p>
       <h1>{currentUser.name}'s room</h1>
-      <RoomStateSection room={room} />
+      <RoomStateSection currentUserId={currentUserId} />
       <h2>Sound control</h2>
       <ControlPanel agoraClient={agoraClient} />
       <h2>Speakers ({speakers.length})</h2>

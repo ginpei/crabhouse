@@ -1,31 +1,54 @@
 import { useEffect, useState } from "react";
-import { getRoomStateLabel, Room } from "../../../models/Room";
-import { saveRoom } from "../../../models/RoomDb";
+import { connect } from "react-redux";
+import { useErrorLog } from "../../../misc/misc";
+import { getRoomStateLabel } from "../../../models/Room";
+import { saveRoom, useLiveRoom } from "../../../models/RoomDb";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
+import {
+  joinAgoraChannel,
+  leaveAgoraChannel,
+  useAgoraClient,
+} from "../../../stores/agora";
+import { AppState } from "../../../stores/appStore";
 
-export const RoomStateSection: React.FC<{ room: Room }> = ({ room }) => {
+const mapState = (state: AppState) => ({
+  currentUserId: state.currentUserId,
+});
+
+const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
+  currentUserId,
+}) => {
+  const [room, roomError] = useLiveRoom(currentUserId);
+  useErrorLog(roomError);
+
+  const agoraClient = useAgoraClient();
   const [dirty, setDirty] = useState(false);
+
+  useEffect(() => {
+    setDirty(false);
+  }, [room]);
+
+  if (!currentUserId || !room) {
+    return null;
+  }
 
   const onClosedClick = () => {
     setDirty(true);
     saveRoom({ ...room, state: "closed" });
-    // TODO stop streaming
+    leaveAgoraChannel(agoraClient);
   };
 
   const onOpenClick = () => {
     setDirty(true);
     saveRoom({ ...room, state: "open" });
+    leaveAgoraChannel(agoraClient);
   };
 
   const onLiveClick = () => {
     setDirty(true);
     saveRoom({ ...room, state: "live" });
-    // TODO start streaming
+    joinAgoraChannel(agoraClient, currentUserId, room);
   };
-
-  useEffect(() => {
-    setDirty(false);
-  }, [room]);
 
   return (
     <details className="MyRoomPage-RoomStateSelect" open>
@@ -66,3 +89,5 @@ export const RoomStateSection: React.FC<{ room: Room }> = ({ room }) => {
     </details>
   );
 };
+
+export const RoomStateSection = connect()(RoomStateSectionBase);
