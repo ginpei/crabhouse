@@ -24,13 +24,8 @@ export const getRoomToken = functions.https.onCall(async (data, context) => {
     );
   }
 
-  const ss = await db.collection("rooms").doc(roomId).get();
-  const roomState = ss.data()?.state ?? "";
-  if (
-    currentUserId !== roomId &&
-    roomState !== "open" &&
-    roomState !== "live"
-  ) {
+  const isOwner = currentUserId === roomId;
+  if (!isOwner && !isOpenRoom(roomId)) {
     throw new functions.https.HttpsError(
         "failed-precondition",
         "Room is not open"
@@ -42,6 +37,15 @@ export const getRoomToken = functions.https.onCall(async (data, context) => {
 
   return {roomId, token, currentUserId};
 });
+
+/**
+ * @param roomId ID
+ */
+async function isOpenRoom(roomId: string): Promise<boolean> {
+  const ss = await db.collection("rooms").doc(roomId).get();
+  const roomState = ss.data()?.state ?? "";
+  return roomState !== "open" && roomState !== "live";
+}
 
 /**
  * https://docs.agora.io/en/Voice/token_server?platform=All%20Platforms
