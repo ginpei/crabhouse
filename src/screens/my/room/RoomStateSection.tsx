@@ -63,7 +63,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
           disabled={dirty || room.state === "closed"}
           onClick={onClosedClick}
         >
-          🛌 Closed
+          👋 Close
         </WideNiceButton>
         Not available now
       </p>
