@@ -58,6 +58,49 @@ const ControlPanelBase: React.FC<
     );
   }
 
+  if (room.state !== "live") {
+    const onWaitClick = () => {
+      if (!currentUserId) {
+        throw new Error("User must have logged in");
+      }
+
+      joinAgoraChannel(currentUserId, room);
+    };
+
+    const onStopWaitingClick = () => {
+      leaveAgoraChannel();
+    };
+
+    if (listening) {
+      return (
+        <div className="UserRoomPage-ControlPanel">
+          <p>Waiting for start...</p>
+          <p>
+            <WideNiceButton onClick={onStopWaitingClick}>
+              👋 Cancel waiting
+            </WideNiceButton>
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="UserRoomPage-ControlPanel">
+        <p>This room is open, but streaming not yet started.</p>
+        <p>
+          <WideNiceButton
+            className="UserRoomPage-playButton"
+            onClick={onWaitClick}
+          >
+            <div className="UserRoomPage-playButtonIcon">▶️</div>
+            <div className="UserRoomPage-playButtonLabel">Wait</div>
+          </WideNiceButton>
+          Line up and will start listening soon!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="UserRoomPage-ControlPanel">
       <p>State: [{agoraState}]</p>
