@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useErrorLog } from "../../../misc/misc";
-import { getRoomStateLabel } from "../../../models/Room";
+import { Room } from "../../../models/Room";
 import { saveRoom, useLiveRoom } from "../../../models/RoomDb";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import {
@@ -102,3 +102,23 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 };
 
 export const RoomStateSection = connect()(RoomStateSectionBase);
+
+function getRoomStateLabel(room: Room | null): string {
+  if (!room) {
+    return "...";
+  }
+
+  if (room.state === "closed") {
+    return "Closed";
+  }
+
+  if (room.state === "open") {
+    return "Open";
+  }
+
+  if (room.state === "live") {
+    return "Live";
+  }
+
+  throw new Error(`Unknown room state "${room.state}"`);
+}

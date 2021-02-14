@@ -19,23 +19,3 @@ export function createRoom(initial?: Partial<Room>): Room {
     state: initial?.state || "closed",
   };
 }
-
-export function getRoomStateLabel(room: Room | null): string {
-  if (!room) {
-    return "...";
-  }
-
-  if (room.state === "closed") {
-    return "Closed";
-  }
-
-  if (room.state === "open") {
-    return "Open";
-  }
-
-  if (room.state === "live") {
-    return "Live";
-  }
-
-  throw new Error(`Unknown room state "${room.state}"`);
-}
