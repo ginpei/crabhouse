@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { AppError } from "../../models/AppError";
-import { useUser } from "../../models/UserDb";
+import { useLiveRoom } from "../../models/RoomDb";
+import { useUser, useUserFollowings } from "../../models/UserDb";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { NotFoundScreen } from "../../shared/screens/NotFoundScreen";
@@ -22,13 +23,18 @@ const mapState = (state: AppState) => ({
 });
 
 const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
-  currentUser,
   currentUserId,
 }) => {
   useCurrentUserStore();
   const { userId } = useParams<{ userId: string }>();
   const [user, userError] = useUser(userId);
   useErrorLog(userError);
+
+  const [room, roomError] = useLiveRoom(userId);
+  useErrorLog(roomError);
+
+  const [followings, followingsError] = useUserFollowings(userId);
+  useErrorLog(followingsError);
 
   const userName = user?.name || "(No name)";
 
@@ -62,9 +68,35 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>
         <FollowButton user={user} />
       </p>
-      <p>
-        <Link to={userRoomPagePath(user.id)}>Visit {user.name}'s room</Link>
-      </p>
+      <section>
+        <h2>{user.name}'s room</h2>
+        <p>State: {room?.state ?? ""}</p>
+        <p>
+          <Link to={userRoomPagePath(user.id)}>
+            👉 Visit {user.name}'s room
+          </Link>
+        </p>
+      </section>
+      {followings && (
+        <section>
+          <h2>Followings</h2>
+          {followings.length > 0 ? (
+            <ul>
+              {followings.map((following) => (
+                <li key={following.id}>
+                  <Link to={userViewPagePath(following.id)}>
+                    {following.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <small>No followings.</small>
+            </p>
+          )}
+        </section>
+      )}
     </BasicLayout>
   );
 };
