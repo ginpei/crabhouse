@@ -21,11 +21,11 @@
 
     &:hover,
     &:focus {
-      --NiceButton-bg: hsl(210, 100%, 97%);
+      --NiceButton-bg: var(--ui-hover-bg);
     }
 
     &:active {
-      --NiceButton-bg: hsl(210, 100%, 90%);
+      --NiceButton-bg: var(--ui-active-bg);
     }
 
     &[data-nicebutton-style="danger"] {

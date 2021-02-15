@@ -10,9 +10,11 @@
   --link-hover-color: hsl(210, 90%, 45%);
   --theme-bg: hsl(210, 100%, 20%);
   --theme-fg: #fff;
+  --ui-active-bg: hsl(210, 100%, 90%);
   --ui-bg: hsl(210, 100%, 95%);
   --ui-border-color: hsl(210, 50%, 80%);
-  --ui-fg: hsl(210, 50%, 30%);
+  --ui-fg: var(--link-color);
+  --ui-hover-bg: hsl(210, 100%, 97%);
 }
 
 /* no mouse devices */

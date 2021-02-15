@@ -50,8 +50,13 @@ textarea {
 a {
   color: var(--link-color);
 
-  &:hover {
-    color: var(--link-hover-color);
+  &:hover,
+  &:focus {
+    background-color: var(--ui-bg);
+  }
+
+  &:active {
+    background-color: var(--ui-active-bg);
   }
 }
 
