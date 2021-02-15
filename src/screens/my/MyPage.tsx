@@ -9,6 +9,7 @@ import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 import { BasicLayout } from "../shared/BasicLayout";
+import { userRoomPagePath } from "../users/room/UserRoomPage";
 import { userViewPagePath } from "../users/UserViewPage";
 import { profileEditPagePath } from "./profileEdit/ProfileEditPage";
 import { myRoomPagePath } from "./room/MyRoomPage";
@@ -56,14 +57,19 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
         <Link to={userViewPagePath(currentUser.id)}>{currentUser.name}</Link>{" "}
         &gt; My page
       </p>
-      <h1>
-        <Link to={userViewPagePath(currentUserId)}>{currentUser.name}</Link>
-      </h1>
+      <h1>{currentUser.name}</h1>
+      <h2>Pages</h2>
       <p>
-        <Link to={profileEditPagePath()}>Edit my profile</Link>
+        <Link to={userViewPagePath(currentUserId)}>🦀 View profile</Link>
       </p>
       <p>
-        <Link to={myRoomPagePath()}>My room</Link>
+        <Link to={profileEditPagePath()}>✏️ Edit profile</Link>
+      </p>
+      <p>
+        <Link to={userRoomPagePath(currentUserId)}>📡 View room</Link>
+      </p>
+      <p>
+        <Link to={myRoomPagePath()}>⚙️ My room control panel</Link>
       </p>
       <h2>Followings</h2>
       <ul>
