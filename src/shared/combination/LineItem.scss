@@ -1,0 +1,10 @@
+.LineItem {
+  border-color: var(--theme2-border-color);
+  border-style: solid none solid;
+  border-width: 1px;
+  line-height: var(--clickable-height);
+
+  & + & {
+    border-top-style: none;
+  }
+}

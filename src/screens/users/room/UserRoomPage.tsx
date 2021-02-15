@@ -4,7 +4,7 @@ import { useErrorLog } from "../../../misc/misc";
 import { useLiveRoom } from "../../../models/RoomDb";
 import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
 import { useUser } from "../../../models/UserDb";
-import { UserOneLine } from "../../../shared/combination/UserOneLine";
+import { LineLink } from "../../../shared/combination/LineLink";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { AppState } from "../../../stores/appStore";
@@ -89,13 +89,17 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h2>Speakers (0)</h2>
       <div>
         {speakers.map((speaker) => (
-          <UserOneLine key={speaker.id} user={speaker} />
+          <LineLink key={speaker.id} to={userViewPagePath(speaker.id)}>
+            {speaker.name}
+          </LineLink>
         ))}
       </div>
       <h2>Listeners (0)</h2>
       <div>
         {listeners.map((listener) => (
-          <UserOneLine key={listener.id} user={listener} />
+          <LineLink key={listener.id} to={userViewPagePath(listener.id)}>
+            {listener.name}
+          </LineLink>
         ))}
       </div>
     </BasicLayout>

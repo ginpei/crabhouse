@@ -4,7 +4,7 @@ import { Reaction, ReactionType } from "../../../models/Reaction";
 import { useLiveReactionCollection } from "../../../models/ReactionDb";
 import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
 import { User } from "../../../models/User";
-import { UserOneLine } from "../../../shared/combination/UserOneLine";
+import { LineLink } from "../../../shared/combination/LineLink";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
@@ -73,13 +73,17 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h2>Speakers ({speakers.length})</h2>
       <div>
         {speakers.map((speaker) => (
-          <UserOneLine key={speaker.id} user={speaker} />
+          <LineLink key={speaker.id} to={userViewPagePath(speaker.id)}>
+            {speaker.name}
+          </LineLink>
         ))}
       </div>
       <h2>Listeners ({listeners.length})</h2>
       <div>
         {listeners.map((listener) => (
-          <UserOneLine key={listener.id} user={listener} />
+          <LineLink key={listener.id} to={userViewPagePath(listener.id)}>
+            {listener.name}
+          </LineLink>
         ))}
       </div>
     </BasicLayout>
