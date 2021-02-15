@@ -8,6 +8,10 @@ import { ssToUser } from "./UserDb";
 export function getRoomParticipantCollection(
   roomId: string
 ): CollectionReference {
+  if (roomId === "") {
+    throw new Error("Room ID must not be empty");
+  }
+
   return getRoomDocument(roomId).collection("participants");
 }
 
@@ -15,6 +19,10 @@ export function getRoomParticipantDocument(
   roomId: string,
   userId: string
 ): DocumentReference {
+  if (userId === "") {
+    throw new Error("User ID must not be empty");
+  }
+
   return getRoomParticipantCollection(roomId).doc(userId);
 }
 
