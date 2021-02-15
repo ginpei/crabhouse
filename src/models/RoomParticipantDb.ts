@@ -44,7 +44,7 @@ export function useLiveRoomParticipants(
     setSpeakers(null);
     setListeners(null);
 
-    if (roomId === null) {
+    if (roomId === null || roomId === "") {
       return noop;
     }
 
