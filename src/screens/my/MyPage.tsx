@@ -44,11 +44,11 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
     return <LoadingScreen />;
   }
 
-  if (currentUserId === "") {
+  if (currentUserId === "" || currentUser === null) {
     return <LoginScreen title="My page" />;
   }
 
-  if (currentUser === null || followings === null || followers === null) {
+  if (followings === null || followers === null) {
     return <LoadingScreen />;
   }
 

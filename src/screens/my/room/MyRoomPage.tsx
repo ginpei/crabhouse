@@ -35,17 +35,16 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const reactions = useLiveReactionCollection(currentUserId);
   const [speakers, listeners] = useLiveRoomParticipants(currentUserId);
 
-  if (
-    currentUserId === null ||
-    reactions === null ||
-    speakers === null ||
-    listeners === null
-  ) {
+  if (currentUserId === null) {
     return <LoadingScreen />;
   }
 
   if (currentUserId === "" || currentUser === null) {
     return <LoginScreen title="My room" />;
+  }
+
+  if (reactions === null || speakers === null || listeners === null) {
+    return <LoadingScreen />;
   }
 
   return (
