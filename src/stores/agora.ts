@@ -26,7 +26,7 @@ export async function joinAgoraChannel(
   }
 
   if (client.connectionState !== "DISCONNECTED") {
-    leaveAgoraChannel(room.id);
+    await leaveAgoraChannel(room.id);
   }
 
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
@@ -35,7 +35,7 @@ export async function joinAgoraChannel(
     await client.join(agoraAppId, room.id, token, currentUserId);
   } catch (error) {
     appStore.dispatch(appSlice.actions.setPlayingSession({ room: null }));
-    leaveFromSession(room.id);
+    await leaveFromSession(room.id);
     throw error;
   }
 }
