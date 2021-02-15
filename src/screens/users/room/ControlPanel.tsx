@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
@@ -11,6 +12,7 @@ import {
 } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
+import { myRoomPagePath } from "../../my/room/MyRoomPage";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
@@ -53,6 +55,16 @@ const ControlPanelBase: React.FC<
 
     leaveAgoraChannel(room.id);
   };
+
+  if (room.id === currentUserId) {
+    return (
+      <div className="UserRoomPage-ControlPanel">
+        <p>
+          <Link to={myRoomPagePath()}>⚙️ Go to control panel</Link>
+        </p>
+      </div>
+    );
+  }
 
   if (room.state !== "open" && room.state !== "live") {
     return (
