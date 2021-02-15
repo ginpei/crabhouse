@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { connect } from "react-redux";
-import { raiseHands } from "../../../models/ReactionDb";
-import { Room } from "../../../models/Room";
-import { User } from "../../../models/User";
-import { NiceButton } from "../../../shared/pure/NiceButton";
-import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
-import { MicToggle } from "../../../shared/standalone/MicToggle";
 import {
   joinAgoraChannel,
   leaveAgoraChannel,
   useAgoraChannelJoined,
   useAgoraConnectionState,
-} from "../../../stores/agora";
-import { AppState } from "../../../stores/appStore";
-import { useCurrentUserStore } from "../../../stores/currentUser";
+} from "../../../data/agora";
+import { AppState } from "../../../data/appStore";
+import { useCurrentUserStore } from "../../../data/currentUser";
+import { raiseHands } from "../../../data/ReactionDb";
+import { Room } from "../../../data/Room";
+import { User } from "../../../data/User";
+import { NiceButton } from "../../../shared/pure/NiceButton";
+import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
+import { MicToggle } from "../../../shared/standalone/MicToggle";
 
 const mapState = (state: AppState) => ({
   currentUser: state.currentUser,

@@ -2,11 +2,11 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { leaveAgoraChannel, useAgoraChannelJoined } from "../../data/agora";
+import { appSlice, AppState } from "../../data/appStore";
+import { useCurrentUserStore } from "../../data/currentUser";
 import { noop } from "../../misc/misc";
 import { myRoomPagePath } from "../../screens/my/room/MyRoomPage";
-import { leaveAgoraChannel, useAgoraChannelJoined } from "../../stores/agora";
-import { appSlice, AppState } from "../../stores/appStore";
-import { useCurrentUserStore } from "../../stores/currentUser";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,

@@ -5,7 +5,7 @@ import {
   unpublishAgora,
   useAgoraChannelJoined,
   useAgoraSpeaking,
-} from "../../stores/agora";
+} from "../../data/agora";
 import { NiceButton } from "../pure/NiceButton";
 import "./MicToggle.scss";
 

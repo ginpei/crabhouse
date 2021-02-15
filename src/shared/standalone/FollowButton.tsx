@@ -1,12 +1,12 @@
 import { DetailedHTMLProps, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { AppState } from "../../data/appStore";
+import { useCurrentUserStore } from "../../data/currentUser";
+import { User } from "../../data/User";
+import { follow, unfollow } from "../../data/UserDb";
 import { useErrorLog } from "../../misc/misc";
-import { User } from "../../models/User";
-import { follow, unfollow } from "../../models/UserDb";
 import { myPagePath } from "../../screens/my/MyPage";
-import { AppState } from "../../stores/appStore";
-import { useCurrentUserStore } from "../../stores/currentUser";
 import { NiceButton } from "../pure/NiceButton";
 
 const mapState = (state: AppState) => ({

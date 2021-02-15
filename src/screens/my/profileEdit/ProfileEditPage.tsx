@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { isAppErrorOf } from "../../../data/AppError";
+import { AppState } from "../../../data/appStore";
+import { useCurrentUserStore } from "../../../data/currentUser";
+import { createUser, User } from "../../../data/User";
+import { getUser, saveUser } from "../../../data/UserDb";
 import { useErrorLog } from "../../../misc/misc";
-import { isAppErrorOf } from "../../../models/AppError";
-import { createUser, User } from "../../../models/User";
-import { getUser, saveUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { NiceButton } from "../../../shared/pure/NiceButton";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
-import { AppState } from "../../../stores/appStore";
-import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
 import { userViewPagePath } from "../../users/UserViewPage";
 

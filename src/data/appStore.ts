@@ -1,6 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Room } from "../models/Room";
-import { User } from "../models/User";
+import { Room } from "./Room";
+import { User } from "./User";
 
 export type AppState = ReturnType<typeof appSlice["reducer"]>;
 // export type AppActions = typeof appSlice["actions"];

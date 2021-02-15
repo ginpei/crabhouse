@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { initializeFirebase } from "./data/firebase";
 import "./index.scss";
-import { initializeFirebase } from "./models/firebase";
 import reportWebVitals from "./reportWebVitals";
 
 initializeFirebase();

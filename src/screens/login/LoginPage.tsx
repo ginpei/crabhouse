@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { AppState } from "../../data/appStore";
+import { useCurrentUserStore } from "../../data/currentUser";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
-import { AppState } from "../../stores/appStore";
-import { useCurrentUserStore } from "../../stores/currentUser";
 import { myPagePath } from "../my/MyPage";
 
 export function loginPagePath(): string {

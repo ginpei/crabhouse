@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { useErrorLog } from "../../misc/misc";
-import { useLiveRoom } from "../../models/RoomDb";
-import { userRoomPagePath } from "../../screens/users/room/UserRoomPage";
 import {
   leaveAgoraChannel,
   useAgoraConnectionState,
   useAgoraSound,
-} from "../../stores/agora";
-import { AppState } from "../../stores/appStore";
+} from "../../data/agora";
+import { AppState } from "../../data/appStore";
+import { useLiveRoom } from "../../data/RoomDb";
+import { useErrorLog } from "../../misc/misc";
+import { userRoomPagePath } from "../../screens/users/room/UserRoomPage";
 import { SessionControls } from "./SessionControls";
 import "./SessionPlayer.scss";
 

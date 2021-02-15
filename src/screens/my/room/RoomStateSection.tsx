@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { joinAgoraChannel, leaveAgoraChannel } from "../../../data/agora";
+import { AppState } from "../../../data/appStore";
+import { Room } from "../../../data/Room";
+import { saveRoom, useLiveRoom } from "../../../data/RoomDb";
 import { useErrorLog } from "../../../misc/misc";
-import { Room } from "../../../models/Room";
-import { saveRoom, useLiveRoom } from "../../../models/RoomDb";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
-import { joinAgoraChannel, leaveAgoraChannel } from "../../../stores/agora";
-import { AppState } from "../../../stores/appStore";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,

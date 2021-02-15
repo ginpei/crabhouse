@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { auth } from "../models/firebase";
+import { auth } from "../data/firebase";
 
 const uiConfig: firebaseui.auth.Config = {
   callbacks: {

@@ -4,12 +4,9 @@ import AgoraRTC, {
   IAgoraRTCRemoteUser,
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
-import { Room } from "../models/Room";
-import {
-  leaveFromSession,
-  participateInSession,
-} from "../models/RoomParticipantDb";
 import { appSlice, appStore } from "./appStore";
+import { Room } from "./Room";
+import { leaveFromSession, participateInSession } from "./RoomParticipantDb";
 
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 

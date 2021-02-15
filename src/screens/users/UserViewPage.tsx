@@ -1,17 +1,17 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import { AppError } from "../../data/AppError";
+import { AppState } from "../../data/appStore";
+import { useCurrentUserStore } from "../../data/currentUser";
+import { useLiveRoom } from "../../data/RoomDb";
+import { useUser, useUserFollowings } from "../../data/UserDb";
 import { useErrorLog } from "../../misc/misc";
-import { AppError } from "../../models/AppError";
-import { useLiveRoom } from "../../models/RoomDb";
-import { useUser, useUserFollowings } from "../../models/UserDb";
 import { LineItem } from "../../shared/combination/LineItem";
 import { LineLink } from "../../shared/combination/LineLink";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { NotFoundScreen } from "../../shared/screens/NotFoundScreen";
 import { FollowButton } from "../../shared/standalone/FollowButton";
-import { AppState } from "../../stores/appStore";
-import { useCurrentUserStore } from "../../stores/currentUser";
 import { BasicLayout } from "../shared/BasicLayout";
 import { userRoomPagePath } from "./room/UserRoomPage";
 

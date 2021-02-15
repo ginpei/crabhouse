@@ -1,19 +1,19 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
-import { auth } from "../models/firebase";
-import { onCollectionSnapshot } from "../models/modelDbBase";
-import { createRoom } from "../models/Room";
-import { saveRoom } from "../models/RoomDb";
-import { createUser } from "../models/User";
+import { appSlice, appStore } from "./appStore";
+import { auth } from "./firebase";
+import { onCollectionSnapshot } from "./modelDbBase";
+import { createRoom } from "./Room";
+import { saveRoom } from "./RoomDb";
+import { createUser } from "./User";
 import {
   getUserFollowerCollection,
   getUserFollowingCollection,
   onUserSnapshot,
   saveUser,
   ssToUser,
-} from "../models/UserDb";
-import { appSlice, appStore } from "./appStore";
+} from "./UserDb";
 
 export function useCurrentUserStore(): void {
   const [userId, setUserId] = useState<string | null>(null);
