@@ -12,6 +12,7 @@ import { useCurrentUserStore } from "../../stores/currentUser";
 import { loginPagePath } from "../login/LoginPage";
 import { myPagePath } from "../my/MyPage";
 import { BasicHeaderFrame } from "../shared/BasicHeaderFrame";
+import { userRoomPagePath } from "../users/room/UserRoomPage";
 import { userViewPagePath } from "../users/UserViewPage";
 import "./HomePage.scss";
 
@@ -135,7 +136,7 @@ const OpenRoomList: React.FC = () => {
     <ul>
       {openRooms.map((room) => (
         <li key={room.id}>
-          <Link to={userViewPagePath(room.id)}>
+          <Link to={userRoomPagePath(room.id)}>
             {room.name}
             {room.state === "live" && <span title="Live">📡</span>}
           </Link>
