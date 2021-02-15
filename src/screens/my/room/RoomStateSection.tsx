@@ -23,7 +23,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     setDirty(false);
   }, [room]);
 
-  const onClosedClick = async () => {
+  const onCloseClick = async () => {
     if (!room) {
       throw new Error("Room must be prepared");
     }
@@ -92,7 +92,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>
         <WideNiceButton
           disabled={!room || dirty || room.state === "closed"}
-          onClick={onClosedClick}
+          onClick={onCloseClick}
         >
           👋 Close
         </WideNiceButton>
