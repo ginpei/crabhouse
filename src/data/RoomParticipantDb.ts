@@ -36,6 +36,7 @@ export function getRoomParticipantDocument(
   return getRoomParticipantCollection(roomId).doc(userId);
 }
 
+// TODO extract
 export async function participateInSession(
   roomId: string
 ): Promise<ParticipateResult> {
@@ -43,6 +44,7 @@ export async function participateInSession(
   return result.data;
 }
 
+// TODO extract
 export async function leaveFromSession(roomId: string): Promise<void> {
   await callCloudFunction("leaveFromSession", { roomId });
 }
