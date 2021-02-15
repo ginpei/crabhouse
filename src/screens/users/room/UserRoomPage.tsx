@@ -2,9 +2,11 @@ import { connect } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useLiveRoom } from "../../../models/RoomDb";
+import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
+import { UserOneLine } from "../../../shared/UserOneLine";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -31,9 +33,17 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   const [room, roomError] = useLiveRoom(userId);
   useErrorLog(roomError);
 
+  const [speakers, listeners] = useLiveRoomParticipants(room?.id ?? null);
+
   const roomOpen = room?.state === "open" || room?.state === "live";
 
-  if (currentUserId === null || user === null || room === null) {
+  if (
+    currentUserId === null ||
+    user === null ||
+    room === null ||
+    speakers === null ||
+    listeners === null
+  ) {
     return <LoadingScreen />;
   }
 
@@ -62,7 +72,17 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h1>{room.name}</h1>
       <ControlPanel room={room} user={user} />
       <h2>Speakers (0)</h2>
-      <h2>Participants (0)</h2>
+      <div>
+        {speakers.map((speaker) => (
+          <UserOneLine key={speaker.id} user={speaker} />
+        ))}
+      </div>
+      <h2>Listeners (0)</h2>
+      <div>
+        {listeners.map((listener) => (
+          <UserOneLine key={listener.id} user={listener} />
+        ))}
+      </div>
     </BasicLayout>
   );
 };

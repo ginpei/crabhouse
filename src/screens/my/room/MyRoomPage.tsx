@@ -1,11 +1,10 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { useErrorLog } from "../../../misc/misc";
 import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
-import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
+import { UserOneLine } from "../../../shared/UserOneLine";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -53,35 +52,20 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
         <MicToggle />
       </details>
       <h2>Speakers ({speakers.length})</h2>
-      <ul>
-        {speakers.map((user) => (
-          <li key={user.id}>
-            <UserInline id={String(user.id)} />
-          </li>
+      <div>
+        {speakers.map((speaker) => (
+          <UserOneLine key={speaker.id} user={speaker} />
         ))}
-      </ul>
+      </div>
       <h2>Reactions (0)</h2>
-      <h2>Participants ({listeners.length})</h2>
-      <ul>
-        {listeners.map((user) => (
-          <li key={user.id}>
-            <UserInline id={String(user.id)} />
-          </li>
+      <h2>Listeners ({listeners.length})</h2>
+      <div>
+        {listeners.map((listener) => (
+          <UserOneLine key={listener.id} user={listener} />
         ))}
-      </ul>
+      </div>
     </BasicLayout>
   );
 };
 
 export const MyRoomPage = connect(mapState)(MyRoomPageBase);
-
-const UserInline: React.FC<{ id: string }> = ({ id }) => {
-  const [user, userError] = useUser(id);
-  useErrorLog(userError);
-
-  if (user === null) {
-    return <>…</>;
-  }
-
-  return <span className="UserInline">{user.name}</span>;
-};
