@@ -1,4 +1,4 @@
 export * from "./api/follow";
-export * from "./api/getRoomToken";
+export * from "./api/participateInSession";
 export * from "./api/unfollow";
 

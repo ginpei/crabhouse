@@ -10,35 +10,39 @@ const appID = functions.config().agora.app_id;
 const appCertificate = functions.config().agora.app_certificate;
 const lifeTimeSec = 60 * 60; // 60 min in sec
 
-export const getRoomToken = functions.https.onCall(async (data, context) => {
-  const currentUserId = context.auth?.uid;
-  if (!currentUserId) {
-    throw new functions.https.HttpsError("permission-denied", "Not logged in");
-  }
+export const participateInSession = functions.https.onCall(
+    async (data, context) => {
+      const currentUserId = context.auth?.uid;
+      if (!currentUserId) {
+        throw new functions.https.HttpsError(
+            "permission-denied",
+            "Not logged in"
+        );
+      }
 
-  const roomId = data.roomId;
-  if (!roomId || typeof roomId !== "string") {
-    throw new functions.https.HttpsError(
-        "invalid-argument",
-        "`roomId` is required"
-    );
-  }
+      const roomId = data.roomId;
+      if (!roomId || typeof roomId !== "string") {
+        throw new functions.https.HttpsError(
+            "invalid-argument",
+            "`roomId` is required"
+        );
+      }
 
-  const isOwner = currentUserId === roomId;
-  if (!isOwner && !isOpenRoom(roomId)) {
-    throw new functions.https.HttpsError(
-        "failed-precondition",
-        "Room is not open"
-    );
-  }
+      const isOwner = currentUserId === roomId;
+      if (!isOwner && !isOpenRoom(roomId)) {
+        throw new functions.https.HttpsError(
+            "failed-precondition",
+            "Room is not open"
+        );
+      }
 
-  await participate(roomId, currentUserId);
+      await addUserToParticipantList(roomId, currentUserId);
 
-  // const uid = Math.floor(Math.random() * 2 ** 30);
-  const token = generateToken(roomId, currentUserId);
+      // const uid = Math.floor(Math.random() * 2 ** 30);
+      const token = generateToken(roomId, currentUserId);
 
-  return {roomId, token, currentUserId};
-});
+      return {roomId, token, userId: currentUserId};
+    });
 
 /**
  * @param roomId ID
@@ -52,7 +56,7 @@ async function isOpenRoom(roomId: string): Promise<boolean> {
 /**
  * Clone user data to participant list.
  */
-async function participate(roomId: string, currentUserId: string) {
+async function addUserToParticipantList(roomId: string, currentUserId: string) {
   const ssUser = await db
       .collection("users")
       .doc(currentUserId)

@@ -9,6 +9,12 @@ import { Room } from "../models/Room";
 import { leaveFromRoom } from "../models/RoomParticipantDb";
 import { appSlice, appStore } from "./appStore";
 
+type ParticipateResult = {
+  roomId: string;
+  token: string;
+  userId: string;
+};
+
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 
 let globalAgoraClient: IAgoraRTCClient | null = null;
@@ -29,9 +35,7 @@ export async function joinAgoraChannel(
 
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
   try {
-    const getRoomToken = functions.httpsCallable("getRoomToken");
-    const { token } = (await getRoomToken({ roomId: room.id })).data;
-
+    const { token } = await participateInSession(room.id);
     await client.join(agoraAppId, room.id, token, currentUserId);
   } catch (error) {
     appStore.dispatch(appSlice.actions.setPlayingSession({ room: null }));
@@ -161,4 +165,12 @@ function getClient(): IAgoraRTCClient {
   }
 
   return globalAgoraClient;
+}
+
+async function participateInSession(
+  roomId: string
+): Promise<ParticipateResult> {
+  const f = functions.httpsCallable("participate");
+  const result = (await f({ roomId })).data as ParticipateResult;
+  return result;
 }
