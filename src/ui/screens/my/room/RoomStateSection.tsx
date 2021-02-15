@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { joinRoom, leaveRoom } from "../../../../data/agoraRoom";
 import { AppState } from "../../../../data/appStore";
 import { Room } from "../../../../data/Room";
-import { saveRoom, useLiveRoom } from "../../../../data/RoomDb";
+import { setRoomState, useLiveRoom } from "../../../../data/RoomDb";
 import { useErrorLog } from "../../../../misc/misc";
 import { WideNiceButton } from "../../../pure/WideNiceButton";
 
@@ -30,10 +30,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 
     setDirty(true);
     try {
-      await Promise.all([
-        saveRoom({ ...room, state: "closed" }),
-        leaveRoom(room.id),
-      ]);
+      await Promise.all([setRoomState(room.id, "closed"), leaveRoom(room.id)]);
     } catch (error) {
       setDirty(false);
       // TODO
@@ -48,10 +45,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
 
     setDirty(true);
     try {
-      await Promise.all([
-        saveRoom({ ...room, state: "open" }),
-        leaveRoom(room.id),
-      ]);
+      await Promise.all([setRoomState(room.id, "open"), leaveRoom(room.id)]);
     } catch (error) {
       setDirty(false);
       // TODO
@@ -71,7 +65,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     setDirty(true);
     try {
       await Promise.all([
-        saveRoom({ ...room, state: "live" }),
+        setRoomState(room.id, "live"),
         joinRoom(currentUserId, room),
       ]);
     } catch (error) {

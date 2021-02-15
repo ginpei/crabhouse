@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ssToDataRecord } from "./DataRecordDb";
 import { DocumentSnapshot } from "./firebase";
 import { createModelFunctions } from "./modelDbBase";
-import { createRoom, Room } from "./Room";
+import { createRoom, Room, RoomState } from "./Room";
 
 export function ssToRoom(ss: DocumentSnapshot): Room {
   return createRoom({ ...ss.data(), ...ssToDataRecord(ss) });
@@ -19,6 +19,15 @@ export const [
   collectionName: "rooms",
   ssToModel: ssToRoom,
 });
+
+export async function setRoomState(
+  roomId: string,
+  state: RoomState
+): Promise<Room> {
+  // TODO transaction
+  const room = await getRoom(roomId);
+  return saveRoom({ ...room, state });
+}
 
 export async function getOpenRooms(): Promise<Room[]> {
   const ss = await getRoomCollection()
