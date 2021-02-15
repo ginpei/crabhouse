@@ -52,7 +52,10 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   return (
     <BasicLayout className="MyPage" title={currentUser.name}>
-      <p>My page</p>
+      <p>
+        <Link to={userViewPagePath(currentUser.id)}>{currentUser.name}</Link>{" "}
+        &gt; My page
+      </p>
       <h1>
         <Link to={userViewPagePath(currentUserId)}>{currentUser.name}</Link>
       </h1>

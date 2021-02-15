@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
 import { useUser } from "../../../models/UserDb";
@@ -8,6 +9,8 @@ import { MicToggle } from "../../../shared/standalone/MicToggle";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
+import { userRoomPagePath } from "../../users/room/UserRoomPage";
+import { userViewPagePath } from "../../users/UserViewPage";
 import { myPagePath } from "../MyPage";
 import "./MyRoomPage.scss";
 import { RoomStateSection } from "./RoomStateSection";
@@ -39,7 +42,10 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   return (
     <BasicLayout className="MyRoomPage" title="My room">
-      <p>My room</p>
+      <p>
+        <Link to={userViewPagePath(currentUser.id)}>{currentUser.name}</Link>{" "}
+        &gt; <Link to={userRoomPagePath(currentUserId)}>Room</Link> &gt; My room
+      </p>
       <h1>{currentUser.name}'s room</h1>
       <RoomStateSection currentUserId={currentUserId} />
       <details open>

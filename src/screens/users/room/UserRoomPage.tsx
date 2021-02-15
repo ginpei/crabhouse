@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { useLiveRoom } from "../../../models/RoomDb";
 import { useUser } from "../../../models/UserDb";
@@ -44,6 +44,9 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
   if (!roomOpen) {
     return (
       <BasicLayout className="UserRoomPage" title={room.name}>
+        <p>
+          <Link to={userViewPagePath(user.id)}>{user.name}</Link> &gt; Room
+        </p>
         <h1>{room.name}</h1>
         <p>Room is not open now.</p>
         <p>Stay tuned and see you soon! 👋</p>
@@ -53,6 +56,9 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   return (
     <BasicLayout className="UserRoomPage" title={room.name}>
+      <p>
+        <Link to={userViewPagePath(user.id)}>{user.name}</Link> &gt; Room
+      </p>
       <h1>{room.name}</h1>
       <ControlPanel room={room} user={user} />
       <h2>Speakers (0)</h2>
