@@ -9,6 +9,7 @@ import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { UserOneLine } from "../../../shared/UserOneLine";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
+import { myRoomPagePath } from "../../my/room/MyRoomPage";
 import { BasicLayout } from "../../shared/BasicLayout";
 import { userViewPagePath } from "../UserViewPage";
 import { ControlPanel } from "./ControlPanel";
@@ -49,6 +50,20 @@ const UserRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   if (currentUserId === "") {
     return <LoginScreen title={room.name} />;
+  }
+
+  if (room.id === currentUserId) {
+    return (
+      <BasicLayout className="UserRoomPage" title={room.name}>
+        <p>
+          <Link to={userViewPagePath(user.id)}>{user.name}</Link> &gt; Room
+        </p>
+        <h1>{room.name}</h1>
+        <p>
+          <Link to={myRoomPagePath()}>⚙️ Go to control panel</Link>
+        </p>
+      </BasicLayout>
+    );
   }
 
   if (!roomOpen) {
