@@ -50,6 +50,14 @@ service cloud.firestore {
         // room owner
         allow delete: if userId == request.auth.uid;
       }
+
+      match /reactions/{reactionId} {
+        // anybody
+        allow read;
+
+        // themselves
+        allow create: if request.resource.data.userId == request.auth.uid;
+      }
     }
 
     function isCreatedNow(resource) {

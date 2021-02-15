@@ -1,6 +1,9 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Reaction, ReactionType } from "../../../models/Reaction";
+import { useLiveReactionCollection } from "../../../models/ReactionDb";
 import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
+import { User } from "../../../models/User";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
@@ -29,9 +32,15 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 }) => {
   useCurrentUserStore();
 
+  const reactions = useLiveReactionCollection(currentUserId);
   const [speakers, listeners] = useLiveRoomParticipants(currentUserId);
 
-  if (currentUserId === null || speakers === null || listeners === null) {
+  if (
+    currentUserId === null ||
+    reactions === null ||
+    speakers === null ||
+    listeners === null
+  ) {
     return <LoadingScreen />;
   }
 
@@ -51,13 +60,22 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
         <summary>Sound control</summary>
         <MicToggle />
       </details>
+      <h2>Reactions</h2>
+      <div>
+        {reactions.map((reaction) => (
+          <ReactionLine
+            key={reaction.id}
+            participants={[...listeners, ...speakers]}
+            reaction={reaction}
+          />
+        ))}
+      </div>
       <h2>Speakers ({speakers.length})</h2>
       <div>
         {speakers.map((speaker) => (
           <UserOneLine key={speaker.id} user={speaker} />
         ))}
       </div>
-      <h2>Reactions (0)</h2>
       <h2>Listeners ({listeners.length})</h2>
       <div>
         {listeners.map((listener) => (
@@ -69,3 +87,20 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 };
 
 export const MyRoomPage = connect(mapState)(MyRoomPageBase);
+
+const ReactionLine: React.FC<{ participants: User[]; reaction: Reaction }> = ({
+  participants,
+  reaction,
+}) => {
+  const user = participants.find((v) => v.id === reaction.userId);
+  const emojiMap: Record<ReactionType, string> = {
+    raiseHands: "🙌",
+  };
+
+  return (
+    <div className="ReactionLine">
+      {emojiMap[reaction.type]} by {user?.name ?? "???"} at{" "}
+      {new Date(reaction.createdAt).toLocaleTimeString()}
+    </div>
+  );
+};

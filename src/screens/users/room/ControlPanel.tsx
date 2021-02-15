@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { raiseHands } from "../../../models/ReactionDb";
 import { Room } from "../../../models/Room";
 import { User } from "../../../models/User";
+import { NiceButton } from "../../../shared/pure/NiceButton";
 import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
 import {
@@ -15,6 +18,7 @@ import { useCurrentUserStore } from "../../../stores/currentUser";
 import { myRoomPagePath } from "../../my/room/MyRoomPage";
 
 const mapState = (state: AppState) => ({
+  currentUser: state.currentUser,
   currentUserId: state.currentUserId,
   participatingSession: state.participatingSession,
 });
@@ -24,7 +28,7 @@ const ControlPanelBase: React.FC<
     room: Room;
     user: User;
   }
-> = ({ currentUserId, participatingSession, room, user }) => {
+> = ({ currentUser, currentUserId, participatingSession, room, user }) => {
   useCurrentUserStore();
   const agoraState = useAgoraConnectionState();
   const [playing, stopped] = useAgoraChannelJoined();
@@ -121,6 +125,10 @@ const ControlPanelBase: React.FC<
     );
   }
 
+  if (listening) {
+    return <ListenerControlPanel room={room} user={currentUser} />;
+  }
+
   return (
     <div className="UserRoomPage-ControlPanel">
       <p>State: [{agoraState}]</p>
@@ -145,3 +153,38 @@ const ControlPanelBase: React.FC<
 };
 
 export const ControlPanel = connect(mapState)(ControlPanelBase);
+
+const ListenerControlPanel: React.FC<{ room: Room; user: User | null }> = ({
+  room,
+  user,
+}) => {
+  const [updating, setUpdating] = useState(false);
+
+  const onRaiseHandsClick = async () => {
+    setUpdating(true);
+    await raiseHands(room.id);
+    setUpdating(false);
+  };
+
+  const onLeaveClick = () => {
+    setUpdating(true);
+    leaveAgoraChannel(room.id);
+  };
+
+  return (
+    <div className="ListenerControlPanel">
+      <p>Listening...</p>
+      <p>
+        <NiceButton disabled={updating} onClick={onRaiseHandsClick}>
+          🙌 Raise hands
+        </NiceButton>
+      </p>
+      <hr />
+      <p>
+        <WideNiceButton disabled={updating} onClick={onLeaveClick}>
+          ⏹ Leave
+        </WideNiceButton>
+      </p>
+    </div>
+  );
+};

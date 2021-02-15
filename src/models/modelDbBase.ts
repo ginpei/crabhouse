@@ -15,6 +15,7 @@ import {
   Timestamp,
 } from "./firebase";
 
+// TODO support nested structure
 export function createModelFunctions<T extends DataRecord>(options: {
   collectionName: string;
   modelToDocumentData?: (model: T) => DocumentData<T>;
