@@ -4,16 +4,12 @@ import AgoraRTC, {
   IAgoraRTCRemoteUser,
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
-import { functions } from "../models/firebase";
 import { Room } from "../models/Room";
-import { leaveFromSession } from "../models/RoomParticipantDb";
+import {
+  leaveFromSession,
+  participateInSession,
+} from "../models/RoomParticipantDb";
 import { appSlice, appStore } from "./appStore";
-
-type ParticipateResult = {
-  roomId: string;
-  token: string;
-  userId: string;
-};
 
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 
@@ -162,12 +158,4 @@ function getClient(): IAgoraRTCClient {
   }
 
   return globalAgoraClient;
-}
-
-async function participateInSession(
-  roomId: string
-): Promise<ParticipateResult> {
-  const f = functions.httpsCallable("participate");
-  const result = (await f({ roomId })).data as ParticipateResult;
-  return result;
 }

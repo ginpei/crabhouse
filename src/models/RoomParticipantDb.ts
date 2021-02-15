@@ -9,6 +9,12 @@ import { getRoomDocument } from "./RoomDb";
 import { User } from "./User";
 import { ssToUser } from "./UserDb";
 
+export type ParticipateResult = {
+  roomId: string;
+  token: string;
+  userId: string;
+};
+
 export function getRoomParticipantCollection(
   roomId: string
 ): CollectionReference {
@@ -28,6 +34,13 @@ export function getRoomParticipantDocument(
   }
 
   return getRoomParticipantCollection(roomId).doc(userId);
+}
+
+export async function participateInSession(
+  roomId: string
+): Promise<ParticipateResult> {
+  const result = await callCloudFunction("participateInSession", { roomId });
+  return result.data;
 }
 
 export async function leaveFromSession(roomId: string): Promise<void> {
