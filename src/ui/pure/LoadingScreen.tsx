@@ -1,4 +1,4 @@
-import { BasicHeaderFrame } from "../../screens/shared/BasicHeaderFrame";
+import { BasicHeaderFrame } from "../screens/shared/BasicHeaderFrame";
 import "./LoadingScreen.scss";
 
 export const LoadingScreen: React.FC = () => {

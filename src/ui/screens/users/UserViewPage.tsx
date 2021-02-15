@@ -1,18 +1,18 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { AppError } from "../../data/AppError";
-import { AppState } from "../../data/appStore";
-import { useCurrentUserStore } from "../../data/currentUser";
-import { useLiveRoom } from "../../data/RoomDb";
-import { useUser, useUserFollowings } from "../../data/UserDb";
-import { useErrorLog } from "../../misc/misc";
-import { LineItem } from "../../shared/combination/LineItem";
-import { LineLink } from "../../shared/combination/LineLink";
-import { LoadingScreen } from "../../shared/pure/LoadingScreen";
-import { LoginScreen } from "../../shared/screens/LoginScreen";
-import { NotFoundScreen } from "../../shared/screens/NotFoundScreen";
-import { FollowButton } from "../../shared/standalone/FollowButton";
+import { AppError } from "../../../data/AppError";
+import { AppState } from "../../../data/appStore";
+import { useCurrentUserStore } from "../../../data/currentUser";
+import { useLiveRoom } from "../../../data/RoomDb";
+import { useUser, useUserFollowings } from "../../../data/UserDb";
+import { useErrorLog } from "../../../misc/misc";
+import { LineItem } from "../../combination/LineItem";
+import { LineLink } from "../../combination/LineLink";
+import { LoadingScreen } from "../../pure/LoadingScreen";
+import { FollowButton } from "../../standalone/FollowButton";
 import { BasicLayout } from "../shared/BasicLayout";
+import { LoginScreen } from "../shared/LoginScreen";
+import { NotFoundScreen } from "../shared/NotFoundScreen";
 import { userRoomPagePath } from "./room/UserRoomPage";
 
 export function userViewPagePath(userId: string | null): string {

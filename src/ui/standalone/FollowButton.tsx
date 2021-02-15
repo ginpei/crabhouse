@@ -6,8 +6,8 @@ import { useCurrentUserStore } from "../../data/currentUser";
 import { User } from "../../data/User";
 import { follow, unfollow } from "../../data/UserDb";
 import { useErrorLog } from "../../misc/misc";
-import { myPagePath } from "../../screens/my/MyPage";
 import { NiceButton } from "../pure/NiceButton";
+import { myPagePath } from "../screens/my/MyPage";
 
 const mapState = (state: AppState) => ({
   currentUser: state.currentUser,

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BasicLayout } from "../../screens/shared/BasicLayout";
+import { BasicLayout } from "./BasicLayout";
 
 export const NotFoundScreen: React.FC<{ targetName?: string }> = ({
   targetName,

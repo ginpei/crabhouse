@@ -6,7 +6,7 @@ import { leaveAgoraChannel, useAgoraChannelJoined } from "../../data/agora";
 import { appSlice, AppState } from "../../data/appStore";
 import { useCurrentUserStore } from "../../data/currentUser";
 import { noop } from "../../misc/misc";
-import { myRoomPagePath } from "../../screens/my/room/MyRoomPage";
+import { myRoomPagePath } from "../screens/my/room/MyRoomPage";
 
 const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,

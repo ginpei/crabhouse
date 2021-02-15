@@ -5,15 +5,15 @@ import {
   leaveAgoraChannel,
   useAgoraChannelJoined,
   useAgoraConnectionState,
-} from "../../../data/agora";
-import { AppState } from "../../../data/appStore";
-import { useCurrentUserStore } from "../../../data/currentUser";
-import { raiseHands } from "../../../data/ReactionDb";
-import { Room } from "../../../data/Room";
-import { User } from "../../../data/User";
-import { NiceButton } from "../../../shared/pure/NiceButton";
-import { WideNiceButton } from "../../../shared/pure/WideNiceButton";
-import { MicToggle } from "../../../shared/standalone/MicToggle";
+} from "../../../../data/agora";
+import { AppState } from "../../../../data/appStore";
+import { useCurrentUserStore } from "../../../../data/currentUser";
+import { raiseHands } from "../../../../data/ReactionDb";
+import { Room } from "../../../../data/Room";
+import { User } from "../../../../data/User";
+import { NiceButton } from "../../../pure/NiceButton";
+import { WideNiceButton } from "../../../pure/WideNiceButton";
+import { MicToggle } from "../../../standalone/MicToggle";
 
 const mapState = (state: AppState) => ({
   currentUser: state.currentUser,

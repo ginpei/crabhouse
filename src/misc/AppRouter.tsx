@@ -1,18 +1,21 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { HomePage } from "../screens/home/HomePage";
-import { LoginPage, loginPagePath } from "../screens/login/LoginPage";
-import { MyPage, myPagePath } from "../screens/my/MyPage";
+import { HomePage } from "../ui/screens/home/HomePage";
+import { LoginPage, loginPagePath } from "../ui/screens/login/LoginPage";
+import { MyPage, myPagePath } from "../ui/screens/my/MyPage";
 import {
   ProfileEditPage,
   profileEditPagePath,
-} from "../screens/my/profileEdit/ProfileEditPage";
-import { MyRoomPage, myRoomPagePath } from "../screens/my/room/MyRoomPage";
+} from "../ui/screens/my/profileEdit/ProfileEditPage";
+import { MyRoomPage, myRoomPagePath } from "../ui/screens/my/room/MyRoomPage";
+import { NotFoundScreen } from "../ui/screens/shared/NotFoundScreen";
 import {
   UserRoomPage,
   userRoomPagePath,
-} from "../screens/users/room/UserRoomPage";
-import { UserViewPage, userViewPagePath } from "../screens/users/UserViewPage";
-import { NotFoundScreen } from "../shared/screens/NotFoundScreen";
+} from "../ui/screens/users/room/UserRoomPage";
+import {
+  UserViewPage,
+  userViewPagePath,
+} from "../ui/screens/users/UserViewPage";
 
 export const AppRouter: React.FC = ({ children }) => {
   return (

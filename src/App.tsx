@@ -2,7 +2,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { appStore } from "./data/appStore";
 import { AppRouter } from "./misc/AppRouter";
-import { SessionPlayer } from "./shared/standalone/SessionPlayer";
+import { SessionPlayer } from "./ui/standalone/SessionPlayer";
 
 const helmetContext = {};
 

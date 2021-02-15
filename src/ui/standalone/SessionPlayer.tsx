@@ -9,7 +9,7 @@ import {
 import { AppState } from "../../data/appStore";
 import { useLiveRoom } from "../../data/RoomDb";
 import { useErrorLog } from "../../misc/misc";
-import { userRoomPagePath } from "../../screens/users/room/UserRoomPage";
+import { userRoomPagePath } from "../screens/users/room/UserRoomPage";
 import { SessionControls } from "./SessionControls";
 import "./SessionPlayer.scss";
 

@@ -1,7 +1,7 @@
 import { HTMLProps } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { jcn } from "../../misc/misc";
+import { jcn } from "../../../misc/misc";
 import { BasicHeaderFrame } from "./BasicHeaderFrame";
 import "./BasicLayout.scss";
 

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { isAppErrorOf } from "../../../data/AppError";
-import { AppState } from "../../../data/appStore";
-import { useCurrentUserStore } from "../../../data/currentUser";
-import { createUser, User } from "../../../data/User";
-import { getUser, saveUser } from "../../../data/UserDb";
-import { useErrorLog } from "../../../misc/misc";
-import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
-import { NiceButton } from "../../../shared/pure/NiceButton";
-import { LoginScreen } from "../../../shared/screens/LoginScreen";
+import { isAppErrorOf } from "../../../../data/AppError";
+import { AppState } from "../../../../data/appStore";
+import { useCurrentUserStore } from "../../../../data/currentUser";
+import { createUser, User } from "../../../../data/User";
+import { getUser, saveUser } from "../../../../data/UserDb";
+import { useErrorLog } from "../../../../misc/misc";
+import { LoadingScreen } from "../../../pure/LoadingScreen";
+import { NiceButton } from "../../../pure/NiceButton";
 import { BasicLayout } from "../../shared/BasicLayout";
+import { LoginScreen } from "../../shared/LoginScreen";
 import { userViewPagePath } from "../../users/UserViewPage";
 
 export function profileEditPagePath(): string {
