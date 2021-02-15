@@ -32,12 +32,12 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
   const roomOpen = room?.state === "open" || room?.state === "live";
 
   useEffect(() => {
-    if (!room || !currentUserId) {
+    if (!room) {
       return;
     }
 
     if (agoraState !== "DISCONNECTED" && !roomOpen) {
-      leaveAgoraChannel(room.id, currentUserId);
+      leaveAgoraChannel(room.id);
     }
   }, [agoraState, currentUserId, room, roomOpen]);
 

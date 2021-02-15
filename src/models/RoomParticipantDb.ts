@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
-import { CollectionReference, DocumentReference } from "./firebase";
+import { CollectionReference, DocumentReference, functions } from "./firebase";
 import { getRoomDocument } from "./RoomDb";
 import { User } from "./User";
 import { ssToUser } from "./UserDb";
@@ -18,11 +18,9 @@ export function getRoomParticipantDocument(
   return getRoomParticipantCollection(roomId).doc(userId);
 }
 
-export async function leaveFromRoom(
-  roomId: string,
-  userId: string
-): Promise<void> {
-  await getRoomParticipantDocument(roomId, userId).delete();
+export async function leaveFromSession(roomId: string): Promise<void> {
+  const f = functions.httpsCallable("leaveFromSession");
+  await f({ roomId });
 }
 
 export function useLiveRoomParticipants(

@@ -88,15 +88,11 @@ const SessionControlsBase: React.FC<
   }
 
   const onStopClick = () => {
-    if (!currentUserId) {
-      throw new Error("User must have logged in");
-    }
-
     if (!playingSession) {
       throw new Error("Room must be fetched");
     }
 
-    leaveAgoraChannel(playingSession.id, currentUserId);
+    leaveAgoraChannel(playingSession.id);
   };
 
   return (

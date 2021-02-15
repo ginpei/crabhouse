@@ -47,15 +47,11 @@ const ControlPanelBase: React.FC<
   };
 
   const onStopClick = () => {
-    if (!currentUserId) {
-      throw new Error("User must have logged in");
-    }
-
     if (!room) {
       throw new Error("Room must be fetched");
     }
 
-    leaveAgoraChannel(room.id, currentUserId);
+    leaveAgoraChannel(room.id);
   };
 
   if (room.state !== "open" && room.state !== "live") {
@@ -76,15 +72,11 @@ const ControlPanelBase: React.FC<
     };
 
     const onStopWaitingClick = () => {
-      if (!currentUserId) {
-        throw new Error("User must have logged in");
-      }
-
       if (!room) {
         throw new Error("Room must be fetched");
       }
 
-      leaveAgoraChannel(room.id, currentUserId);
+      leaveAgoraChannel(room.id);
     };
 
     if (listening) {

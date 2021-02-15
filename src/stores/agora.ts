@@ -6,7 +6,7 @@ import AgoraRTC, {
 import { useEffect, useState } from "react";
 import { functions } from "../models/firebase";
 import { Room } from "../models/Room";
-import { leaveFromRoom } from "../models/RoomParticipantDb";
+import { leaveFromSession } from "../models/RoomParticipantDb";
 import { appSlice, appStore } from "./appStore";
 
 type ParticipateResult = {
@@ -30,7 +30,7 @@ export async function joinAgoraChannel(
   }
 
   if (client.connectionState !== "DISCONNECTED") {
-    leaveAgoraChannel(room.id, currentUserId);
+    leaveAgoraChannel(room.id);
   }
 
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
@@ -39,20 +39,17 @@ export async function joinAgoraChannel(
     await client.join(agoraAppId, room.id, token, currentUserId);
   } catch (error) {
     appStore.dispatch(appSlice.actions.setPlayingSession({ room: null }));
-    leaveFromRoom(room.id, currentUserId);
+    leaveFromSession(room.id);
     throw error;
   }
 }
 
-export async function leaveAgoraChannel(
-  roomId: string,
-  currentUserId: string
-): Promise<void> {
+export async function leaveAgoraChannel(roomId: string): Promise<void> {
   const client = getClient();
 
   await Promise.all([
     unpublishAgora().then(() => client.leave()),
-    leaveFromRoom(roomId, currentUserId),
+    leaveFromSession(roomId),
   ]);
 }
 
