@@ -1,4 +1,4 @@
-import { LoginForm } from "../../LoginForm";
+import { LoginForm } from "../../standalone/LoginForm";
 import { BasicLayout } from "./BasicLayout";
 
 export const LoginScreen: React.FC<{ title?: string }> = ({ title }) => {
