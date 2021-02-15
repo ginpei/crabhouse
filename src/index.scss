@@ -62,6 +62,15 @@ summary {
   }
 }
 
+input {
+  height: var(--clickable-height);
+}
+
+textarea {
+  height: 4rem;
+  width: 100%;
+}
+
 a {
   color: var(--link-color);
 

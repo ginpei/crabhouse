@@ -4,6 +4,7 @@ import { useErrorLog } from "../../misc/misc";
 import { AppError } from "../../models/AppError";
 import { useLiveRoom } from "../../models/RoomDb";
 import { useUser, useUserFollowings } from "../../models/UserDb";
+import { LineItem } from "../../shared/combination/LineItem";
 import { LineLink } from "../../shared/combination/LineLink";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
@@ -69,6 +70,21 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <p>
         <FollowButton user={user} />
       </p>
+      <p>{user.bio}</p>
+      {user.twitter && (
+        <LineItem>
+          <a className="LineLink" href={`https://twitter.com/${user.twitter}`}>
+            @{user.twitter}
+          </a>
+        </LineItem>
+      )}
+      {user.website && (
+        <LineItem>
+          <a className="LineLink" href={user.website}>
+            {user.website}
+          </a>
+        </LineItem>
+      )}
       <section>
         <h2>{user.name}'s room</h2>
         <p>State: {room?.state ?? ""}</p>

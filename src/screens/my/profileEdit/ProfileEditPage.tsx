@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { useErrorLog } from "../../../misc/misc";
 import { isAppErrorOf } from "../../../models/AppError";
 import { createUser, User } from "../../../models/User";
@@ -10,6 +11,7 @@ import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
+import { userViewPagePath } from "../../users/UserViewPage";
 
 export function profileEditPagePath(): string {
   return "/my/editProfile/";
@@ -83,7 +85,10 @@ const ProfileEditPageBase: React.FC<ReturnType<typeof mapState>> = ({
 
   return (
     <BasicLayout className="MyProfileEditPage" title="Edit profile">
-      <h1>MyProfileEditPage</h1>
+      <p>
+        <Link to={userViewPagePath(user.id)}>{user.name}</Link>
+      </p>
+      <h1>Edit profile</h1>
       {userError && (
         <p style={{ color: "tomato" }}>[Bug] {userError.message}</p>
       )}
@@ -108,10 +113,18 @@ const UserForm: React.FC<{
     onSubmit(user);
   };
 
-  const onValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onValueChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.currentTarget;
     if (name === "name") {
       onChange({ ...user, name: value });
+    } else if (name === "bio") {
+      onChange({ ...user, bio: value });
+    } else if (name === "twitter") {
+      onChange({ ...user, twitter: value });
+    } else if (name === "website") {
+      onChange({ ...user, website: value });
     } else {
       throw new Error(`Unknown input "${name}"`);
     }
@@ -131,6 +144,41 @@ const UserForm: React.FC<{
             onChange={onValueChange}
             type="text"
             value={user.name}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          Bio:{" "}
+          <textarea
+            disabled={disabled}
+            name="bio"
+            onChange={onValueChange}
+            value={user.bio}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          Twitter: @
+          <input
+            disabled={disabled}
+            name="twitter"
+            onChange={onValueChange}
+            type="text"
+            value={user.twitter}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          Website:{" "}
+          <input
+            disabled={disabled}
+            name="website"
+            onChange={onValueChange}
+            type="text"
+            value={user.website}
           />
         </label>
       </p>
