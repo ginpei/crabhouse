@@ -68,6 +68,23 @@ export function initializeFirebase(): firebase.app.App {
   return app;
 }
 
+export function callCloudFunction(
+  name: string,
+  data?: Parameters<firebase.functions.HttpsCallable>[0]
+): Promise<firebase.functions.HttpsCallableResult> {
+  try {
+    const f = functions.httpsCallable(name);
+    return f(data);
+  } catch (error) {
+    // override unclear internal error
+    if (error instanceof Error && error.message === "internal") {
+      throw new Error("API call failed");
+    }
+
+    throw error;
+  }
+}
+
 export function isTimestamp(obj: unknown): obj is Timestamp {
   return obj instanceof firebase.firestore.Timestamp;
 }

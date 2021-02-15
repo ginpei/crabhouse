@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { noop } from "../misc/misc";
-import { CollectionReference, DocumentReference, functions } from "./firebase";
+import {
+  callCloudFunction,
+  CollectionReference,
+  DocumentReference,
+} from "./firebase";
 import { getRoomDocument } from "./RoomDb";
 import { User } from "./User";
 import { ssToUser } from "./UserDb";
@@ -27,8 +31,7 @@ export function getRoomParticipantDocument(
 }
 
 export async function leaveFromSession(roomId: string): Promise<void> {
-  const f = functions.httpsCallable("leaveFromSession");
-  await f({ roomId });
+  await callCloudFunction("leaveFromSession", { roomId });
 }
 
 export function useLiveRoomParticipants(
