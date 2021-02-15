@@ -3,6 +3,8 @@
   border-style: solid none solid;
   border-width: 1px;
   line-height: var(--clickable-height);
+  margin-left: -1rem;
+  margin-right: -1rem;
 
   & + & {
     border-top-style: none;
