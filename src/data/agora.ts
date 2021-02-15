@@ -4,17 +4,24 @@ import AgoraRTC, {
   IAgoraRTCRemoteUser,
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
-import { appSlice, appStore } from "./appStore";
 import { Room } from "./Room";
-import { leaveFromSession, participateInSession } from "./RoomParticipantDb";
 
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
 
 let globalAgoraClient: IAgoraRTCClient | null = null;
 
+export function getAgoraConnectionState(): ConnectionState {
+  const client = getClient();
+  return client.connectionState;
+}
+
+/**
+ * Use `joinRoom()` for general purpose.
+ */
 export async function joinAgoraChannel(
   currentUserId: string,
-  room: Room
+  room: Room,
+  token: string
 ): Promise<void> {
   const client = getClient();
 
@@ -22,28 +29,17 @@ export async function joinAgoraChannel(
     throw new NoAgoraAppIdError();
   }
 
-  if (client.connectionState !== "DISCONNECTED") {
-    await leaveAgoraChannel(room.id);
-  }
-
-  appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
-  try {
-    const { token } = await participateInSession(room.id);
-    await client.join(agoraAppId, room.id, token, currentUserId);
-  } catch (error) {
-    appStore.dispatch(appSlice.actions.setPlayingSession({ room: null }));
-    await leaveFromSession(room.id);
-    throw error;
-  }
+  await client.join(agoraAppId, room.id, token, currentUserId);
 }
 
-export async function leaveAgoraChannel(roomId: string): Promise<void> {
+/**
+ * Use `leaveRoom()` for general purpose.
+ */
+export async function leaveAgoraChannel(): Promise<void> {
   const client = getClient();
 
-  await Promise.all([
-    unpublishAgora().then(() => client.leave()),
-    leaveFromSession(roomId),
-  ]);
+  await unpublishAgora();
+  await client.leave();
 }
 
 export async function publishAgora(): Promise<void> {

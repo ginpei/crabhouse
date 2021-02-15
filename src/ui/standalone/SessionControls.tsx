@@ -2,7 +2,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { leaveAgoraChannel, useAgoraChannelJoined } from "../../data/agora";
+import { useAgoraChannelJoined } from "../../data/agora";
+import { leaveRoom } from "../../data/agoraRoom";
 import { appSlice, AppState } from "../../data/appStore";
 import { useCurrentUserStore } from "../../data/currentUser";
 import { noop } from "../../misc/misc";
@@ -92,7 +93,7 @@ const SessionControlsBase: React.FC<
       throw new Error("Room must be fetched");
     }
 
-    leaveAgoraChannel(playingSession.id);
+    leaveRoom(playingSession.id);
   };
 
   return (

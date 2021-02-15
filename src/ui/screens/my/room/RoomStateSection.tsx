@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { joinAgoraChannel, leaveAgoraChannel } from "../../../../data/agora";
+import { joinRoom, leaveRoom } from "../../../../data/agoraRoom";
 import { AppState } from "../../../../data/appStore";
 import { Room } from "../../../../data/Room";
 import { saveRoom, useLiveRoom } from "../../../../data/RoomDb";
@@ -32,7 +32,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     try {
       await Promise.all([
         saveRoom({ ...room, state: "closed" }),
-        leaveAgoraChannel(room.id),
+        leaveRoom(room.id),
       ]);
     } catch (error) {
       setDirty(false);
@@ -50,7 +50,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     try {
       await Promise.all([
         saveRoom({ ...room, state: "open" }),
-        leaveAgoraChannel(room.id),
+        leaveRoom(room.id),
       ]);
     } catch (error) {
       setDirty(false);
@@ -72,7 +72,7 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
     try {
       await Promise.all([
         saveRoom({ ...room, state: "live" }),
-        joinAgoraChannel(currentUserId, room),
+        joinRoom(currentUserId, room),
       ]);
     } catch (error) {
       setDirty(false);

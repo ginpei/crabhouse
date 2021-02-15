@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  leaveAgoraChannel,
-  useAgoraConnectionState,
-  useAgoraSound,
-} from "../../data/agora";
+import { useAgoraConnectionState, useAgoraSound } from "../../data/agora";
+import { leaveRoom } from "../../data/agoraRoom";
 import { AppState } from "../../data/appStore";
 import { useLiveRoom } from "../../data/RoomDb";
 import { useErrorLog } from "../../misc/misc";
@@ -37,7 +34,7 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
     }
 
     if (agoraState !== "DISCONNECTED" && !roomOpen) {
-      leaveAgoraChannel(room.id);
+      leaveRoom(room.id);
     }
   }, [agoraState, currentUserId, room, roomOpen]);
 

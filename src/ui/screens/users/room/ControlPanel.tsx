@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import {
-  joinAgoraChannel,
-  leaveAgoraChannel,
   useAgoraChannelJoined,
   useAgoraConnectionState,
 } from "../../../../data/agora";
+import { joinRoom, leaveRoom } from "../../../../data/agoraRoom";
 import { AppState } from "../../../../data/appStore";
 import { useCurrentUserStore } from "../../../../data/currentUser";
 import { raiseHands } from "../../../../data/ReactionDb";
@@ -35,6 +34,7 @@ const ControlPanelBase: React.FC<
   const left = participatingSession?.id !== room.id || stopped;
 
   const onPlayClick = () => {
+    // TODO remove or use
     if (!user) {
       throw new Error("User data must be prepared");
     }
@@ -47,7 +47,7 @@ const ControlPanelBase: React.FC<
       throw new Error("Room must be fetched");
     }
 
-    joinAgoraChannel(currentUserId, room);
+    joinRoom(currentUserId, room);
   };
 
   const onStopClick = () => {
@@ -55,7 +55,7 @@ const ControlPanelBase: React.FC<
       throw new Error("Room must be fetched");
     }
 
-    leaveAgoraChannel(room.id);
+    leaveRoom(room.id);
   };
 
   if (room.state !== "open" && room.state !== "live") {
@@ -72,7 +72,7 @@ const ControlPanelBase: React.FC<
         throw new Error("User must have logged in");
       }
 
-      joinAgoraChannel(currentUserId, room);
+      joinRoom(currentUserId, room);
     };
 
     const onStopWaitingClick = () => {
@@ -80,7 +80,7 @@ const ControlPanelBase: React.FC<
         throw new Error("Room must be fetched");
       }
 
-      leaveAgoraChannel(room.id);
+      leaveRoom(room.id);
     };
 
     if (listening) {
@@ -156,7 +156,7 @@ const ListenerControlPanel: React.FC<{ room: Room; user: User | null }> = ({
 
   const onLeaveClick = () => {
     setUpdating(true);
-    leaveAgoraChannel(room.id);
+    leaveRoom(room.id);
   };
 
   return (
