@@ -1,0 +1,14 @@
+.ui-container {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: min(100%, 800px);
+}
+
+.ui-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
