@@ -1,9 +1,10 @@
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { AppError } from "../../models/AppError";
 import { useLiveRoom } from "../../models/RoomDb";
 import { useUser, useUserFollowings } from "../../models/UserDb";
+import { LineLink } from "../../shared/combination/LineLink";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
 import { NotFoundScreen } from "../../shared/screens/NotFoundScreen";
@@ -71,25 +72,19 @@ const UserViewPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <section>
         <h2>{user.name}'s room</h2>
         <p>State: {room?.state ?? ""}</p>
-        <p>
-          <Link to={userRoomPagePath(user.id)}>
-            👉 Visit {user.name}'s room
-          </Link>
-        </p>
+        <LineLink to={userRoomPagePath(user.id)}>
+          👉 Visit {user.name}'s room
+        </LineLink>
       </section>
       {followings && (
         <section>
           <h2>Followings</h2>
           {followings.length > 0 ? (
-            <ul>
-              {followings.map((following) => (
-                <li key={following.id}>
-                  <Link to={userViewPagePath(following.id)}>
-                    {following.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            followings.map((following) => (
+              <LineLink key={following.id} to={userViewPagePath(following.id)}>
+                {following.name}
+              </LineLink>
+            ))
           ) : (
             <p>
               <small>No followings.</small>

@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useErrorLog } from "../../misc/misc";
 import { auth } from "../../models/firebase";
 import { useUserFollowers, useUserFollowings } from "../../models/UserDb";
+import { LineLink } from "../../shared/combination/LineLink";
 import { LoadingScreen } from "../../shared/pure/LoadingScreen";
 import { WideNiceButton } from "../../shared/pure/WideNiceButton";
 import { LoginScreen } from "../../shared/screens/LoginScreen";
@@ -59,34 +60,23 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
       </p>
       <h1>{currentUser.name}</h1>
       <h2>Pages</h2>
-      <p>
-        <Link to={userViewPagePath(currentUserId)}>🦀 View profile</Link>
-      </p>
-      <p>
-        <Link to={profileEditPagePath()}>✏️ Edit profile</Link>
-      </p>
-      <p>
-        <Link to={userRoomPagePath(currentUserId)}>📡 View room</Link>
-      </p>
-      <p>
-        <Link to={myRoomPagePath()}>⚙️ My room control panel</Link>
-      </p>
+      <LineLink to={userViewPagePath(currentUserId)}>🦀 View profile</LineLink>
+      <LineLink to={profileEditPagePath()}>✏️ Edit profile</LineLink>
+      <LineLink to={userRoomPagePath(currentUserId)}>📡 View room</LineLink>
+      <LineLink to={myRoomPagePath()}>⚙️ My room control panel</LineLink>
       <h2>Followings</h2>
-      <ul>
-        {followings.map((user) => (
-          <li key={user.id}>
-            <Link to={userViewPagePath(user.id)}>{user.name}</Link>
-          </li>
-        ))}
-      </ul>
+      {followings.map((user) => (
+        <LineLink key={user.id} to={userViewPagePath(user.id)}>
+          {user.name}
+        </LineLink>
+      ))}
+      <ul></ul>
       <h2>Followers</h2>
-      <ul>
-        {followers.map((user) => (
-          <li key={user.id}>
-            <Link to={userViewPagePath(user.id)}>{user.name}</Link>
-          </li>
-        ))}
-      </ul>
+      {followers.map((user) => (
+        <LineLink key={user.id} to={userViewPagePath(user.id)}>
+          {user.name}
+        </LineLink>
+      ))}
       <h2>Session</h2>
       <p>
         <WideNiceButton onClick={onLogOutClick}>Log out</WideNiceButton>
