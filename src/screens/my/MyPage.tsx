@@ -65,17 +65,29 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <LineLink to={userRoomPagePath(currentUserId)}>📡 View room</LineLink>
       <LineLink to={myRoomPagePath()}>⚙️ My room control panel</LineLink>
       <h2>Followings</h2>
-      {followings.map((user) => (
-        <LineLink key={user.id} to={userViewPagePath(user.id)}>
-          {user.name}
-        </LineLink>
-      ))}
+      {followings.length > 0 ? (
+        followings.map((user) => (
+          <LineLink key={user.id} to={userViewPagePath(user.id)}>
+            {user.name}
+          </LineLink>
+        ))
+      ) : (
+        <p>
+          <small>No followings.</small>
+        </p>
+      )}
       <h2>Followers</h2>
-      {followers.map((user) => (
-        <LineLink key={user.id} to={userViewPagePath(user.id)}>
-          {user.name}
-        </LineLink>
-      ))}
+      {followers.length > 0 ? (
+        followers.map((user) => (
+          <LineLink key={user.id} to={userViewPagePath(user.id)}>
+            {user.name}
+          </LineLink>
+        ))
+      ) : (
+        <p>
+          <small>No followers.</small>
+        </p>
+      )}
       <h2>Session</h2>
       <p>
         <WideNiceButton onClick={onLogOutClick}>Log out</WideNiceButton>
