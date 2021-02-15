@@ -60,6 +60,10 @@ a {
   }
 }
 
+small {
+  color: var(--moderate-fg);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
