@@ -8,18 +8,18 @@ import { leaveAgoraChannel, useAgoraChannelJoined } from "../../stores/agora";
 import { appSlice, AppState } from "../../stores/appStore";
 import { useCurrentUserStore } from "../../stores/currentUser";
 
-const mapControlsState = (state: AppState) => ({
+const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
   playingSession: state.participatingSession,
   sessionPlayerVisible: state.sessionPlayerVisible,
 });
 
-const mapControlsDispatch = (dispatch: Dispatch) => ({
+const mapDispatch = (dispatch: Dispatch) => ({
   hideSessionPlayer: () => dispatch(appSlice.actions.hideSessionPlayer()),
 });
 
 const SessionControlsBase: React.FC<
-  ReturnType<typeof mapControlsState> & ReturnType<typeof mapControlsDispatch>
+  ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
 > = ({ currentUserId, hideSessionPlayer, playingSession }) => {
   useCurrentUserStore();
   const history = useHistory();
@@ -109,6 +109,6 @@ const SessionControlsBase: React.FC<
 };
 
 export const SessionControls = connect(
-  mapControlsState,
-  mapControlsDispatch
+  mapState,
+  mapDispatch
 )(SessionControlsBase);
