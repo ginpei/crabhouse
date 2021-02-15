@@ -1,7 +1,7 @@
 .NiceButton {
-  --NiceButton-bg: var(--theme2-bg);
-  --NiceButton-border-color: var(--theme2-border-color);
-  --NiceButton-fg: var(--theme2-fg);
+  --NiceButton-bg: var(--ui-bg);
+  --NiceButton-border-color: var(--ui-border-color);
+  --NiceButton-fg: var(--ui-fg);
   background-color: var(--NiceButton-bg);
   border-color: var(--NiceButton-border-color);
   border-radius: 0.1rem;

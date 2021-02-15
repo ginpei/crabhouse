@@ -30,9 +30,9 @@
 }
 
 .SessionPlayer-button {
-  --SessionPlayer-button-bg: var(--theme2-bg);
-  --SessionPlayer-button-border-color: var(--theme2-border-color);
-  --SessionPlayer-button-fg: var(--theme2-fg);
+  --SessionPlayer-button-bg: var(--ui-bg);
+  --SessionPlayer-button-border-color: var(--ui-border-color);
+  --SessionPlayer-button-fg: var(--ui-fg);
   background-color: var(--SessionPlayer-button-bg);
   border-color: var(--SessionPlayer-button-border-color);
   border-style: none solid;
