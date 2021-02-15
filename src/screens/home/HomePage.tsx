@@ -1,4 +1,3 @@
-import { Dispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
@@ -20,11 +19,9 @@ const mapState = (state: AppState) => ({
   currentUserId: state.currentUserId,
 });
 
-const mapDispatch = (dispatch: Dispatch) => ({});
-
-const HomePageBase: React.FC<
-  ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
-> = ({ currentUserId }) => {
+const HomePageBase: React.FC<ReturnType<typeof mapState>> = ({
+  currentUserId,
+}) => {
   useCurrentUserStore();
   const [users, setUsers] = useState<User[] | null>(null);
 
@@ -78,7 +75,7 @@ const HomePageBase: React.FC<
   );
 };
 
-export const HomePage = connect(mapState, mapDispatch)(HomePageBase);
+export const HomePage = connect(mapState)(HomePageBase);
 
 const HeroLoginButton: React.FC<{ currentUserId: string | null }> = ({
   currentUserId,
