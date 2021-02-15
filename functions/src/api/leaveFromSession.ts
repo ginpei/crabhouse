@@ -19,10 +19,50 @@ export const leaveFromSession = functions.https.onCall(
         );
       }
 
-      await db
-          .collection("rooms")
-          .doc(roomId)
-          .collection("participants")
-          .doc(currentUserId).delete();
+      if (roomId === currentUserId) {
+        closeRoom(currentUserId);
+      } else {
+        removeFromParticipantList(roomId, currentUserId);
+      }
     }
 );
+
+/**
+ */
+async function closeRoom(currentUserId: string) {
+  const docRoom = db
+      .collection("rooms")
+      .doc(currentUserId);
+  const collParticipants = docRoom.collection("participants");
+  const collReactions = docRoom.collection("reactions");
+
+  await Promise.all([
+    deleteCollection(collParticipants),
+    deleteCollection(collReactions),
+  ]);
+}
+
+/**
+ */
+async function deleteCollection(
+    coll: FirebaseFirestore.CollectionReference
+): Promise<void> {
+  // this is not a good way tho
+  // https://firebase.google.com/docs/firestore/solutions/delete-collections
+
+  const ss = await coll.get();
+  await Promise.all(ss.docs.map((v) => coll.doc(v.id).delete()));
+}
+
+/**
+ */
+async function removeFromParticipantList(
+    roomId: string,
+    currentUserId: string
+) {
+  await db
+      .collection("rooms")
+      .doc(roomId)
+      .collection("participants")
+      .doc(currentUserId).delete();
+}
