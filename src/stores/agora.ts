@@ -2,11 +2,11 @@ import AgoraRTC, {
   ConnectionState,
   IAgoraRTCClient,
   IAgoraRTCRemoteUser,
-  UID,
 } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import { functions } from "../models/firebase";
 import { Room } from "../models/Room";
+import { leaveFromRoom } from "../models/RoomParticipantDb";
 import { appSlice, appStore } from "./appStore";
 
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
@@ -24,7 +24,7 @@ export async function joinAgoraChannel(
   }
 
   if (client.connectionState !== "DISCONNECTED") {
-    leaveAgoraChannel();
+    leaveAgoraChannel(room.id, currentUserId);
   }
 
   appStore.dispatch(appSlice.actions.setPlayingSession({ room }));
@@ -35,15 +35,21 @@ export async function joinAgoraChannel(
     await client.join(agoraAppId, room.id, token, currentUserId);
   } catch (error) {
     appStore.dispatch(appSlice.actions.setPlayingSession({ room: null }));
+    leaveFromRoom(room.id, currentUserId);
     throw error;
   }
 }
 
-export async function leaveAgoraChannel(): Promise<void> {
+export async function leaveAgoraChannel(
+  roomId: string,
+  currentUserId: string
+): Promise<void> {
   const client = getClient();
 
-  await unpublishAgora();
-  await client.leave();
+  await Promise.all([
+    unpublishAgora().then(() => client.leave()),
+    leaveFromRoom(roomId, currentUserId),
+  ]);
 }
 
 export async function publishAgora(): Promise<void> {
@@ -140,51 +146,6 @@ export function useAgoraSpeaking(): boolean {
   }, [client]);
 
   return speaking;
-}
-
-export function useAgoraChannelParticipants(): [
-  IAgoraRTCRemoteUser[],
-  IAgoraRTCRemoteUser[]
-] {
-  const client = getClient();
-
-  const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
-  const [speakerIds, setSpeakerIds] = useState<UID[]>([]);
-
-  useEffect(() => {
-    client.on("user-joined", onAgoraUserJoined);
-    client.on("user-left", onAgoraUserLeft);
-    client.on("user-published", onAgoraUserPublished);
-    client.on("user-unpublished", onAgoraUserUnpublished);
-
-    return () => {
-      client.off("user-joined", onAgoraUserJoined);
-      client.off("user-left", onAgoraUserLeft);
-      client.off("user-published", onAgoraUserPublished);
-      client.off("user-unpublished", onAgoraUserUnpublished);
-    };
-
-    function onAgoraUserJoined(user: IAgoraRTCRemoteUser) {
-      setUsers([...users, user]);
-    }
-
-    function onAgoraUserLeft(user: IAgoraRTCRemoteUser) {
-      setUsers(users.filter(({ uid }) => uid !== user.uid));
-    }
-
-    function onAgoraUserPublished(user: IAgoraRTCRemoteUser) {
-      setSpeakerIds([...speakerIds, user.uid]);
-    }
-
-    function onAgoraUserUnpublished(user: IAgoraRTCRemoteUser) {
-      setSpeakerIds(speakerIds.filter((v) => v !== user.uid));
-    }
-  }, [client, speakerIds, users]);
-
-  return [
-    users.filter((v) => speakerIds.includes(v.uid)),
-    users.filter((v) => !speakerIds.includes(v.uid)),
-  ];
 }
 
 class NoAgoraAppIdError extends Error {

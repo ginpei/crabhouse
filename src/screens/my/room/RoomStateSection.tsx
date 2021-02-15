@@ -28,11 +28,15 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Room must be prepared");
     }
 
+    if (!currentUserId) {
+      throw new Error("User data must have been loaded");
+    }
+
     setDirty(true);
     try {
       await Promise.all([
         saveRoom({ ...room, state: "closed" }),
-        leaveAgoraChannel(),
+        leaveAgoraChannel(room.id, currentUserId),
       ]);
     } catch (error) {
       setDirty(false);
@@ -46,11 +50,15 @@ const RoomStateSectionBase: React.FC<ReturnType<typeof mapState>> = ({
       throw new Error("Room must be prepared");
     }
 
+    if (!currentUserId) {
+      throw new Error("User data must have been loaded");
+    }
+
     setDirty(true);
     try {
       await Promise.all([
         saveRoom({ ...room, state: "open" }),
-        leaveAgoraChannel(),
+        leaveAgoraChannel(room.id, currentUserId),
       ]);
     } catch (error) {
       setDirty(false);

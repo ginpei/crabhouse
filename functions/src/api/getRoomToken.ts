@@ -32,6 +32,8 @@ export const getRoomToken = functions.https.onCall(async (data, context) => {
     );
   }
 
+  await participate(roomId, currentUserId);
+
   // const uid = Math.floor(Math.random() * 2 ** 30);
   const token = generateToken(roomId, currentUserId);
 
@@ -45,6 +47,30 @@ async function isOpenRoom(roomId: string): Promise<boolean> {
   const ss = await db.collection("rooms").doc(roomId).get();
   const roomState = ss.data()?.state ?? "";
   return roomState !== "open" && roomState !== "live";
+}
+
+/**
+ * Clone user data to participant list.
+ */
+async function participate(roomId: string, currentUserId: string) {
+  const ssUser = await db
+      .collection("users")
+      .doc(currentUserId)
+      .get();
+  const userData = ssUser.data();
+  if (!userData) {
+    throw new functions.https.HttpsError(
+        "failed-precondition",
+        "User data must exist"
+    );
+  }
+
+  await db
+      .collection("rooms")
+      .doc(roomId)
+      .collection("participants")
+      .doc(currentUserId)
+      .set(userData);
 }
 
 /**

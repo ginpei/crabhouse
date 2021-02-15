@@ -14,11 +14,13 @@ import { SessionControls } from "./SessionControls";
 import "./SessionPlayer.scss";
 
 const mapState = (state: AppState) => ({
+  currentUserId: state.currentUserId,
   playingSession: state.participatingSession,
   sessionPlayerVisible: state.sessionPlayerVisible,
 });
 
 const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
+  currentUserId,
   playingSession,
   sessionPlayerVisible,
 }) => {
@@ -30,10 +32,14 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
   const roomOpen = room?.state === "open" || room?.state === "live";
 
   useEffect(() => {
-    if (agoraState !== "DISCONNECTED" && !roomOpen) {
-      leaveAgoraChannel();
+    if (!room || !currentUserId) {
+      return;
     }
-  }, [agoraState, roomOpen]);
+
+    if (agoraState !== "DISCONNECTED" && !roomOpen) {
+      leaveAgoraChannel(room.id, currentUserId);
+    }
+  }, [agoraState, currentUserId, room, roomOpen]);
 
   if (!room || !sessionPlayerVisible) {
     return null;

@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import { useErrorLog } from "../../../misc/misc";
+import { useLiveRoomParticipants } from "../../../models/RoomParticipantDb";
 import { useUser } from "../../../models/UserDb";
 import { LoadingScreen } from "../../../shared/pure/LoadingScreen";
 import { LoginScreen } from "../../../shared/screens/LoginScreen";
 import { MicToggle } from "../../../shared/standalone/MicToggle";
-import { useAgoraChannelParticipants } from "../../../stores/agora";
 import { AppState } from "../../../stores/appStore";
 import { useCurrentUserStore } from "../../../stores/currentUser";
 import { BasicLayout } from "../../shared/BasicLayout";
@@ -27,9 +27,9 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
 }) => {
   useCurrentUserStore();
 
-  const [speakers, participants] = useAgoraChannelParticipants();
+  const [speakers, listeners] = useLiveRoomParticipants(currentUserId);
 
-  if (currentUserId === null) {
+  if (currentUserId === null || speakers === null || listeners === null) {
     return <LoadingScreen />;
   }
 
@@ -49,17 +49,17 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
       <h2>Speakers ({speakers.length})</h2>
       <ul>
         {speakers.map((user) => (
-          <li key={user.uid}>
-            <UserInline id={String(user.uid)} />
+          <li key={user.id}>
+            <UserInline id={String(user.id)} />
           </li>
         ))}
       </ul>
       <h2>Reactions (0)</h2>
-      <h2>Participants ({participants.length})</h2>
+      <h2>Participants ({listeners.length})</h2>
       <ul>
-        {participants.map((user) => (
-          <li key={user.uid}>
-            <UserInline id={String(user.uid)} />
+        {listeners.map((user) => (
+          <li key={user.id}>
+            <UserInline id={String(user.id)} />
           </li>
         ))}
       </ul>
