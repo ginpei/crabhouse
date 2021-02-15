@@ -70,7 +70,6 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
           {user.name}
         </LineLink>
       ))}
-      <ul></ul>
       <h2>Followers</h2>
       {followers.map((user) => (
         <LineLink key={user.id} to={userViewPagePath(user.id)}>
