@@ -78,7 +78,7 @@ export function callCloudFunction(
   } catch (error) {
     // override unclear internal error
     if (error instanceof Error && error.message === "internal") {
-      throw new Error("API call failed");
+      throw new Error(`API call of "${name}" failed`);
     }
 
     throw error;
