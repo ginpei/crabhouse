@@ -1,11 +1,12 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
-import { noop } from "../misc/misc";
+import { noop, useErrorLog } from "../misc/misc";
+import { getAgoraConnectionState } from "./agora";
 import { appSlice, appStore } from "./appStore";
 import { auth } from "./firebase";
 import { onCollectionSnapshot } from "./modelDbBase";
 import { createRoom } from "./Room";
-import { saveRoom } from "./RoomDb";
+import { getRoom, saveRoom, setRoomState, useLiveRoom } from "./RoomDb";
 import { createUser } from "./User";
 import {
   getUserFollowerCollection,
@@ -20,6 +21,8 @@ export function useCurrentUserStore(): void {
   const [authCurrentUser, setAuthCurrentUser] = useState<firebase.User | null>(
     null
   );
+
+  useMyRoomCloser(userId);
 
   useEffect(() => {
     return auth.onAuthStateChanged((user) => {
@@ -91,4 +94,22 @@ export function useCurrentUserStore(): void {
       appStore.dispatch(action);
     });
   }, [userId]);
+}
+
+/**
+ * Close my room if agora disconnected
+ */
+export function useMyRoomCloser(currentUserId: string | null): void {
+  useEffect(() => {
+    if (!currentUserId) {
+      return;
+    }
+
+    getRoom(currentUserId).then((room) => {
+      const agoraState = getAgoraConnectionState();
+      if (room.state !== "closed" && agoraState === "DISCONNECTED") {
+        setRoomState(currentUserId, "closed");
+      }
+    });
+  }, [currentUserId]);
 }
