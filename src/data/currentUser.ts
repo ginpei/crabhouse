@@ -1,12 +1,12 @@
 import firebase from "firebase/app";
 import { useEffect, useState } from "react";
-import { noop, useErrorLog } from "../misc/misc";
+import { noop } from "../misc/misc";
 import { getAgoraConnectionState } from "./agora";
 import { appSlice, appStore } from "./appStore";
 import { auth } from "./firebase";
 import { onCollectionSnapshot } from "./modelDbBase";
 import { createRoom } from "./Room";
-import { getRoom, saveRoom, setRoomState, useLiveRoom } from "./RoomDb";
+import { getRoom, saveRoom, setRoomState } from "./RoomDb";
 import { createUser } from "./User";
 import {
   getUserFollowerCollection,
