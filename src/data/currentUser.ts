@@ -22,6 +22,9 @@ export function useCurrentUserStore(): void {
     null
   );
 
+  useCurrentUserSetter(userId, authCurrentUser);
+  useCurrentUserFollowersSetter(userId);
+  useCurrentUserFollowingsSetter(userId);
   useMyRoomCloser(userId);
 
   useEffect(() => {
@@ -31,7 +34,12 @@ export function useCurrentUserStore(): void {
       setUserId(currentUserId);
     });
   }, []);
+}
 
+function useCurrentUserSetter(
+  userId: string | null,
+  authCurrentUser: firebase.User | null
+) {
   useEffect(() => {
     // loading
     if (userId === null) {
@@ -66,7 +74,9 @@ export function useCurrentUserStore(): void {
       appStore.dispatch(action);
     });
   }, [authCurrentUser?.displayName, userId]);
+}
 
+function useCurrentUserFollowersSetter(userId: string | null) {
   useEffect(() => {
     if (!userId) {
       return noop;
@@ -80,7 +90,9 @@ export function useCurrentUserStore(): void {
       appStore.dispatch(action);
     });
   }, [userId]);
+}
 
+function useCurrentUserFollowingsSetter(userId: string | null) {
   useEffect(() => {
     if (!userId) {
       return noop;
