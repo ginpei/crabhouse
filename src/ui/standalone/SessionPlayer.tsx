@@ -33,7 +33,7 @@ const SessionPlayerBase: React.FC<ReturnType<typeof mapState>> = ({
       return;
     }
 
-    if (agoraState !== "DISCONNECTED" && !roomOpen) {
+    if (roomOpen && agoraState === "DISCONNECTED") {
       leaveRoom(room.id);
     }
   }, [agoraState, currentUserId, room, roomOpen]);
