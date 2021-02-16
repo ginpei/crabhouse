@@ -9,7 +9,7 @@ export const LineLink: React.FC<Parameters<Link>[0]> = ({
 }) => {
   return (
     <LineItem>
-      <Link className={jcn("LineLink", className)} {...props} />
+      <Link className={jcn("LineLink-link", className)} {...props} />
     </LineItem>
   );
 };
