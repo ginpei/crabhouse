@@ -10,6 +10,9 @@ export const appSlice = createSlice({
   initialState: {
     currentUser: null as User | null,
     currentUserFollowers: null as User[] | null,
+    /**
+     * Hold list to show follow buttons immediately
+     */
     currentUserFollowings: null as User[] | null,
     currentUserId: null as string | null,
     participatingSession: null as Room | null,
