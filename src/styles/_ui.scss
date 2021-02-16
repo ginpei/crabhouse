@@ -7,6 +7,11 @@
   width: min(100%, 800px);
 }
 
+.ui-uncontainer {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 .ui-center {
   align-items: center;
   display: flex;

@@ -70,7 +70,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
         ))}
       </div>
       <h2>Speakers ({speakers.length})</h2>
-      <div>
+      <div className="ui-uncontainer">
         {speakers.map((speaker) => (
           <LineLink key={speaker.id} to={userViewPagePath(speaker.id)}>
             {speaker.name}
@@ -78,7 +78,7 @@ const MyRoomPageBase: React.FC<ReturnType<typeof mapState>> = ({
         ))}
       </div>
       <h2>Listeners ({listeners.length})</h2>
-      <div>
+      <div className="ui-uncontainer">
         {listeners.map((listener) => (
           <LineLink key={listener.id} to={userViewPagePath(listener.id)}>
             {listener.name}

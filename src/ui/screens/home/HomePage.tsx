@@ -131,7 +131,7 @@ const DebugSection: React.FC = () => {
     <details className="DebugSection" style={{ marginTop: "5rem" }}>
       <summary>Debug</summary>
       <h2>Users (debug)</h2>
-      <div>
+      <div className="ui-uncontainer">
         {users
           ? users.map((user) => (
               <LineLink key={user.id} to={userViewPagePath(user.id)}>

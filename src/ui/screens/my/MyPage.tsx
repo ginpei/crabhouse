@@ -60,17 +60,23 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
       </p>
       <h1>{currentUser.name}</h1>
       <h2>Pages</h2>
-      <LineLink to={userViewPagePath(currentUserId)}>🦀 View profile</LineLink>
-      <LineLink to={profileEditPagePath()}>✏️ Edit profile</LineLink>
-      <LineLink to={userRoomPagePath(currentUserId)}>📡 View room</LineLink>
-      <LineLink to={myRoomPagePath()}>⚙️ My room control panel</LineLink>
+      <div className="ui-uncontainer">
+        <LineLink to={userViewPagePath(currentUserId)}>
+          🦀 View profile
+        </LineLink>
+        <LineLink to={profileEditPagePath()}>✏️ Edit profile</LineLink>
+        <LineLink to={userRoomPagePath(currentUserId)}>📡 View room</LineLink>
+        <LineLink to={myRoomPagePath()}>⚙️ My room control panel</LineLink>
+      </div>
       <h2>Followings</h2>
       {followings.length > 0 ? (
-        followings.map((user) => (
-          <LineLink key={user.id} to={userViewPagePath(user.id)}>
-            {user.name}
-          </LineLink>
-        ))
+        <div className="ui-uncontainer">
+          {followings.map((user) => (
+            <LineLink key={user.id} to={userViewPagePath(user.id)}>
+              {user.name}
+            </LineLink>
+          ))}
+        </div>
       ) : (
         <p>
           <small>No followings.</small>
@@ -78,11 +84,13 @@ const MyPageBase: React.FC<ReturnType<typeof mapState>> = ({
       )}
       <h2>Followers</h2>
       {followers.length > 0 ? (
-        followers.map((user) => (
-          <LineLink key={user.id} to={userViewPagePath(user.id)}>
-            {user.name}
-          </LineLink>
-        ))
+        <div className="ui-uncontainer">
+          {followers.map((user) => (
+            <LineLink key={user.id} to={userViewPagePath(user.id)}>
+              {user.name}
+            </LineLink>
+          ))}
+        </div>
       ) : (
         <p>
           <small>No followers.</small>
